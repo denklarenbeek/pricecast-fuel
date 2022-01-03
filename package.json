@@ -9,7 +9,8 @@
   "scripts": {
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "watch": "nodemon ./server.js --ignore public/",
-    "assets": "webpack -w"
+    "assets": "webpack -w",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
