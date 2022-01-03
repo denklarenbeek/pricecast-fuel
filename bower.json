@@ -1,0 +1,22 @@
+{
+  "name": "pcf-reporting",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Dennis Klarenbeek <dennis.klarenbeek@icloud.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "dom-to-image": "^2.6.0",
+    "downloadjs": "^1.4.8",
+    "file-saver": "^2.0.4"
+  }
+}

@@ -1,0 +1,94 @@
+extends layout.pug
+
+block content
+    #customer-report
+        .header.page-end
+            .header-overlay
+            .container
+                h5 PriceCast Fuel
+                h1 #{data.customerName}
+                button.btn(id='generate-report') Download report
+        .report
+            each location in data.locations
+                each product in location.products
+                    if product.vbi.value
+                        .product(id=product.productId, data-customer=product.productId).page-end
+                            .container
+                                h3(id=location.locationId) #{location.locationName}
+                                .title-bar 
+                                    .title-bar-left
+                                        if product.vbi
+                                            .indicator(class=product.vbi.state) 
+                                                p #{product.vbi.value}
+                                            .title 
+                                                p #{product.name}
+                                    .title-bar-right 
+                                        img(src="/img/download.svg", alt="download", style="cursor: pointer" class='downloadImage' id="downloadImage" data-product=product.productId)
+                                .table
+                                    table
+                                        tr
+                                            th Periode op vorig jaar
+                                            th #{data.dates.start_date} - #{data.dates.till_date}
+                                            th #{data.dates.start_dateLY} - #{data.dates.till_dateLY}
+                                            th Verschil
+                                        tr
+                                            td.table-header Totaal Volume 
+                                            td #{product.sumVolume.value}
+                                            td #{product.sumVolumeLY.value}
+                                            td(class=product.volumeDifference.state) #{product.volumeDifference.value} 
+                                        tr 
+                                            td.table-header Gem. volume per dag
+                                            td #{product.volumePerday.value}
+                                            td #{product.volumePerDayLY.value}
+                                            td(class=product.volumePerDayDifference.state) #{product.volumePerDayDifference.value}
+                                        tr 
+                                            td.table-header Totaal marge
+                                            td #{product.sumMargin.value}
+                                            td #{product.sumMarginLY.value}
+                                            td(class=product.marginDifference.state ) #{product.marginDifference.value}
+                                        tr  
+                                            td.table-header Marge per liter
+                                            td #{product.meanUnitMargin.value}
+                                            td #{product.meanUnitMarginLY.value}
+                                            td(class=product.meanUnitMarginDifference.state) #{product.meanUnitMarginDifference.value}
+                     
+                                if product.benchmarkDifference
+                                    .table(style="margin-top: 40px")
+                                        table 
+                                            tr 
+                                                th Periode
+                                                th Benchmark
+                                                th #{location.locationName} 
+                                            tr
+                                                td.table-header Totaal
+                                                td(class=product.benchmarkDifference.state) #{product.benchmarkDifference.value} %
+                                                td(class=product.volumeDifferencePerecentage.state) #{product.volumeDifferencePerecentage.value} %
+                                .table(style="margin-top: 40px")
+                                    table 
+                                        tr 
+                                            th.table-header Brandstof
+                                            td #{product.name}
+                                        tr
+                                            td.table-header Strategie
+                                            td #{product.strategy}
+                                        
+                                        //- if product.strategy === 'A-AIv2' | A-AI | R-AIv2 | R-AI
+                                        if product.strategy === 'R-AIv2' || product.strategy === 'R-AI'
+                                            tr 
+                                                td.table-header Bandbreedte
+                                                td #{product.competitorBoundaryMin} | #{product.competitorBoundaryMax}
+                                            tr 
+                                                td.table-header Bandbreedte gedrag
+                                                td #{product.boundaryBehaviour}
+                                        if product.strategy === 'R-AIv2' || product.strategy === 'R-AI' || product.strategy === 'A-AIv2' || product.strategy === 'A-AI'
+                                            tr 
+                                                td.table-header Intensity
+                                                td #{product.intensity}
+                                        tr 
+                                            td.table-header Datum suggestie 
+                                            td #{product.vbi.date}
+                                //- .buttons
+                                //-     button.btn.btn-graphic Genereer grafiek
+
+
+                

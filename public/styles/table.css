@@ -1,0 +1,55 @@
+table {
+    font-size: 20px;
+    width: 100%;
+}
+
+.table {
+    margin-right: auto;
+    width: 100%;
+}
+
+table, th, tr, td {
+    border: 1px solid #CBCBCB;
+    border-collapse: collapse;
+}
+
+table tr, table th {
+    height: 50px;
+    text-align: start;
+}
+
+th, td {
+    padding-left: 12px;
+}
+
+th:first-of-type {
+    width: 250px;
+}
+
+table th, .table-header {
+    color: #9d9d9d;
+}
+
+table td {
+    cursor: pointer;
+}
+
+table td:hover {
+    background-color: var(--grey)
+}
+
+.table-header {
+    cursor: default;
+}
+
+.table-header:hover {
+    background-color: white;
+}
+
+td.negative {
+    color: red;
+}
+
+td.positive {
+    color: var(--green)
+}

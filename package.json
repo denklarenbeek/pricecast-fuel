@@ -1,0 +1,41 @@
+{
+  "name": "pcf-reporting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "engines": {
+    "node": "14.3.0"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
+    "watch": "nodemon ./server.js --ignore public/",
+    "assets": "webpack -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.0",
+    "chart.js": "^3.6.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "file-saver": "^2.0.5",
+    "html-to-image": "^1.9.0",
+    "html2pdf.js": "^0.9.3",
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.1",
+    "numeral": "^2.0.6",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.5",
+    "@babel/preset-env": "^7.16.4",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "concurrently": "^6.4.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
+  }
+}

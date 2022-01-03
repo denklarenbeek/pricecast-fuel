@@ -1,0 +1,29 @@
+html
+  head
+    title PriceCast Fuel Reporting
+    link(rel="stylesheet", href="/styles/normalize.css")
+    link(rel="stylesheet", href="/styles/table.css")
+    link(rel="stylesheet", href="/styles/base.css")
+    link(rel="stylesheet", href="/styles/report.css")
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+  body
+    navbar 
+        .container 
+            .logo
+                
+    block content
+    .overlay#overlay
+      .loading
+      i(class="fas fa-mug-hot loading-icon")
+    .connection-box
+      i(class="fas fa-power-off" id="connection-icon")
+      span(id="connection-message") No connection with a2i client
+    block foot
+      #footer
+    
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js')
+    script(src='/dist/App.bundle.js') 
+
+
