@@ -10,8 +10,7 @@
     "start": "node ./server.js",
     "dev": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "watch": "nodemon ./server.js --ignore public/",
-    "assets": "webpack -w",
-    "heroku-postbuild": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name"
+    "assets": "webpack -w"
   },
   "author": "",
   "license": "ISC",
