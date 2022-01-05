@@ -1,6 +1,8 @@
 html
   head
     title PriceCast Fuel Reporting
+
+    link(rel="shortcut icon" href="/favicon_transparant.ico")
     link(rel="stylesheet", href="/styles/normalize.css")
     link(rel="stylesheet", href="/styles/table.css")
     link(rel="stylesheet", href="/styles/base.css")
@@ -26,20 +28,27 @@ html
       .navbar 
         .container
           .navbar-container 
-            .navbar-start 
-              p(class='navbar_button' href='/' data-slug='/') Home
-            if locals.authenticated 
+              .navbar-start 
+                if locals.authenticated 
+                  p(href='/' data-slug='/' class=(currentPath === '/' ? 'navbar_button nav__link--active' : 'navbar_button')) Home
+                  if user
+                    p.user (#{user.name})
+                
               .navbar-end
-                p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
-
+                if locals.authenticated 
+                  p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
+                if !locals.authenticated
+                  p(href='/login' data-slug='/login' class=(currentPath.startsWith('/login') ? 'navbar_button nav__link--active' : 'navbar_button')) Login
                 
     block content
     .overlay#overlay
       .loading
       i(class="fas fa-mug-hot loading-icon")
-    .connection-box
-      i(class="fas fa-power-off" id="connection-icon")
-      span(id="connection-message") No connection with a2i client
+
+    if locals.authenticated
+      .connection-box
+        i(class="fas fa-power-off" id="connection-icon")
+        span(id="connection-message") No connection with a2i client
     block foot
       #footer
     

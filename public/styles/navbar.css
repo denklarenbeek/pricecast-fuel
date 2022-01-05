@@ -1,5 +1,6 @@
 .navbar {
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    height: 80px;
 }
 
 .navbar-container {
@@ -15,9 +16,28 @@ p.navbar_button {
     cursor: pointer;
     border-bottom: 1px solid rgba(0,0,0,0);
     padding-bottom: 8px;
-    font-family: avenirBold;
+    text-transform: uppercase;
+    padding: 0;
+    
 }
 
 p.navbar_button:hover {
     border-bottom: 1px solid black;
+}
+
+p.nav__link--active {
+    font-family: avenirBold;
+}
+
+.navbar-start {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-start p {
+    margin-right: 10px;
+}
+
+.navbar-start .user {
+    font-size: 12px;
 }

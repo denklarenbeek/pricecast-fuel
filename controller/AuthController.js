@@ -59,7 +59,11 @@ exports.register = async (req, res, next) => {
         // Check if user already exists
         const userExists = await User.findOne({email});
         //TODO: Add render to register form with REQ.FLASHES IN THE SESSION
-        if(userExists) return res.status(500).json({msg: 'Credentials invalid: User already exists'});
+        if(userExists) {
+            req.flash('info', 'Credentials already exists, want to login?');
+            res.redirect('/login');
+            return 
+        }
 
         // Hash password
         const encryptPassword = await bcrypt.hash(password, saltRounds);
@@ -87,8 +91,6 @@ exports.register = async (req, res, next) => {
 exports.verifySecret = async (req, res) => {
     const {email, token, id} = req.body;
 
-    console.log(email);
-
     try {
         const user = await User.findOne({email}, '-password')
 
@@ -104,8 +106,9 @@ exports.verifySecret = async (req, res) => {
         if(verified) {
             const savedUser = await User.findOneAndUpdate({email}, {secret: user.temp_secret, temp_secret: null}, {new: true});
             req.session.authenticated = true
+            req.session.user = user;
             req.flash('success', 'You 2 factor authentication is successfully enabled');
-            res.redirect('/register');
+            res.redirect('/');
         } else {
             req.flash('error', 'Something went wrong: Two Factor Authentication is not enabled');
             res.redirect('/register')
@@ -126,7 +129,6 @@ exports.validateSecret = async (req, res) => {
 
         const {base32:secret} = user.secret;
 
-        console.log(secret);
         const tokenValidates = speakeasy.totp.verify({
             secret,
             encoding: 'base32',
@@ -136,6 +138,7 @@ exports.validateSecret = async (req, res) => {
 
         if(tokenValidates) {
             req.session.authenticated = true;
+            req.session.user = user;
             req.flash('success', 'Logged in successfully')
             res.redirect('/')
         } else {

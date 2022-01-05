@@ -19,6 +19,10 @@ router.get('/register', (req,res) => {
     res.render('2fa')
 });
 
+router.get('/forgot', (req, res) => {
+    res.render('forgot')
+});
+
 /* API Routes */
 router.get('/api/station/:stationId/products', getProductsByCid)
 router.get('/api/station', getAllStations)

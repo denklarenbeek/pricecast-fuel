@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const helpers = require('./utility/helper');
 const app = express();
 
 require('dotenv').config({ path: 'variables.env' })
@@ -33,7 +34,7 @@ app.use(cookieParser());
 app.use(session({
     secret: process.env.SECRET,
     key: process.env.KEY,
-    cookie: {maxAge: 360000},
+    cookie: {maxAge: 36000000},
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongoUrl: process.env.DB_URL })
@@ -42,8 +43,11 @@ app.use(session({
 app.use(flash());
 
 app.use((req, res, next) => {
+    res.locals.h = helpers;
     res.locals.flashes = req.flash();
     res.locals.authenticated = req.session.authenticated
+    res.locals.user = req.session.user
+    res.locals.currentPath = req.path;
     next();
 });
 
