@@ -1,0 +1,21 @@
+extends layout.pug
+
+block content
+    .container.full-page
+        .centered-content
+            h2 Register user
+            form(id="registerForm" action="/api/auth/register" method="POST")
+                .form-group 
+                    label(for="email") Email 
+                    input(type="email" name="email" id="email")
+                .form-group 
+                    label(for="name") Name 
+                    input(type="text" name="name" id="name")
+                .form-group 
+                    label(for="password") Password 
+                    input(type="password" name="password" id="password")
+                .form-group 
+                    label(for="password2") Confirm Password
+                    input(type="password" name="password2" id="password2")
+                .form-group 
+                    input(type="submit" value="Register" id='submit')

@@ -1,0 +1,17 @@
+extends layout.pug
+
+block content
+    .container.full-page
+        .centered-content
+            h2 Login
+            form(id="loginForm" action='/api/auth/login' method="POST")
+                .form-group 
+                    label(for="email") Email 
+                    input(type="email" name="email" id="email")
+                .form-group 
+                    label(for="password") Password 
+                    input(type="password" name="password" id="password")
+                .form-group 
+                    input(type="submit" value="Login" id='submit')
+            
+            form(id='tokenForm' action='/api/auth/validate', method='POST')

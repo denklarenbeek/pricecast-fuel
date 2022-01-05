@@ -1,0 +1,15 @@
+extends layout.pug
+
+block content
+    .container.full-page
+        .centered-content
+            #qrcode
+                img(src=qrcode)
+                span Scan this QR code witht the Google Authenticator
+            form(action='/api/auth/verify', method='POST')
+                input( type="hidden" id="email" name="email" value=email)
+                .form-group 
+                    label(for="token") Fill in the generated token 
+                    input(type="number" name="token" id="token")
+                .form-group 
+                    input(type="submit" value="submit" id='submit')

@@ -28,7 +28,7 @@ block content
                                     table
                                         tr
                                             th Periode op vorig jaar
-                                            th #{data.dates.start_date} - #{data.dates.till_date}
+                                            th(id="report-period") #{data.dates.start_date} - #{data.dates.till_date}
                                             th #{data.dates.start_dateLY} - #{data.dates.till_dateLY}
                                             th Verschil
                                         tr
@@ -61,7 +61,7 @@ block content
                                                 th #{location.locationName} 
                                             tr
                                                 td.table-header Totaal
-                                                td(class=product.benchmarkDifference.state) #{product.benchmarkDifference.value} %
+                                                //- td(class=product.benchmarkDifference.state) #{product.benchmarkDifference.value} %
                                                 td(class=product.volumeDifferencePerecentage.state) #{product.volumeDifferencePerecentage.value} %
                                 .table(style="margin-top: 40px")
                                     table 

@@ -136,7 +136,7 @@ exports.calculateBenchmark = async (req, res, next) => {
         const info = req.info;
     
         let productData = [];
-    
+        console.log(info);
         // Get all the unique productsID in the data
         info.forEach((row, index) => {
             const data = getData(row)

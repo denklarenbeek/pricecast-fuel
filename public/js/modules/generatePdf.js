@@ -3,14 +3,19 @@
 export function generatePdf (report) {
     if(!report) return
     
+    const title = document.getElementsByTagName("h1")[0].innerHTML;
+    const period = document.getElementById('report-period').innerHTML.trim();
+    console.log(title, period);
+    let filename = `${title}_${period}`
 
     const opt = {
-        filename: 'myfile.pdf',
+        margin: 0,
+        filename: filename,
         pagebreak: {
             mode: 'avoid-all',
             after: '.page-end'
         },
-        html2canvas: { scale: 4 },
+        html2canvas: { scale: 2 },
         jsPDF:{ unit: 'mm', format: 'a3', orientation: 'landscape' }
     };
 
