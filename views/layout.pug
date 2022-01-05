@@ -5,13 +5,33 @@ html
     link(rel="stylesheet", href="/styles/table.css")
     link(rel="stylesheet", href="/styles/base.css")
     link(rel="stylesheet", href="/styles/report.css")
+    link(rel="stylesheet", href="/styles/flash.css")
+    link(rel="stylesheet", href="/styles/navbar.css")
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 
   body
-    navbar 
-        .container 
-            .logo
+    block messages
+      if locals.flashes
+        .inner.inner--flashes
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+
+    navbar
+      .navbar 
+        .container
+          .navbar-container 
+            .navbar-start 
+              p(class='navbar_button' href='/' data-slug='/') Home
+            if locals.authenticated 
+              .navbar-end
+                p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
+
                 
     block content
     .overlay#overlay

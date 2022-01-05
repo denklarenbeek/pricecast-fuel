@@ -1,0 +1,74 @@
+@keyframes slideIn {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+.flash {
+    background: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    margin-bottom: 0;
+    padding: 0.5rem;
+    position: relative;
+    z-index: 1;
+    border-radius: 3px;
+    display: flex;
+    animation: slideIn .1s ease-in-out 2;
+}
+
+.flash__text {
+    flex: 1;
+    text-align: center;
+}
+
+.flash__remove {
+    position: absolute;
+    right: 8px;
+    background: none;
+    color: white;
+    font-size: 14px;
+    border:0;
+    cursor: pointer;
+}
+
+.flash__remove:hover {
+    transform: scale(1.1);
+}
+  
+/* .flash__remove:after {
+      content: '';
+      display: block;
+      background: white;
+      position: absolute;
+      width: calc(100%);
+      height: calc(100%);
+      top: 0px;
+      left: 0px;
+      z-index: -1;
+      box-shadow: 0 0 2px 2px rgba(0,0,0,0.1);
+      border-radius: 3px;
+} */
+
+.flash--success {
+    background: #27ae60
+}
+
+.flash--error {
+    background: #e74c3c
+}
+
+.flash--info {
+    background: #f1c40f
+}
+
+.flash p {
+    margin: 0;
+    color: white;
+    font-size: bold;
+}

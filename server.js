@@ -32,6 +32,7 @@ app.use(cookieParser());
 // Initialize session for storing DATA
 app.use(session({
     secret: process.env.SECRET,
+    key: process.env.KEY,
     cookie: {maxAge: 360000},
     resave: false,
     saveUninitialized: false,
@@ -42,6 +43,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.flashes = req.flash();
+    res.locals.authenticated = req.session.authenticated
     next();
 });
 

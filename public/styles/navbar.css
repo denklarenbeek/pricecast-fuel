@@ -1,0 +1,23 @@
+.navbar {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.navbar-container {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+p.navbar_button {
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0);
+    padding-bottom: 8px;
+    font-family: avenirBold;
+}
+
+p.navbar_button:hover {
+    border-bottom: 1px solid black;
+}

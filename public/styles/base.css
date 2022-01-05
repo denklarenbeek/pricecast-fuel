@@ -106,7 +106,7 @@ h2 {
 }
 
 .full-page {
-    height: 100vh;
+    height: calc(100vh - 80px);
 }
 
 .centered-content {
@@ -127,6 +127,10 @@ form {
     flex-direction: column;
     margin-bottom: 24px;
     width: 100%;
+}
+
+.form-group input[type='submit'] {
+    margin-left: 0;
 }
 
 .form-group.half {

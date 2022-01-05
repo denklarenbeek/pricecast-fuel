@@ -5,6 +5,7 @@ import {generatePdf} from './modules/generatePdf'
 import {initialize} from './modules/setLocalStorage';
 import {loadProducts} from './modules/tableForm';
 import {check2fa} from './modules/set2fa';
+import {navigation} from './modules/navigation';
 
 initialize();
 check2fa($('#loginForm'))
@@ -12,3 +13,4 @@ generateReport($('#nextBtn'))
 generatePNG($$('.downloadImage'))
 generatePdf($('#customer-report'))
 loadProducts($('#product-selector'))
+navigation($('.navbar_button'))
