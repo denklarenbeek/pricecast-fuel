@@ -6,6 +6,7 @@ const flash = require("connect-flash");
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const helpers = require('./utility/helper');
+const ip = require('ip');
 const app = express();
 
 require('dotenv').config({ path: 'variables.env' })
@@ -56,5 +57,5 @@ app.use('/', require('./router/router'));
 app.use('/api/auth', require('./router/auth'));
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT} with IP address of ${ip.address()}`);
 });
