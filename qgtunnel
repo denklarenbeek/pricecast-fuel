@@ -1,0 +1,6 @@
+
+[qgtunnel.MongoDB]
+accept = "127.0.0.1:27017"
+connect = "cluster0.ectw0.mongodb.net:"
+encrypted = false
+transparent = true
