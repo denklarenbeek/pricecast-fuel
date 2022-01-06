@@ -16,7 +16,7 @@ router.get('/report', (req, res) => {
 router.get('/login', (req, res) => res.render('login'));
 
 router.get('/register', tokenRoute, (req,res) => {
-    res.render('2fa')
+    res.render('2fa', {email: req.email})
 });
 
 router.get('/forgot', (req, res) => {

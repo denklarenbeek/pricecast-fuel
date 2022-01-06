@@ -3,10 +3,16 @@ const Schema = mongoose.Schema;
 
 const TokenSchema = new Schema({
     token: {
-        type: String
+        type: String,
+        required: true
     },
     expire_date: {
-        type: Number
+        type: Number,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
     }
 })
 

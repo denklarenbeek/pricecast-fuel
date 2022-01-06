@@ -19,7 +19,8 @@ exports.generateToken = async (req, res,next) => {
     
     const newToken = {
         token,
-        expire_date
+        expire_date,
+        email
     }
 
     try {
@@ -33,17 +34,20 @@ exports.generateToken = async (req, res,next) => {
 }
 
 exports.tokenRoute = async (req,res,next) => {
-    
     if(!req.query.token) {
         req.flash('error', 'Invalid Register Token')
         res.redirect('/')
         return
     } else {
         // Check if token & expiring date is valid
-        const token = await Token.findOne(req.query.token);
-        const valid = Date.now() < token.valid_time;
-        next()
-        console.log(token, valid)
+        const token = await Token.findOne({token: req.query.token});
+        const valid = Date.now() < token.expire_date;
+        console.log(valid)
+        if(token && valid) {
+            req.email = token.email;
+            await Token.findOneAndDelete({token: token.token})
+            next()
+        }
     }
 }
 
