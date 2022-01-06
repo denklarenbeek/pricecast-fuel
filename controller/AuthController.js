@@ -39,7 +39,7 @@ exports.generateToken = async (req, res,next) => {
         res.status(200).json(token, resetURL);
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Check logs'})
+        res.status(500).json({msg: 'Check logs', error})
     }
 
 }
