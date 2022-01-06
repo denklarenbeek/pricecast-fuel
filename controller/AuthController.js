@@ -42,7 +42,7 @@ exports.tokenRoute = async (req,res,next) => {
         // Check if token & expiring date is valid
         const token = await Token.findOne(req.query.token);
         const valid = Date.now() < token.valid_time;
-
+        next()
         console.log(token, valid)
     }
 }
