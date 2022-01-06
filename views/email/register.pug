@@ -2,7 +2,8 @@ extends email-layout
 
 block content
   h2 Register
-  p Hello. You can now regsister your account by clicking on the link below. 
+  p Hello. You can now regsister your account by clicking on the link below.
+  p The token expires within 24 hours and when you visit the url by clickin on the button.
   +button(resetURL, 'Register →')
   p If you can't click the above button please visit #{resetURL}
   br
