@@ -17,6 +17,7 @@ exports.checkConnection = async (req, res) => {
             })
         }
     } catch (error) {
+        console.log(error);
         if(error.response.status === 403) {
             res.status(200).send({
                 status: 403,
@@ -51,9 +52,9 @@ exports.generateReport = async (req, res, next) => {
     const cid = req.body.customer;
 
     const uniqueStations = [...new Set(locations.map(item => item.id))];
-    console.log(uniqueStations)
+
     const {stationsUrl, productUrl, from_date, till_date} = formatAPIUrl(uniqueStations, products, req.body.from_date, req.body.till_date);
-    console.log(stationsUrl)
+
     try {
         const {data} = await getRequest(`/aggregation?stations=${stationsUrl}&products=${productUrl}&from=${from_date}&till=${till_date}`);
 

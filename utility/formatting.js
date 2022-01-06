@@ -92,10 +92,12 @@ exports.formatAPIUrl = (stations, products, from, till) => {
     const editStationUrl = stationsUrl.substring(0, stationsUrl.length - 1);
     const editProductUrl = productUrl.substring(0, productUrl.length - 1);
 
+    console.log(from, 'TILL_DATE',till);
+
     let formatFromDate = moment(from).format('YYYY-MM-DDT00:00:00.000')
     formatFromDate += 'Z';
-    let formatTillDate = moment(till).format('YYYY-MM-DDT23:59:00.000')
+    let formatTillDate = moment(till).add(1, 'days').format('YYYY-MM-DDT00:00:00.000')
     formatTillDate += 'Z';
-
+    
     return {stationsUrl: editStationUrl, productUrl: editProductUrl, from_date: formatFromDate, till_date: formatTillDate}
 }

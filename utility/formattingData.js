@@ -28,6 +28,7 @@ const vbiState = (vbi) => {
 }
 
 const getPriceSuggestions = async (stationUrl, productUrl, startDate, endDate) => {
+    // const date = new Date(endDate);
     let monthEarlier = moment(endDate).subtract(1, 'month').format('YYYY-MM-DDT00:00:00.000');
     monthEarlier += 'Z';
     const priceResult = await getRequest(`/pricesuggestions?stations=${stationUrl}&products=${productUrl}&from=${monthEarlier}&till=${endDate}`);
