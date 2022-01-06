@@ -4,8 +4,6 @@ const url = require('url');
 const proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
 const target  = url.parse("http://ip.quotaguard.com/");
 
-console.log(proxy);
-
 axios.defaults.baseURL = 'https://bbapi.pricecastfuel.com/api/analysis';
 axios.defaults.headers.common['APP-key'] = process.env.API_KEY;
 

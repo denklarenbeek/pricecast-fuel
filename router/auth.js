@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {authtest, login, logout, register, verifySecret, validateSecret} = require('../controller/AuthController');
+const {authtest, login, logout, register, verifySecret, validateSecret, generateToken} = require('../controller/AuthController');
 
 /*
     API AUTHENTICATION ROUTES
@@ -17,5 +17,6 @@ router.post('/register', register)
 router.post('/verify', verifySecret)
 router.post('/validate', validateSecret)
 
+router.post('/generatetoken', generateToken)
 
 module.exports = router;

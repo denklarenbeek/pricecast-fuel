@@ -1,12 +1,51 @@
 const speakeasy = require('speakeasy');
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const QRCode = require('qrcode')
 const User = require('../models/User');
+const Token = require('../models/Token');
 const saltRounds = 10;
+const {getRequest} = require('./AxiosController');
 
 exports.authtest = (req, res, next) => {
     res.send({msg: 'API ROUTE OKE!'})
 };
+
+exports.generateToken = async (req, res,next) => {
+    //TODO: SEND EMAIL TO USER WITH THE LINK
+    const {email} = req.body;
+    const expire_date = Date.now() + 86400000;
+    const token = crypto.randomBytes(48).toString('hex');
+    
+    const newToken = {
+        token,
+        expire_date
+    }
+
+    try {
+        await Token.create(newToken);
+        res.json(token)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({msg: 'Check logs'})
+    }
+
+}
+
+exports.tokenRoute = async (req,res,next) => {
+    
+    if(!req.query.token) {
+        req.flash('error', 'Invalid Register Token')
+        res.redirect('/')
+        return
+    } else {
+        // Check if token & expiring date is valid
+        const token = await Token.findOne(req.query.token);
+        const valid = Date.now() < token.valid_time;
+
+        console.log(token, valid)
+    }
+}
 
 exports.authRoute = async (req, res, next) => {
     if(req.session.authenticated) {

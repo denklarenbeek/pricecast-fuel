@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {test} = require('../controller/ReportController');
-const {authRoute} = require('../controller/AuthController');
+const {authRoute, tokenRoute} = require('../controller/AuthController');
 const {benchmark, calculateBenchmark} = require('../controller/BenchmarkController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
 
@@ -15,7 +15,7 @@ router.get('/report', (req, res) => {
 
 router.get('/login', (req, res) => res.render('login'));
 
-router.get('/register', (req,res) => {
+router.get('/register', tokenRoute, (req,res) => {
     res.render('2fa')
 });
 
