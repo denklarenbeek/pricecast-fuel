@@ -6,13 +6,13 @@ const User = require('../models/User');
 const Token = require('../models/Token');
 const saltRounds = 10;
 const {getRequest} = require('./AxiosController');
+const mail = require('../utility/email');
 
 exports.authtest = (req, res, next) => {
     res.send({msg: 'API ROUTE OKE!'})
 };
 
 exports.generateToken = async (req, res,next) => {
-    //TODO: SEND EMAIL TO USER WITH THE LINK
     const {email} = req.body;
     const expire_date = Date.now() + 86400000;
     const token = crypto.randomBytes(48).toString('hex');
@@ -24,8 +24,19 @@ exports.generateToken = async (req, res,next) => {
     }
 
     try {
-        await Token.create(newToken);
-        res.json(token)
+        const savedToken = await Token.create(newToken);
+        const resetURL = `http://${req.headers.host}/register?token=${savedToken.token}`;
+
+        await mail.send({
+            user: {
+                email
+            },
+            filename: 'register',
+            subject: 'Register',
+            resetURL
+          });
+
+        res.status(200).json(token, resetURL);
     } catch (error) {
         console.log(error)
         res.status(500).json({msg: 'Check logs'})

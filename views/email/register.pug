@@ -1,0 +1,9 @@
+extends email-layout
+
+block content
+  h2 Register
+  p Hello. You can now regsister your account by clicking on the link below. 
+  +button(resetURL, 'Register →')
+  p If you can't click the above button please visit #{resetURL}
+  br
+  p If you didn't request this email, please ignore it.
