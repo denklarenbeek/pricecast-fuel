@@ -13,9 +13,9 @@ if(process.env.NODE_ENV === 'production'){
     axios.defaults.path = target.href;
     axios.defaults.headers = {
         "Proxy-Authorization": "Basic " + (new Buffer(proxy.auth).toString("base64")),
-        "Host" : target.hostname,
-        "APP-key": process.env.API_KEY
+        "Host" : target.hostname
       }
+    axios.defaults.headers.common['APP-key'] = process.env.API_KEY;
 }
 
 exports.getRequest = async (url) => {
