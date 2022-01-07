@@ -37,7 +37,7 @@ if(process.env.NODE_ENV === 'production'){
 
 exports.getRequest = async (url) => {
     try {
-        console.dir('ip address', ip.address() )
+        console.log('axios', options)
         console.log(`${url} get request is fired`)
         const res = await axios.get(url, options);
         console.log(res.request.socket.remoteAddress, `and returned a ${typeof(res)}`);
