@@ -2,7 +2,7 @@ const axios = require('axios');
 const url = require('url');
 
 const proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
-const target  = url.parse("http://ip.quotaguard.com/");
+const target  = url.parse('https://bbapi.pricecastfuel.com/api/analysis');
 
 axios.defaults.baseURL = 'https://bbapi.pricecastfuel.com/api/analysis';
 axios.defaults.headers.common['APP-key'] = process.env.API_KEY;
