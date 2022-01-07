@@ -27,7 +27,7 @@ exports.generateToken = async (req, res,next) => {
         const savedToken = await Token.create(newToken);
         const resetURL = `http://${req.headers.host}/register?token=${savedToken.token}`;
 
-        await mail.send({
+        const emailInformation = await mail.send({
             user: {
                 email
             },
@@ -36,7 +36,7 @@ exports.generateToken = async (req, res,next) => {
             resetURL
           });
 
-        res.status(200).json(token, resetURL);
+        res.status(200).json(token, resetURL, emailInformation);
     } catch (error) {
         console.log(error)
         res.status(500).json({msg: 'Check logs', error})
