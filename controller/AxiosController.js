@@ -8,14 +8,11 @@ axios.defaults.baseURL = 'https://bbapi.pricecastfuel.com/api/analysis';
 axios.defaults.headers.common['APP-key'] = process.env.API_KEY;
 
 if(process.env.NODE_ENV === 'production'){
-    axios.defaults.hostname = proxy.hostname;
-    axios.defaults.port = proxy.port || 80;
-    axios.defaults.path = target.href;
+    axios.defaults.proxy = process.env.QUOTAGUARDSTATIC_URL,
+    axios.defaults.url = 'https://api.github.com/repos/joyent/node'
     axios.defaults.headers = {
-        "Proxy-Authorization": "Basic " + (new Buffer(proxy.auth).toString("base64")),
-        "Host" : target.hostname
-      }
-    axios.defaults.headers.common['APP-key'] = process.env.API_KEY;
+            'User-Agent': 'node.js'
+    }
 }
 
 exports.getRequest = async (url) => {
