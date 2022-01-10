@@ -36,7 +36,8 @@ exports.generateToken = async (req, res,next) => {
             resetURL
           });
 
-        res.status(200).json(token, resetURL, emailInformation);
+        req.flash('success', 'Invitation send');
+        res.redirect('/settings');
     } catch (error) {
         console.log(error)
         res.status(500).json({msg: 'Check logs', error})
@@ -53,7 +54,6 @@ exports.tokenRoute = async (req,res,next) => {
         // Check if token & expiring date is valid
         const token = await Token.findOne({token: req.query.token});
         const valid = Date.now() < token.expire_date;
-        console.log(valid)
         if(token && valid) {
             req.email = token.email;
             await Token.findOneAndDelete({token: token.token})
@@ -82,7 +82,6 @@ exports.login = async (req, res, next) => {
 
     const {email, password} = req.body;
     try {
-        console.log(email);
         const user = await User.findOne({email: email.toLowerCase()});
 
         if(!user) return res.json({msg: 'Invalid credentials'});
@@ -112,7 +111,7 @@ exports.register = async (req, res, next) => {
     try {
         // Check if user already exists
         const userExists = await User.findOne({email});
-        //TODO: Add render to register form with REQ.FLASHES IN THE SESSION
+
         if(userExists) {
             req.flash('info', 'Credentials already exists, want to login?');
             res.redirect('/login');
@@ -150,7 +149,6 @@ exports.verifySecret = async (req, res) => {
 
         const {base32:secret} = user.temp_secret;
 
-        console.log(secret);
         const verified = speakeasy.totp.verify({
             secret,
             encoding: 'base32',

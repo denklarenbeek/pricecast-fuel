@@ -1,7 +1,6 @@
 const axios = require('axios');
 const tunnel = require('tunnel');
 const url = require('url');
-const HttpsProxyAgent = require('https-proxy-agent');
 
 const proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
 const target  = url.parse("https://bbapi.pricecastfuel.com/api/analysis");
@@ -55,7 +54,7 @@ exports.getRequest = async (url) => {
 
 }  
 
-exports.proxyRequest = async (url) => {
+exports.oldRoute = async (url) => {
 
     let options = {};
 
@@ -77,14 +76,12 @@ exports.proxyRequest = async (url) => {
     }
 
     try {
-        console.log(options)
         console.log(`${url} get request is fired`)
         const res = await axios.get(url, options);
-        console.log(res.request.socket.remoteAddress, `and returned a ${typeof(res)}`);
-        console.log('IP address',res.request.socket.remoteAddress)
+        console.log(`and returned a ${typeof(res)}`);
         return res
     } catch(e) {
-        console.log('IP address', e.request.socket.remoteAddress)
+        console.log(e)
         throw e
     }
 

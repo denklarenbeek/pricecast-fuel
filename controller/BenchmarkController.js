@@ -44,7 +44,6 @@ exports.benchmark = async (req, res, next) => {
     if(req.body.benchmark === 'false') {
         next();
     } else {
-        console.log('true')
         try {    
             const addProductInformation = async (products, prodData) => {
                 return Promise.all(products.map(async (product) => {
