@@ -4,16 +4,6 @@ const {getRequest} = require('./AxiosController');
 const {productMatrix} = require('../productMatrix');
 const { formatAPIUrl } = require('../utility/formatting');
 
-function sumUp(data, id, productId, prop){
-    let totalVolume = 0;
-    data.map(location => {
-        if(location.stationId === id && location.productId === productId){
-            totalVolume += location[prop]
-        }
-    });
-    return totalVolume
-};
-
 const getLoctationsAndProducts = async (resultLocations, body) => {
     let locations = [];
     let products = []

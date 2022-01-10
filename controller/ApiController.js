@@ -1,4 +1,4 @@
-const {getRequest} = require('./AxiosController');
+const {getRequest, proxyRequest} = require('./AxiosController');
 const {formatReportData} = require('../utility/formattingData');
 const {cid} = require('../config');
 const moment = require('moment');

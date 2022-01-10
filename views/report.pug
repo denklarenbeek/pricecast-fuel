@@ -3,11 +3,11 @@ extends layout.pug
 block content
     #customer-report
         .header.page-end
-            .header-overlay
             .container
                 h5 PriceCast Fuel
                 h1 #{data.customerName}
                 button.btn(id='generate-report') Download report
+            .header-overlay
         .report
             each location in data.locations
                 each product in location.products
@@ -23,7 +23,7 @@ block content
                                             .title 
                                                 p #{product.name}
                                     .title-bar-right 
-                                        img(src="/img/download.svg", alt="download", style="cursor: pointer" class='downloadImage' id="downloadImage" data-product=product.productId)
+                                        img(data-html2canvas-ignore src="/img/download.svg", alt="download", style="cursor: pointer" class='downloadImage' id="downloadImage" data-product=product.productId)
                                 .table
                                     table
                                         tr
@@ -61,7 +61,7 @@ block content
                                                 th #{location.locationName} 
                                             tr
                                                 td.table-header Totaal
-                                                //- td(class=product.benchmarkDifference.state) #{product.benchmarkDifference.value} %
+                                                td(class=product.benchmarkDifference.state) #{product.benchmarkDifference.value} %
                                                 td(class=product.volumeDifferencePerecentage.state) #{product.volumeDifferencePerecentage.value} %
                                 .table(style="margin-top: 40px")
                                     table 
@@ -87,7 +87,7 @@ block content
                                         tr 
                                             td.table-header Datum suggestie 
                                             td #{product.vbi.date}
-                                //- .buttons
+                                //- .buttons(data-html2canvas-ignore="true")
                                 //-     button.btn.btn-graphic Genereer grafiek
 
 

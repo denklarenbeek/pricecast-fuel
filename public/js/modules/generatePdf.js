@@ -5,7 +5,6 @@ export function generatePdf (report) {
     
     const title = document.getElementsByTagName("h1")[0].innerHTML;
     const period = document.getElementById('report-period').innerHTML.trim();
-    console.log(title, period);
     let filename = `${title}_${period}`
 
     const opt = {

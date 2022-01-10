@@ -40,7 +40,8 @@
     "pug": "^3.0.2",
     "qrcode": "^1.5.0",
     "qrious": "^4.0.2",
-    "speakeasy": "^2.0.0"
+    "speakeasy": "^2.0.0",
+    "tunnel": "^0.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
