@@ -36,6 +36,7 @@ html
                 
               .navbar-end
                 if locals.authenticated 
+                  p(class=(currentPath === '/settings' ? 'navbar_button nav__link--active' : 'navbar_button') data-slug='/settings') Settings
                   p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
                 if !locals.authenticated
                   p(href='/login' data-slug='/login' class=(currentPath.startsWith('/login') ? 'navbar_button nav__link--active' : 'navbar_button')) Login
@@ -45,7 +46,7 @@ html
       .loading
       i(class="fas fa-mug-hot loading-icon")
 
-    if locals.authenticated
+    if locals.authenticated && currentPath === ('/') 
       .connection-box
         i(class="fas fa-power-off" id="connection-icon")
         span(id="connection-message") No connection with a2i client
