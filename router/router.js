@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {test} = require('../controller/ReportController');
-const {authRoute, tokenRoute} = require('../controller/AuthController');
+const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
 const {benchmark, calculateBenchmark} = require('../controller/BenchmarkController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
 const {adminSettings, createNewProduct} = require('../controller/SettingsController');
@@ -27,7 +27,7 @@ router.get('/forgot', (req, res) => {
 });
 
 /* ADMINISTRATOR ROUTE */
-router.get('/settings', adminSettings);
+router.get('/settings', authRoute, adminRoute, adminSettings);
 
 
 /* API Routes */

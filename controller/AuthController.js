@@ -13,35 +13,45 @@ exports.authtest = (req, res, next) => {
 };
 
 exports.generateToken = async (req, res,next) => {
-    const {email} = req.body;
-    const expire_date = Date.now() + 86400000;
-    const token = crypto.randomBytes(48).toString('hex');
-    
-    const newToken = {
-        token,
-        expire_date,
-        email
-    }
 
     try {
-        const savedToken = await Token.create(newToken);
-        const resetURL = `http://${req.headers.host}/register?token=${savedToken.token}`;
-
-        const emailInformation = await mail.send({
-            user: {
+        console.log(req.headers['reset-key']);
+        if(req.headers['reset-key'] === process.env.RESET_KEY || req.session.user.administrator){
+            
+            const {email} = req.body;
+            const expire_date = Date.now() + 86400000;
+            const token = crypto.randomBytes(48).toString('hex');
+            
+            const newToken = {
+                token,
+                expire_date,
                 email
-            },
-            filename: 'register',
-            subject: 'Register',
-            resetURL
-          });
+            }
+            const savedToken = await Token.create(newToken);
+            const resetURL = `http://${req.headers.host}/register?token=${savedToken.token}`;
+    
+            const emailInformation = await mail.send({
+                user: {
+                    email
+                },
+                filename: 'register',
+                subject: 'Register',
+                resetURL
+            });
+    
+            req.flash('success', 'Invitation send');
+            res.redirect('/settings');
 
-        req.flash('success', 'Invitation send');
-        res.redirect('/settings');
+        } else {
+            req.flash('error', 'Did not understand that action');
+            res.status(500);
+            return
+        }
     } catch (error) {
         console.log(error)
         res.status(500).json({msg: 'Check logs', error})
     }
+
 
 }
 
@@ -68,6 +78,15 @@ exports.authRoute = async (req, res, next) => {
     } else {
         req.flash('error', 'You are not allowed to do that');
         res.redirect('/login')
+    }
+}
+
+exports.adminRoute = async (req, res, next) => {
+    if(!req.session.user.administrator) {
+        req.flash('error', 'You are not allowed to do that');
+        res.redirect('/')
+    } else {
+        next()
     }
 }
 

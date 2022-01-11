@@ -45,7 +45,7 @@ html
       .loading
       i(class="fas fa-mug-hot loading-icon")
 
-    if locals.authenticate
+    if locals.authenticated
       .connection-box
         i(class="fas fa-power-off" id="connection-icon")
         span(id="connection-message") No connection with a2i client

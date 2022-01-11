@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     },
     secret: {
         type: Object
+    },
+    administrator: {
+        type: Boolean,
+        default: false
     }
 })
 
