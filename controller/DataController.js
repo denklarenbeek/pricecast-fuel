@@ -36,8 +36,8 @@ exports.requestData = async (req, res, next) => {
     lastYear = comparison.indexOf('last_year') !== -1;
     previousPeriod = comparison.indexOf('last_period') !== -1
     
-    let daybetween = ((till_date.diff(from_date)) / 86400000 ) - 1
-    let endDateLastPeriod = moment(from_date).subtract('1', 'days').toISOString();
+    let daybetween = ((till_date.diff(from_date)) / 86400000 )
+    let endDateLastPeriod = moment(from_date).toISOString();
     let startDateLastPeriod = moment(endDateLastPeriod).subtract(daybetween, 'days').toISOString();
 
     // Variable to store all the received data from the API
@@ -111,6 +111,7 @@ exports.requestData = async (req, res, next) => {
 
 
         apiData = [...apiData, ...response.data];
+        console.log(apiData.length);
     }));
 
     
@@ -120,7 +121,7 @@ exports.requestData = async (req, res, next) => {
         const endDate = new Date(endDateLastPeriod);
 
         const date = new Date(obj.date);
-        return (date >= startDate && date <= endDate)
+        return (date >= startDate && date < endDate)
     })
 
     const dataOfPresent = apiData.filter(obj => {
@@ -134,7 +135,7 @@ exports.requestData = async (req, res, next) => {
     })
 
     // req.apiData = apiData;
-    return res.send([{length: dataOfLastPeriod.length,data: dataOfLastPeriod}, {length: dataOfPresent.length, data: dataOfPresent}]);
+    return res.send([{length: dataOfLastPeriod.length,data: dataOfLastPeriod}, {length: dataOfPresent.length, data: dataOfPresent}, {original: apiData}]);
     next();
     // res.json({periodOfComparison, customer, from_date,till_date,comparison, benchmark, apiData});
 }
