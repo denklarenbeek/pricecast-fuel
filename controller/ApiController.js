@@ -1,10 +1,8 @@
 const {getRequest, proxyRequest} = require('./AxiosController');
 const {formatReportData} = require('../utility/formattingData');
 const {cid} = require('../config');
-const moment = require('moment');
 const { formatAPIUrl } = require('../utility/formatting');
-
-moment.locale('nl')
+const mail = require('../utility/email');
 
 exports.checkConnection = async (req, res) => {
     try {
@@ -22,6 +20,22 @@ exports.checkConnection = async (req, res) => {
             res.status(200).send({
                 status: 403,
                 msg: "Connection Forbidden (check your IP address)",
+                connection: false
+            });
+        } else if(error.response.status === 407) {
+
+            await mail.send({
+                user: {
+                    email: 'dk@bigbrother.nl'
+                },
+                filename: 'error',
+                subject: 'Proxy Error',
+            });
+
+
+            res.status(200).send({
+                status: 407,
+                msg: "Proxy server not active",
                 connection: false
             });
         }

@@ -6,10 +6,12 @@ const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthControlle
 const {benchmark, calculateBenchmark} = require('../controller/BenchmarkController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
 const {adminSettings, createNewProduct} = require('../controller/SettingsController');
+const {requestData} = require('../controller/DataController');
 
 
 router.get('/', authRoute, test);
 router.post('/report',benchmark, calculateBenchmark, generateReport)
+router.post('/v2/report', requestData, calculateBenchmark, generateReport)
 router.get('/report', (req, res) => {
     res.redirect(301, '/')
 });

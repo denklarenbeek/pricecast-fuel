@@ -5,13 +5,12 @@ block content
         .centered-content(style="width: 100%")
             h2 Settings
             h3 New Registration
-            form(action="/api/auth/generatetoken" method="POST")
-                .form-group
+            form(action="/api/auth/generatetoken" method="POST" style='margin-bottom: 60px')
+                .form-group(style='margin-bottom: 0')
                     label(for='email')
                     input(type='email', name='email' id='email')
                 .form-group
-                    label(for='email')
-                    input(class='btn' type='submit')
+                    input(class='btn' type='submit' style='width: 20%')
 
             h3 ProductMatrix
             .table

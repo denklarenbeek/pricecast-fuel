@@ -31,20 +31,39 @@ const getLoctationsAndProducts = async (resultLocations, body) => {
 }
 
 exports.benchmark = async (req, res, next) => {
+    console.log(req.body);
+
+    // return res.json(req.body);
+
     console.time('report');
     //TODO Fire the resultLocations only once in 4 hours | same as the product parameter
-    const resultLocations = await getRequest('/station');
-    const {locations, products} = await getLoctationsAndProducts(resultLocations, req.body)
-    req.resultLocations = resultLocations;
+    /**
+     * * GET ALL THE LOCATIONS REGISTRED IN THE PCF DASHBAORD
+     */
+    const allPCFLocations = await getRequest('/station');
+
+    /** 
+     * * Filter only the stations related to the request based on the CID
+     * * and distinct the products from the select inputs.
+    */
+    const {locations, products} = await getLoctationsAndProducts(allPCFLocations, req.body)
+
+    req.resultLocations = allPCFLocations;
     req.locations = locations;
     req.products = products;
     
     let prodData = [];
     
+
+    /**
+     * * If the benchmark input in not selected continue to next route
+     * * Otherwise add Productinformation
+     */
     if(req.body.benchmark === 'false') {
         next();
     } else {
-        try {    
+        try {
+            console.log('inside the benchmark')    
             const addProductInformation = async (products, prodData) => {
                 return Promise.all(products.map(async (product) => {
     

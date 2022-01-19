@@ -7,16 +7,16 @@ block content
             form(action="/report" method="POST")
                 .form-group 
                     label(for="customer") Klant 
-                    select(name="customer" id="customer-selector")
+                    select(name="customer" id="customer-selector" required)
                         option(value='empty')
                         each customer in customers
                             option(value=customer) #{customer}
                 .form-group.half
                     label(for="from_date") Vanaf 
-                    input(type="date" name="from_date")
+                    input(type="date" name="from_date" required)
                 .form-group.half
                     label(for="till_date") Tot 
-                    input(type="date" name="till_date") 
+                    input(type="date" name="till_date" required) 
                 .form-group 
                     label(for="products" id="product-selector") Producten
                     .multi-selector 
@@ -26,19 +26,19 @@ block content
                 .form-group 
                     label(for="comparison") Verglijk met 
                     .form-group.comparison
-                        input(type="radio" name='comparison' value='last_year' id='last_year')
-                        label(for="last_year") Vorig jaar 
-                    //- .form-group.comparison
-                    //-     input(type="radio" name='comparison' value='last_period' id='last_period') 
-                    //-     label(for="last_period") Vorige periode
+                        input(type="checkbox" name='comparison' value='last_year' id='last_year' checked)
+                        label(for="last_year" ) Vorig jaar 
+                    .form-group.comparison
+                        input(type="checkbox" name='comparison' value='last_period' id='last_period') 
+                        label(for="last_period") Vorige periode
                 .form-group 
                     label(for="benchmark") Benchmark? 
                     .form-group.comparison
                         input(type="radio" name='benchmark' value='true' id='benchmark_true')
                         label(for="benchmark_true") Yes
                     .form-group.comparison
-                        input(type="radio" name='benchmark' value='false' id='benchmark_false')
-                        label(for="benchmark_false") No
+                        input(type="radio" name='benchmark' value='false' id='benchmark_false' checked)
+                        label(for="benchmark_false" ) No
                 .form-group
                     input(type="submit", value="Volgende" id="nextBtn")
                                     

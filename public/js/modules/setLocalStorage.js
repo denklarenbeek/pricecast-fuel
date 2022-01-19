@@ -41,7 +41,7 @@ async function checkA2iConnection () {
         if(status.data.connection) {
             connectionText.innerHTML = status.data.msg
             connectionIcon.style.color = 'green'
-        } else if(status.data.status === 403) {
+        } else if(status.data.status === 403 || status.data.status === 407) {
             connectionText.innerHTML = status.data.msg
             connectionIcon.style.color = 'orange'
         }
