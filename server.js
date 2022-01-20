@@ -26,7 +26,9 @@ mongoose.connect(process.env.DB_URL, {
 
 //Initialize workers
 client.on('error', (err) => console.log('Redis Client Error', err));
-await client.connect();
+client.connect().then(() => {
+    console.log('redis connected');
+}).catch(err => console.log(err));
 require('./backgroundWorker');
 
 
