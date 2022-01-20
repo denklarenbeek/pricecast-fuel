@@ -7,7 +7,12 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const helpers = require('./utility/helper');
 const ip = require('ip');
+const { createServer } = require("http");
+const { socketConnection } = require('./utility/socket-io');
+
 const app = express();
+const httpServer = createServer(app);
+socketConnection(httpServer);
 
 const redis = require("redis");
 const client = redis.createClient({url: process.env.REDIS_URL});
@@ -22,7 +27,6 @@ mongoose.connect(process.env.DB_URL, {
 }).then((result) => {
     console.log('Database is connected')
 }).catch(err => console.log(err));
-
 
 //Initialize workers
 client.on('error', (err) => console.log('Redis Client Error', err));
@@ -68,6 +72,6 @@ app.use((req, res, next) => {
 app.use('/', require('./router/router'));
 app.use('/api/auth', require('./router/auth'));
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} with IP address of ${ip.address()}`);
 });

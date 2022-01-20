@@ -1,23 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const {test, getReport, getAllReports} = require('../controller/ReportController');
+const {reportForm, getReport, getAllReports} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
-const {benchmark, calculateBenchmark} = require('../controller/BenchmarkController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
 const {adminSettings, createNewProduct} = require('../controller/SettingsController');
-// const {requestData, calculateBenchmarkv2} = require('../controller/DataController');
 const {taskQueue} = require('../controller/QueueController');
 
 
-router.get('/', authRoute, test);
+router.get('/', authRoute, reportForm);
 router.post('/report', taskQueue)
 router.get('/documents/:reportId', getReport);
 router.get('/documents', getAllReports)
 
 router.post('/waiting', taskQueue);
-
-router.post('/benchmark', benchmark, calculateBenchmark);
 
 router.get('/login', (req, res) => res.render('login'));
 

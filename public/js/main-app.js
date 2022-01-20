@@ -6,8 +6,10 @@ import {initialize} from './modules/setLocalStorage';
 import {loadProducts} from './modules/tableForm';
 import {check2fa} from './modules/set2fa';
 import {navigation} from './modules/navigation';
+import {socket} from './modules/socket';
 
 initialize();
+socket();
 check2fa($('#loginForm'))
 generateReport($('#nextBtn'))
 generatePNG($$('.downloadImage'))

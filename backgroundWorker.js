@@ -2,15 +2,16 @@ const {Worker} = require('bullmq');
 const { requestData } = require('./controller/DataController');
 const IORedis = require('ioredis')
 
+
 // Worker initialization
 const ReportWorker = new Worker('reports', async(job) => {
 
-    console.log('JOB info', job)
-
     let obj = {
-        body: job.data
+        body: job.data.form,
+        user: job.data.user
     }
-    const data = await requestData(obj, job.id);
+    console.log(obj);
+    const data = await requestData(obj, job.id, job.user);
 
     console.log(`Here we should generate al the information for the report`);
     return {

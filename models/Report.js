@@ -78,6 +78,10 @@ const Products = {
 }
 
 const ReportSchema = new Schema({
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

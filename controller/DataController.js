@@ -5,13 +5,12 @@ const {formatDate, formatNumber} = require('../utility/formatting');
 const Product = require('../models/Product');
 const Report = require('../models/Report');
 const moment = require('moment');
-const { benchmark } = require('./BenchmarkController');
 
 moment.locale('nl');
 
-exports.requestData = async (req, jobId) => {
+exports.requestData = async (req, jobId, user) => {
 
-    console.log(req.body);
+    console.log(req.user);
     /**
      * TODO: If Benchmark is required find every product/station combination and create a request with a max period of 6 months
      */
@@ -158,6 +157,7 @@ exports.requestData = async (req, jobId) => {
     const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
 
     const returnObj = {
+        user:req.user,
         daybetween,
         customer,
         dates: {
@@ -228,7 +228,7 @@ exports.getPriceSuggestions = async (products, from, till) => {
         pricesuggestions = [...pricesuggestions, ...response.data];
     }));
     return pricesuggestions;
-}
+};
 
 function formatDifference(thisYear, lastYear, decimal) {
     const difference = (thisYear - lastYear);
@@ -259,9 +259,12 @@ const vbiState = (vbi) => {
 }
 
 exports.formatReportData = async (data, reportID) => {
-    const {customer, dates, ownStationData, pricesuggestions, benchamarkStationData, daybetween} = data;
+    const {user, customer, dates, ownStationData, pricesuggestions, benchamarkStationData, daybetween} = data;
 
+    console.log('user', user);
+    
     let reportData = {
+        createdBy: user,
         customer,
         reportId: reportID,
         dates: {

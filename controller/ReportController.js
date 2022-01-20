@@ -1,7 +1,7 @@
 const Report = require('../models/Report');
 const {cid} = require('../config');
 
-exports.test = async (req, res, next) => {
+exports.reportForm = async (req, res, next) => {
     const customers = cid
     res.render('index', {customers});
 }
