@@ -1,0 +1,10 @@
+extends layout.pug
+
+block content
+    .container.full-page
+        .centered-content(style='width: 90%')
+            h2 All documents
+            each report in reports 
+                p #{report.reportId}
+            
+    

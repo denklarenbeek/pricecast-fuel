@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const {test} = require('../controller/ReportController');
+const {test, getReport, getAllReports} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
 const {benchmark, calculateBenchmark} = require('../controller/BenchmarkController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
 const {adminSettings, createNewProduct} = require('../controller/SettingsController');
-const {requestData} = require('../controller/DataController');
+// const {requestData, calculateBenchmarkv2} = require('../controller/DataController');
+const {taskQueue} = require('../controller/QueueController');
 
 
 router.get('/', authRoute, test);
-router.post('/report',benchmark, calculateBenchmark, generateReport)
-router.post('/v2/report', requestData, calculateBenchmark, generateReport)
-router.get('/report', (req, res) => {
-    res.redirect(301, '/')
-});
+router.post('/report', taskQueue)
+router.get('/documents/:reportId', getReport);
+router.get('/documents', getAllReports)
+
+router.post('/waiting', taskQueue);
 
 router.post('/benchmark', benchmark, calculateBenchmark);
 

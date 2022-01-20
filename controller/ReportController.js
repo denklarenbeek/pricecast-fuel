@@ -1,6 +1,4 @@
-const {strategy, volumes, products} = require('./sampleData');
-const {formatNumber, formatDate, duration} = require('../utility/formatting');
-const {getRequest} = require('../controller/AxiosController');
+const Report = require('../models/Report');
 const {cid} = require('../config');
 
 exports.test = async (req, res, next) => {
@@ -11,4 +9,16 @@ exports.test = async (req, res, next) => {
 exports.report = async (req, res, next) => {
     const {newData} = req;
     res.render('report', {data: newData})
+}
+
+exports.getReport = async (req, res, next) => {
+    const id = req.params.reportId;
+    const report = await Report.findOne({reportId: id});
+    console.log(report)
+    res.render('report2', {report});
+}
+
+exports.getAllReports = async (req, res, next) => {
+    const reports = await Report.find({});
+    res.render('documents', {reports});
 }

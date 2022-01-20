@@ -9,6 +9,7 @@ const helpers = require('./utility/helper');
 const ip = require('ip');
 const app = express();
 
+
 require('dotenv').config({ path: 'variables.env' })
 
 const PORT = process.env.PORT || 5000;
@@ -19,6 +20,11 @@ mongoose.connect(process.env.DB_URL, {
 }).then((result) => {
     console.log('Database is connected')
 }).catch(err => console.log(err));
+
+
+//Initialize workers
+require('./backgroundWorker');
+
 
 // Init Middleware
 app.set('view engine', 'pug')
