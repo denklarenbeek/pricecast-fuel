@@ -19,6 +19,7 @@ exports.getReport = async (req, res, next) => {
 }
 
 exports.getAllReports = async (req, res, next) => {
-    const reports = await Report.find({});
+    const reports = await Report.find({}).populate('createdBy');
+    console.log(reports);
     res.render('documents', {reports});
 }

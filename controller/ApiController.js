@@ -59,37 +59,37 @@ exports.getProductsByCid = async (req, res, next) => {
     }
 };
 
-exports.generateReport = async (req, res, next) => {
+// exports.generateReport = async (req, res, next) => {
 
-    const {locations, products} = req;
+//     const {locations, products} = req;
 
-    const cid = req.body.customer;
+//     const cid = req.body.customer;
 
-    const uniqueStations = [...new Set(locations.map(item => item.id))];
+//     const uniqueStations = [...new Set(locations.map(item => item.id))];
 
-    const {stationsUrl, productUrl, from_date, till_date} = formatAPIUrl(uniqueStations, products, req.body.from_date, req.body.till_date);
+//     const {stationsUrl, productUrl, from_date, till_date} = formatAPIUrl(uniqueStations, products, req.body.from_date, req.body.till_date);
 
-    try {
-        const {data} = await getRequest(`/aggregation?stations=${stationsUrl}&products=${productUrl}&from=${from_date}&till=${till_date}`);
+//     try {
+//         const {data} = await getRequest(`/aggregation?stations=${stationsUrl}&products=${productUrl}&from=${from_date}&till=${till_date}`);
 
-        let info = {
-            customerName: cid,
-            startDate: from_date,
-            endDate: till_date,
-            products: products,
-            locations,
-            productData: req.productData,
-            params: {
-                stations: stationsUrl,
-                products: productUrl
-            }
-        }
+//         let info = {
+//             customerName: cid,
+//             startDate: from_date,
+//             endDate: till_date,
+//             products: products,
+//             locations,
+//             productData: req.productData,
+//             params: {
+//                 stations: stationsUrl,
+//                 products: productUrl
+//             }
+//         }
 
-        const response = await formatReportData(data, info);
-        console.timeEnd('report');
-        res.render('report', {data: response});
-    } catch (error) {  
-        console.log(error);
-        throw error;
-    }
-}
+//         const response = await formatReportData(data, info);
+//         console.timeEnd('report');
+//         res.render('report', {data: response});
+//     } catch (error) {  
+//         console.log(error);
+//         throw error;
+//     }
+// }

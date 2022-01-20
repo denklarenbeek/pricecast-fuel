@@ -9,6 +9,7 @@ html
     link(rel="stylesheet", href="/styles/report.css")
     link(rel="stylesheet", href="/styles/flash.css")
     link(rel="stylesheet", href="/styles/navbar.css")
+    link(rel="stylesheet", href="/styles/document.css")
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 
@@ -30,11 +31,13 @@ html
           .navbar-container 
               .navbar-start 
                 if locals.authenticated 
-                  p(href='/' data-slug='/' class=(currentPath === '/' ? 'navbar_button nav__link--active' : 'navbar_button')) Home
+                  p(href='/' data-slug='/' class=(currentPath === '/' ? 'navbar_button nav__link--active' : 'navbar_button') style='position: relative') Home
                   if user
                     p.user (#{user.name})
                 
+                
               .navbar-end
+                p(href='/documents' data-slug='/documents' class=(currentPath.startsWith('/documents') ? 'navbar_button nav__link--active' : 'navbar_button')) Documents
                 if locals.authenticated 
                   p(class=(currentPath === '/settings' ? 'navbar_button nav__link--active' : 'navbar_button') data-slug='/settings') Settings
                   p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
@@ -55,7 +58,8 @@ html
     
     script(src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js')
     script(src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous")
-
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js")
+    
     script(src='/dist/App.bundle.js') 
 
 

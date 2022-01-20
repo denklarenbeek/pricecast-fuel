@@ -28,11 +28,11 @@ exports.formatNumber = (num, type, decimals=false) => {
     if(type === 'percentage'){
 
         if(parseFloat(num) < 0){
-            const value = num;
+            const value = num.toFixed(2);
             const state = 'negative'
             return {state, value}
         } else {
-            const value = num;
+            const value = num.toFixed(2);
             const state = 'positive'
             return {state, value}
         }

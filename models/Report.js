@@ -79,7 +79,8 @@ const Products = {
 
 const ReportSchema = new Schema({
     createdBy: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
         required: true
     },
     createdAt: {

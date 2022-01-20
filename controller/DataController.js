@@ -233,7 +233,7 @@ exports.getPriceSuggestions = async (products, from, till) => {
 function formatDifference(thisYear, lastYear, decimal) {
     const difference = (thisYear - lastYear);
     const state = difference > 0 ? 'positive' : 'negative';
-    const percentage = (((thisYear - lastYear) / lastYear) * 100).toFixed(2);
+    const percentage = (((thisYear - lastYear) / lastYear) * 100);
     return {
         number: {
             value: difference, 
@@ -333,7 +333,7 @@ exports.formatReportData = async (data, reportID) => {
                     volume: formatNumber(totalVolume, 'number'),
                     volumeLY: formatNumber(totalVolumeLY, 'number'),
                     volumeDifference: formatNumber(totalVolumeDifference.number.value, 'number'),
-                    volumeDifferencePercentage: formatNumber(totalVolumeDifference.percentage.value, 'number'),
+                    volumeDifferencePercentage: formatNumber(totalVolumeDifference.percentage.value, 'percentage'),
                     volumePerDay: formatNumber(volumePerDay, 'number'),
                     volumePerDayLY: formatNumber(volumePerDayLY, 'number'),
                     volumePerDayDifference: formatNumber(volumePerDayDifference.number.value, 'number'),

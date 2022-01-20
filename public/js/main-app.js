@@ -6,11 +6,13 @@ import {initialize} from './modules/setLocalStorage';
 import {loadProducts} from './modules/tableForm';
 import {check2fa} from './modules/set2fa';
 import {navigation} from './modules/navigation';
-import {socket} from './modules/socket';
+// import {socket} from './modules/socket';
+import {loadDocument} from './modules/tableClick';
 
 initialize();
-socket();
+// socket();
 check2fa($('#loginForm'))
+loadDocument('#documentTable')
 generateReport($('#nextBtn'))
 generatePNG($$('.downloadImage'))
 generatePdf($('#customer-report'))

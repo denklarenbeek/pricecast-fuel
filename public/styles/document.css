@@ -1,0 +1,9 @@
+.row {
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.documents td {
+    font-size: 14px
+}

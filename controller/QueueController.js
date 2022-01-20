@@ -12,7 +12,7 @@ exports.taskQueue = async (req, res, next) => {
         const job = await reportQueue.add(uid, {form: req.body, user: req.session.user._id}, {jobId: uid});
 
         // When adding is successfull the user can be sure there is job registred.
-        req.flash('success', `Your task ${uid} successfully started`);   
+        req.flash('success', `Your task ${uid} successfully started. Check this page in a couple of minutes`);   
         sendReportStatus('report', 'Task created');
         res.redirect('/documents');
     } catch (error) {
