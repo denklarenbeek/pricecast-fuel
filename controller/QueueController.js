@@ -5,8 +5,8 @@ const {bullmq} = require('../config');
 if(process.env.NODE_ENV === 'production') {
 
     const Redis = require("ioredis");
-    const client = new Redis(process.env.REDIS_URL);
-    
+    const client = new Redis(bullmq.connection);
+
 }
 
 const reportQueue = new Queue('reports', {connection: bullmq.connection});

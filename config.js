@@ -3,7 +3,6 @@ exports.bullmq = {
     maxAttempts: 10,
     maxAttemptsForEmail: 5,
     connection: {
-        host: process.env.REDIS_URL,
-        port: parseInt(process.env.REDIS_PORT || '6379')
+        host: process.env.REDIS_URL
     }
 }
