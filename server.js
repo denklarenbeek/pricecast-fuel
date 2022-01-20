@@ -9,6 +9,8 @@ const helpers = require('./utility/helper');
 const ip = require('ip');
 const app = express();
 
+const redis = require("redis");
+const client = redis.createClient({url: process.env.REDIS_URL});
 
 require('dotenv').config({ path: 'variables.env' })
 
