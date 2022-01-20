@@ -1,5 +1,6 @@
 const {Worker} = require('bullmq');
 const { requestData } = require('./controller/DataController');
+const IORedis = require('ioredis')
 
 // Worker initialization
 const ReportWorker = new Worker('reports', async(job) => {
@@ -17,7 +18,7 @@ const ReportWorker = new Worker('reports', async(job) => {
         status: 200,
         data
     }
-});
+}, { connection: new IORedis(process.env.REDIS_URL) });
 
 ReportWorker.on('completed', (job, response) => {
     const report = response;
