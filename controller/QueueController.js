@@ -1,10 +1,8 @@
 const {Queue, Worker} = require('bullmq');
 const uuid = require('uuid');
 const IORedis = require('ioredis');
-// const {bullmq} = require('../config');
 
-const connection = new IORedis(process.env.REDIS_URL || 6379)
-
+const connection = new IORedis(process.env.REDIS_URL);
 
 const reportQueue = new Queue('reports', {connection});
 
