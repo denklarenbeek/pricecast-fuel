@@ -1,7 +1,7 @@
 const {Queue, Worker} = require('bullmq');
 const uuid = require('uuid');
 
-const reportQueue = new Queue('reports', `${process.env.REDIS_URL}`);
+const reportQueue = new Queue('reports', process.env.REDIS_URL);
 
 exports.taskQueue = async (req, res, next) => {
     const {customer, } = req.body;
