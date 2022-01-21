@@ -38,7 +38,7 @@ async function checkA2iConnection () {
         const connectionIcon = document.getElementById('connection-icon')
 
         // Add UI message to show connection
-        if(status.data.connection) {
+        if(status.data.connection && connectionText) {
             connectionText.innerHTML = status.data.msg
             connectionIcon.style.color = 'green'
         } else if(status.data.status === 403 || status.data.status === 407) {

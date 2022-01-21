@@ -15,7 +15,6 @@ exports.authtest = (req, res, next) => {
 exports.generateToken = async (req, res,next) => {
 
     try {
-        console.log(req.headers['reset-key']);
         if(req.headers['reset-key'] === process.env.RESET_KEY || req.session.user.administrator){
             
             const {email} = req.body;

@@ -3,7 +3,7 @@ export function socket () {
     
     const socket = io();
 
-    socket.on('generatereport', (arg) => {
+    socket.on('reportdone', (arg) => {
         console.log(arg); // world
     });
 

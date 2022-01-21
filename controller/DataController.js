@@ -10,14 +10,6 @@ moment.locale('nl');
 
 exports.requestData = async (req, jobId, user) => {
 
-    console.log(req.user);
-    /**
-     * TODO: If Benchmark is required find every product/station combination and create a request with a max period of 6 months
-     */
-    
-    // Get all the registred locations in PCF
-    // const allPCFLocations = await getRequest('/station');
-
     // Retrieve the POST input fields
     const {customer, comparison} = req.body;
     const benchmark = (req.body.benchmark === 'true');
@@ -361,70 +353,5 @@ exports.formatReportData = async (data, reportID) => {
     }
     return reportData
 
-    /*
-        FORMAT the data so we get the following data structure:
-        [
-            dates: {
-                from_date: String,
-                till_date: String
-            },
-            locations: [
-                {
-                    stationId: Number,
-                    name: String,
-                    products: [
-                        {
-                            productId: Number,
-                            name: String,
-                            volume: Number,
-                            volumeLY: Number,
-                            volumeDifference: {
-                                value: Number,
-                                state: String
-                            },
-                            volumeDifferencePercentage: {
-                                value: Number,
-                                state: String
-                            },
-                            margin: Number,
-                            marginLY: Number,
-                            marginDifference: {
-                                value: Number,
-                                state: String
-                            },
-                            unitMargin: Number,
-                            unitMarginLY: Number,
-                            unitMarginDifference: {
-                                value: Number,
-                                state: String
-                            },
-                            countTransactions: Number,
-                            countTransactionsLY: Number,
-                            countTransactionsDifference: {
-                                value: Number,
-                                state: String
-                            },
-                            strategy: {
-                                strategy: String,
-                                minBandwith: String,
-                                maxBandwith: String,
-                                bandwithBehaviour: String,
-                                intensity: String,
-                                vbi: {
-                                    value: String,
-                                    state: String
-                                }
-                            },
-                            benchmark: {
-                                value: Number,
-                                state: String
-                            }
-                        }
-                    ]
-                }
-            ]
-        ]
-    */
-
-
+    
 }

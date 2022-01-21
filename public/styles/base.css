@@ -25,6 +25,14 @@
     --select-arrow: var(--select-border);
 }
 
+body {
+    position: relative;
+}
+
+body.noscroll {
+    overflow: hidden;
+}
+
 * {
     font-family: avenirRegular;
     color: var(--blue);

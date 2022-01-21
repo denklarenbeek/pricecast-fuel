@@ -53,3 +53,33 @@ td.negative {
 td.positive {
     color: var(--green)
 }
+
+.td-action {
+    position: relative;
+}
+
+.popup-container {
+    position: absolute;
+    top: -14px;
+    left: 44px;
+}
+
+.popup-container::before {
+    content: ' ';
+    /* background: red; */
+    display: inline-block;
+    width: 0; 
+    height: 0; 
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent; 
+    border-right: 14px solid red; 
+    position: absolute;
+    top: 26px;
+    left: -13px;
+}
+
+.btn-danger {
+    width: 80px !important;
+    font-size: 14px !important;
+    background: red !important
+}

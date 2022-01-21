@@ -15,7 +15,7 @@ exports.checkConnection = async (req, res) => {
             })
         }
     } catch (error) {
-        console.log(error.message);
+        console.log('connection error');
         if(error.response.status === 403) {
             res.status(200).send({
                 status: 403,

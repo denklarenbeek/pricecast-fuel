@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const {reportForm, getReport, getAllReports} = require('../controller/ReportController');
+const {reportForm, getReport, getAllReports, deleteReport, getOneReport} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
-const {adminSettings, createNewProduct} = require('../controller/SettingsController');
+const {adminSettings, createNewProduct, checkQueue} = require('../controller/SettingsController');
 const {taskQueue} = require('../controller/QueueController');
 
 
@@ -34,6 +34,9 @@ router.get('/api/station/:stationId/products', getProductsByCid)
 router.get('/api/station', getAllStations)
 router.get('/api/connection', checkConnection)
 router.post('/api/product', createNewProduct);
+router.get('/api/getqueue', checkQueue);
+router.delete('/api/report/:report', deleteReport);
+router.get('/api/report/:report', getOneReport);
 // router.post('/api/generate', generateReport);
 
 module.exports = router;

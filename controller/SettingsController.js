@@ -1,4 +1,12 @@
 const Product = require('../models/Product');
+const {reportQueue} = require('./QueueController');
+
+exports.checkQueue = async (req, res, next) => {
+
+    const jobs = await reportQueue.getJobs(["active"]);
+    res.json(jobs);
+
+}
 
 exports.adminSettings = async (req, res, next) => {
 

@@ -3,7 +3,7 @@ extends layout.pug
 block content
     .container.full-page
         .centered-content(style='width: 90%')
-            h2 All documents
+            h2 All Documents
 
             .table.documents
                 table(id='documentTable')
@@ -12,11 +12,14 @@ block content
                         th Customer
                         th Created At
                         th Created By
+                        th Actions
                     each report in reports 
-                        tr(class='tableClick' data-id=report.reportId)
+                        tr(class='tableClick' data-id=report.reportId id=report.reportId)
                             td #{report.reportId}
                             td #{report.customer}
-                            td #{report.createdAt}
+                            td #{report.newDate}
                             td #{report.createdBy.name}
+                            td(data-clickable='false' data-rowid=report.reportId class='td-action')
+                                i(class="fas fa-trash delete-row" data-clickable='false' data-rowid=report.reportId)
             
     

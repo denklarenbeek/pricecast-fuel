@@ -7,12 +7,12 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const helpers = require('./utility/helper');
 const ip = require('ip');
-const { createServer } = require("http");
-const { socketConnection } = require('./utility/socket-io');
-
+const http = require('http');
 const app = express();
-const httpServer = createServer(app);
-socketConnection(httpServer);
+
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server); 
 
 const redis = require("redis");
 const client = redis.createClient({url: process.env.REDIS_URL});
@@ -33,8 +33,14 @@ client.on('error', (err) => console.log('Redis Client Error', err));
 client.connect().then(() => {
     console.log('redis connected');
 }).catch(err => console.log(err));
+
 require('./backgroundWorker');
 
+app.use(require('./middlewares').global.socketIo(io));
+
+io.on('connection', () => {
+    console.log('Socket connected');
+});
 
 // Init Middleware
 app.set('view engine', 'pug')
@@ -48,14 +54,16 @@ app.use('/bower_components',  express.static( path.join(__dirname, '/bower_compo
 app.use(cookieParser());
 
 // Initialize session for storing DATA
-app.use(session({
+exports.sessionMiddleWare = session({
     secret: process.env.SECRET,
     key: process.env.KEY,
     cookie: {maxAge: 36000000},
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongoUrl: process.env.DB_URL })
-}));
+})
+
+app.use(this.sessionMiddleWare);
 
 app.use(flash());
 
@@ -72,6 +80,6 @@ app.use((req, res, next) => {
 app.use('/', require('./router/router'));
 app.use('/api/auth', require('./router/auth'));
 
-httpServer.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} with IP address of ${ip.address()}`);
 });
