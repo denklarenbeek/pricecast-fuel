@@ -83,3 +83,7 @@ td.positive {
     font-size: 14px !important;
     background: red !important
 }
+
+.loading-spinner {
+    animation: spin 2s linear infinite;
+}

@@ -1,9 +1,12 @@
+// const server = require('./server');
+
 const { Worker, QueueEvents } = require('bullmq');
 const { requestData } = require('./controller/DataController');
 const IORedis = require('ioredis')
+const io = require('./server');
+const socketApi = require('./utility/socket-io');
 
 const Report = require('./models/Report');
-
 
 // Worker initialization
 const ReportWorker = new Worker('reports', async(job) => {
@@ -14,11 +17,11 @@ const ReportWorker = new Worker('reports', async(job) => {
     }
 
     try {
-
-        job.updateProgress(25)
         
         const data = await requestData(obj, job.id, job.user);
-
+        // let data = {
+        //     createdBy: 'Dennis'
+        // }
 
         return { msg: 'done', status: 200, data }
 
@@ -40,7 +43,7 @@ queueEvents.on('completed', (job) => {
     const {jobId, returnvalue} = job;
     const userID = returnvalue.data.createdBy
     console.log(`Job ${jobId} which was created by ${userID} has finished`);
-    sendReportStatus(jobId, 100);
+    socketApi.sendNotification(jobId, 'completed', returnvalue.data);
 })
 
 queueEvents.on('progress', (job, response) => {

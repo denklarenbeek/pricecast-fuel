@@ -26,14 +26,13 @@ exports.getAllReports = async (req, res, next) => {
     let reports;
 
     if(!administrator) {
-        reports = await Report.find({createdBy: id}).populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find({createdBy: id}).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
     } else {
-        reports = await Report.find().populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find().sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
     }
     
     for(let i = 0; i < reports.length; i++) {
         let newCreated = moment(reports[i].createdAt).fromNow();
-        console.log(reports[i].createdAt, newCreated)
         reports[i].newDate = newCreated;
     }
 

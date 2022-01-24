@@ -18,12 +18,12 @@ html
     block messages
       if locals.flashes
         .inner.inner--flashes
-          .flash-messages
+          .flash-messages#flash-messages
             - const categories = Object.keys(locals.flashes)
             each category in categories
-              each message in flashes[category]
-                .flash(class=`flash--${category}`)
-                  p.flash__text!= message
+              each message in flashes
+                .flash(class=`flash--${message.status}`)
+                  p.flash__text!= message.message
                   button.flash__remove(onClick="this.parentElement.remove()") &times;
 
     navbar

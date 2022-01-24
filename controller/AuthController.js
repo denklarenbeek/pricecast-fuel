@@ -38,11 +38,11 @@ exports.generateToken = async (req, res,next) => {
                 resetURL
             });
     
-            req.flash('success', 'Invitation send');
+            req.flash('notification', {status: 'success', message: 'Invitation send'});
             res.redirect('/settings');
 
         } else {
-            req.flash('error', 'Did not understand that action');
+            req.flash('notification', {status: 'error', message: 'Did not understand that action'});
             res.status(500);
             return
         }
@@ -56,7 +56,7 @@ exports.generateToken = async (req, res,next) => {
 
 exports.tokenRoute = async (req,res,next) => {
     if(!req.query.token) {
-        req.flash('error', 'Invalid Register Token')
+        req.flash('notification', {status: 'error', message: 'Invalid Register Token'})
         res.redirect('/')
         return
     } else {
@@ -75,14 +75,14 @@ exports.authRoute = async (req, res, next) => {
     if(req.session.authenticated) {
         next()
     } else {
-        req.flash('error', 'You are not allowed to do that');
+        req.flash('notification', {status: 'error', message: 'You are not allowed to do that'});
         res.redirect('/login')
     }
 }
 
 exports.adminRoute = async (req, res, next) => {
     if(!req.session.user.administrator) {
-        req.flash('error', 'You are not allowed to do that');
+        req.flash('notification', {status: 'error', message: 'You are not allowed to do that'});
         res.redirect('/')
     } else {
         next()
@@ -110,12 +110,12 @@ exports.login = async (req, res, next) => {
         if(validPassword) {
             res.status(200).json({validPassword: true})
         } else {
-            req.flash('error', 'Invalid Credentials')
+            req.flash('notification', {status: 'error', message: 'Invalid Credentials'});
             res.redirect('/login');
         }
     } catch (error) {
         console.error(error)
-        req.flash('error', 'Invalid Credentials')
+        req.flash('notification', {status: 'error', message: 'Invalid Credentials'});
         res.redirect('/login');
     }
 
@@ -131,7 +131,7 @@ exports.register = async (req, res, next) => {
         const userExists = await User.findOne({email});
 
         if(userExists) {
-            req.flash('info', 'Credentials already exists, want to login?');
+            req.flash('notification',  {status: 'info', message: 'Credentials already exists, want to login?'});
             res.redirect('/login');
             return 
         }
@@ -150,11 +150,11 @@ exports.register = async (req, res, next) => {
 
         // Generate QR code URL
         const qrcode = await QRCode.toDataURL(temp_secret.otpauth_url);
-        req.flash('success', `You are now registred with ${user.email}! Please verify 2fa 👋`);
+        req.flash('notification', {status: 'success', message: `You are now registred with ${user.email}! Please verify 2fa 👋`});
         res.render('authenticate', {qrcode, email: user.email});
     } catch (error) {
         console.log(error);
-        req.flash('error', 'Something went wrong: Registration is not completed');
+        req.flash('notification',{status: 'error', message: 'Something went wrong: Registration is not completed'});
         res.redirect('/register')
     }
 };
@@ -177,16 +177,16 @@ exports.verifySecret = async (req, res) => {
             const savedUser = await User.findOneAndUpdate({email}, {secret: user.temp_secret, temp_secret: null}, {new: true});
             req.session.authenticated = true
             req.session.user = user;
-            req.flash('success', 'You 2 factor authentication is successfully enabled');
+            req.flash('notification',{status: 'success', message: 'You 2 factor authentication is successfully enabled'});
             res.redirect('/');
         } else {
-            req.flash('error', 'Something went wrong: Two Factor Authentication is not enabled');
+            req.flash('notification',{status: 'error', message: 'Something went wrong: Two Factor Authentication is not enabled'});
             res.redirect('/register')
         }
 
     } catch (error) {
         console.log(error);
-        req.flash('error', 'Something went wrong: Two Factor Authentication is not enabled');
+        req.flash('notification',{status: 'error', message: 'Something went wrong: Two Factor Authentication is not enabled'});
         res.redirect('/register')
     }
 }
@@ -209,16 +209,16 @@ exports.validateSecret = async (req, res) => {
         if(tokenValidates) {
             req.session.authenticated = true;
             req.session.user = user;
-            req.flash('success', 'Logged in successfully')
+            req.flash('notification',{status: 'success', message: 'Logged in successfully'})
             res.redirect('/')
         } else {
-            req.flash('error', 'Something went wrong: Your token is invalid')
+            req.flash('notification',{status: 'error', message: 'Something went wrong: Your token is invalid'})
             res.redirect('/login');
         }
 
     } catch (error) {
         console.log(error);
-        req.flash('error', 'Something went wrong......')
+        req.flash('notification',{status: 'error', message: 'Something went wrong......'})
         res.redirect('/login');
     }
 }

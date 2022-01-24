@@ -36,7 +36,7 @@ exports.createNewProduct = async (req, res, next) => {
         })
         res.redirect('/settings');
     } else {
-        req.flash('error', 'No products found');
+        req.flash('notification',{status: 'error', message: 'No products found'});
         res.render('settings');
         return
     }

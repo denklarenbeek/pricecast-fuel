@@ -11,8 +11,11 @@ const http = require('http');
 const app = express();
 
 const server = http.createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server); 
+
+// Initializing Socket.io
+const socketApi = require('./utility/socket-io');
+const io = socketApi.io;
+io.attach(server);
 
 const redis = require("redis");
 const client = redis.createClient({url: process.env.REDIS_URL});
@@ -36,11 +39,8 @@ client.connect().then(() => {
 
 require('./backgroundWorker');
 
-app.use(require('./middlewares').global.socketIo(io));
-
-io.on('connection', () => {
-    console.log('Socket connected');
-});
+// app.use(require('./middlewares').global.socketIo(io));
+// require('./utility/socket-io')(io);
 
 // Init Middleware
 app.set('view engine', 'pug')
@@ -61,7 +61,7 @@ exports.sessionMiddleWare = session({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongoUrl: process.env.DB_URL })
-})
+});
 
 app.use(this.sessionMiddleWare);
 
@@ -69,10 +69,11 @@ app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.h = helpers;
-    res.locals.flashes = req.flash();
+    res.locals.flashes = req.flash('notification')
     res.locals.authenticated = req.session.authenticated
     res.locals.user = req.session.user
     res.locals.currentPath = req.path;
+    res.locals.documents = req.flash('documents')
     next();
 });
 
