@@ -87,3 +87,11 @@ td.positive {
 .loading-spinner {
     animation: spin 2s linear infinite;
 }
+
+.tableClick {
+    position: relative;
+}
+
+.report-dropdown  {
+    position: absolute;
+}

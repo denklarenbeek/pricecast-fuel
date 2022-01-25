@@ -11,7 +11,7 @@ moment.locale('nl');
 exports.requestData = async (req, jobId, user) => {
 
     // Retrieve the POST input fields
-    const {customer, comparison} = req.body;
+    const {customer, comparison, name} = req.body;
     const benchmark = (req.body.benchmark === 'true');
     const from_date = moment.utc(req.body.from_date);
     const till_date = moment.utc(req.body.till_date)
@@ -152,6 +152,7 @@ exports.requestData = async (req, jobId, user) => {
         user:req.user,
         daybetween,
         customer,
+        name,
         dates: {
             from: req.body.from_date,
             till: req.body.till_date
@@ -251,13 +252,14 @@ const vbiState = (vbi) => {
 }
 
 exports.formatReportData = async (data, reportID) => {
-    const {user, customer, dates, ownStationData, pricesuggestions, benchamarkStationData, daybetween} = data;
+    const {user, customer, dates, ownStationData, pricesuggestions, benchamarkStationData, daybetween, name} = data;
 
     console.log('user', user);
     
     let reportData = {
         createdBy: user,
         customer,
+        name,
         reportId: reportID,
         dates: {
             from_date: dates.from,

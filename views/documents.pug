@@ -8,10 +8,10 @@ block content
             .table.documents
                 table(id='documentTable')
                     tr
-                        th Document ID
+                        th Document
                         th Customer
-                        th Created At
-                        th Created By
+                        th Created
+                        th Owner
                         th Actions
                     if locals.documents 
                         each report in locals.documents
@@ -24,11 +24,15 @@ block content
                                     i(class="fas fa-spinner loading-spinner" data-clickable='false')
                     each report in reports 
                         tr(class='tableClick' data-id=report.reportId id=report.reportId)
-                            td(data-table-entity='id') #{report.reportId}
+                            td(data-table-entity='id') #{report.name}
                             td(data-table-entity='customer') #{report.customer}
                             td(data-table-entity='date') #{report.newDate}
                             td #{report.createdBy.name}
                             td(data-clickable='false' data-rowid=report.reportId class='td-action')
-                                i(class="fas fa-trash delete-row" data-clickable='false' data-rowid=report.reportId)
+                                .report-dropdown 
+                                    p.report-dropdown-item Edit
+                                    p.report-dropdown-item Share PDF
+                                    p.report-dropdown-item Delete
+                            
             
     

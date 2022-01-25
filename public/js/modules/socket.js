@@ -25,22 +25,26 @@ export function socket () {
                 document.location.reload();
             } else {
                 const flashContainer = document.getElementById('flash-messages');
-                const message = createFlashmessage(data.customer, jobId);
+                const messageText = `Your report for <a href='/documents/${jobId}' style='color: white'>${data.customer}</a> is done`
+                const message = createFlashmessage('success', messageText);
                 flashContainer.appendChild(message);
             }
+        } else if (status === 'error') {
+            const messageText = `Something went wrong creating your report ${data}`
+            createFlashmessage('error', messageText)
         }
 
     });
 };
 
-function createFlashmessage (customer, id) {
+function createFlashmessage (status, text) {
     const flashDiv = document.createElement('div');
     flashDiv.classList.add('flash');
-    flashDiv.classList.add(`flash--success`);
+    flashDiv.classList.add(`flash--${status}`);
 
     const flashText = document.createElement('p');
     flashText.classList.add('flash__text')
-    flashText.innerHTML = `Your report for ${customer} is done and can be viewed here: <a href='/documents/${id}' style='color: white'>${id}</a>`;
+    flashText.innerHTML = text;
 
     const flashButton = document.createElement('button');
     flashButton.classList.add('flash__remove')

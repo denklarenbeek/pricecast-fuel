@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 const Products = {
     productId: Number,
-    name: String,
+    name: {
+        type: String
+    },
     benchmarkId: Number,
     volume: {
         value: String,
@@ -83,6 +85,7 @@ const ReportSchema = new Schema({
         ref: 'User',
         required: true
     },
+    name: String,
     createdAt: {
         type: Date,
         default: Date.now
@@ -97,7 +100,9 @@ const ReportSchema = new Schema({
             products: [Products]
         }
     ]
-})
+});
 
 const Report = mongoose.model('Report', ReportSchema);
+
+
 module.exports = Report;

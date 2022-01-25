@@ -35,6 +35,7 @@ const ReportWorker = new Worker('reports', async(job) => {
 ReportWorker.on('error', err => {
     console.log('error occurred')
     console.log(err);
+    socketApi.sendNotification(jobId, 'error', err);
 });
 
 const queueEvents = new QueueEvents('reports');
@@ -44,26 +45,17 @@ queueEvents.on('completed', (job) => {
     const userID = returnvalue.data.createdBy
     console.log(`Job ${jobId} which was created by ${userID} has finished`);
     socketApi.sendNotification(jobId, 'completed', returnvalue.data);
-})
+});
 
 queueEvents.on('progress', (job, response) => {
     // Job { jobId, data (progress) }
     console.log('worker in progress!', job);
-})
+});
 
-// ReportWorker.on('completed', (job, response) => {
-//     const report = response;
-
-//     sendReportStatus('done', job.name);
-// });
-
-// ReportWorker.on('progress', (job, progress) => {
-//     console.log(job, progress)
-// });
-
-// ReportWorker.on('failed', (job, failedReason) => {
-//     // Do something with the return value.
-//     console.log(failedReason)
-// });
+queueEvents.on('failed', (jobId, failedReason) => {
+    // jobId received a progress event
+    socketApi.sendNotification(jobId, 'error', failedReason);
+    console.log(jobId, failedReason);
+});
 
 module.exports = ReportWorker;
