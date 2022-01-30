@@ -7,11 +7,25 @@ const {getProductsByCid, getAllStations, generateReport, checkConnection} = requ
 const {adminSettings, createNewProduct, checkQueue} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue} = require('../controller/QueueController');
 
-
-router.get('/', authRoute, reportForm);
+router.get('/', authRoute, (req, res) => {
+    res.render('home', {
+        tools: [
+            {
+                name: 'PriceCast', icon: 'far fa-chart-bar', status: 'active', slug: '/pricecast'
+            },
+            {
+                name: 'Alarm Intake', icon: 'fas fa-file-download', status: 'under-development', slug: '/alarm-intake'
+            },
+            {
+                name: 'Site survey', icon: 'fas fa-draw-polygon', status: 'under-development', slug: 'site-survey'
+            }
+        ]}
+    )
+})
+router.get('/pricecast', authRoute, reportForm);
 router.post('/report', taskQueue)
-router.get('/documents/:reportId', getReport);
-router.get('/documents', getAllReports)
+router.get('/documents/:reportId', authRoute, getReport);
+router.get('/documents', authRoute, getAllReports)
 
 router.post('/waiting', taskQueue);
 

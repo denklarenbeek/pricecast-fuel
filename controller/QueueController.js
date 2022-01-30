@@ -1,4 +1,4 @@
-const {Queue, Worker} = require('bullmq');
+const {Queue} = require('bullmq');
 const uuid = require('uuid');
 const IORedis = require('ioredis');
 const Report = require('../models/Report');
@@ -16,8 +16,12 @@ exports.taskQueue = async (req, res, next) => {
         user = req.session.user._id
     }
 
+    const regexp = new RegExp("^"+ name);
+
+
     try {
-        const reportsWithName = await Report.find({name});
+        const reportsWithName = await Report.find({name: regexp});
+        console.log(reportsWithName);
         if(reportsWithName.length) {
             name = `${name}_v${reportsWithName.length + 1}`;
         };
@@ -27,23 +31,6 @@ exports.taskQueue = async (req, res, next) => {
 
         console.log('try to add the job');
         const job = await this.reportQueue.add(uid, {form: req.body, user}, {jobId: uid});
-
-        // When adding is successfull send the loading document to the use via res.documents
-        const activeJobs = await this.reportQueue.getJobs(['active']);
-        
-        // console.log(activeJobs[0].data);
-
-        for(const job of activeJobs){
-            console.log(job.data)
-            let newJob = {
-                name: `${job.data.form.customer}-${job.data.form.from_date}-${job.data.form.till_date}`,
-                reportId: job.id,
-                customer: job.data.form.customer,
-                period: `${job.data.form.from_date} - ${job.data.form.till_date}`
-            }
-            
-            req.flash('documents', newJob);
-        };
 
         req.flash('notification', {status: 'success', message: `Your task <a href='/documents/${uid}' style='color: white'>${uid}</a> successfully started. Check this page in a couple of minutes`});   
         res.redirect('/documents');

@@ -1,11 +1,10 @@
 const Report = require('../models/Report');
 const {cid} = require('../config');
 const moment = require('moment');
-const { redisVersion } = require('../backgroundWorker');
 
 exports.reportForm = async (req, res, next) => {
     const customers = cid
-    res.render('index', {customers});
+    res.render('reportForm', {customers});
 }
 
 exports.report = async (req, res, next) => {

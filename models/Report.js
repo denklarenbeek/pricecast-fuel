@@ -76,7 +76,8 @@ const Products = {
         value: Number,
         state: String
     },
-    pricesuggestions: []
+    pricesuggestions: [],
+    dailyVolumes: []
 }
 
 const ReportSchema = new Schema({
@@ -85,6 +86,7 @@ const ReportSchema = new Schema({
         ref: 'User',
         required: true
     },
+    status: String,
     name: String,
     createdAt: {
         type: Date,

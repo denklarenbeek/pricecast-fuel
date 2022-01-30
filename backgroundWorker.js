@@ -1,11 +1,7 @@
-// const server = require('./server');
-
 const { Worker, QueueEvents } = require('bullmq');
 const { requestData } = require('./controller/DataController');
 const IORedis = require('ioredis')
-const io = require('./server');
 const socketApi = require('./utility/socket-io');
-
 const Report = require('./models/Report');
 
 // Worker initialization
@@ -16,8 +12,21 @@ const ReportWorker = new Worker('reports', async(job) => {
         user: job.data.user
     }
 
+    // console.log(job);
+
     try {
         
+        // First create a report based on the ID so on reload we can show that the report is still loading
+        // report needs to have a createdBy, reportID, Name, Customer & status of inprogress
+        const newReport = {
+            reportId: job.id,
+            name: job.data.form.name,
+            createdBy: job.data.user,
+            customer: job.data.form.customer,
+            status: 'inprogress'
+        };
+
+        await Report.create(newReport);
         const data = await requestData(obj, job.id, job.user);
         // let data = {
         //     createdBy: 'Dennis'

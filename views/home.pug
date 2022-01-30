@@ -1,0 +1,12 @@
+extends layout.pug
+
+block content
+    .container.full-page#home
+        .centered-content
+            h2(class='home') Hello #{user.name},
+            p(class='tagline') Which tool is going to help you today?
+            .tools
+                each tool in tools 
+                    .tool(class=(tool.status === 'under-development' ? 'under-development' : '') data-slug=tool.slug)
+                        i(class=tool.icon data-slug=tool.slug)
+                        p(data-slug=tool.slug) #{tool.name}

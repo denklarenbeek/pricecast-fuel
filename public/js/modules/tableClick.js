@@ -1,18 +1,47 @@
 import axios from 'axios';
 
-export function loadDocument (table) {
+export function showdropdown (table) {
     if(!table) return
 
-    const tableRows = document.querySelectorAll('.tableClick')
+    const dropdownItems = document.querySelectorAll('.td-action .dropdown-icon');
     
-    tableRows.map(row => {
-        row.addEventListener('click', (e) => {
-            if(e.target.dataset.clickable !== 'false') {
-                window.location.href = `/documents/${row.dataset.id}`
+    
+    for(const item of dropdownItems) {
+        item.addEventListener('click', (e) => {
+            const id = e.target.parentNode.dataset.rowid
+            const dropdownMenu = document.querySelector(`[data-dropdownid="${id}"]`);
+            dropdownMenu.classList.add('open')
+        })
+    }
+   
+    const tdActionRows = document.querySelectorAll('.td-action')
+    for(const row of tdActionRows) {
+        row.addEventListener('mouseleave', (e) => {
+            const id = e.target.dataset.rowid
+            const dropdownMenu = document.querySelector(`[data-dropdownid="${id}"]`);
+            if(dropdownMenu) {
+                dropdownMenu.classList.remove('open')
             }
         })
-    })
+    }
+
+    const editItems = document.querySelectorAll('.edit-item');
+    for(const item of editItems) {
+        item.addEventListener('click', (e) => {
+            const id = e.target.parentNode.dataset.dropdownid;
+            console.log(id);
+            const row = document.getElementById(id);
+            const inputTd = row.querySelector('[data-table-entity="id"]');
+            const textNode = inputTd.firstChild();
+            console.log(textNode)
+            const input = inputTd.lastElementChild();
+            input.classList.add('open');
+
+        })
+    }
+
 };
+
 
 
 function createPopup (id) {

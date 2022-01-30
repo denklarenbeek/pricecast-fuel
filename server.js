@@ -22,7 +22,7 @@ const client = redis.createClient({url: process.env.REDIS_URL});
 
 require('dotenv').config({ path: 'variables.env' })
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Initialize DB connection
 mongoose.connect(process.env.DB_URL, {
@@ -38,9 +38,6 @@ client.connect().then(() => {
 }).catch(err => console.log(err));
 
 require('./backgroundWorker');
-
-// app.use(require('./middlewares').global.socketIo(io));
-// require('./utility/socket-io')(io);
 
 // Init Middleware
 app.set('view engine', 'pug')

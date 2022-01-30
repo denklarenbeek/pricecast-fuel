@@ -167,7 +167,7 @@ exports.requestData = async (req, jobId, user) => {
     }
 
     const reportData = await this.formatReportData(returnObj, jobId);
-    const savedReport = await Report.create(reportData);
+    const savedReport = await Report.findOneAndUpdate({reportId: jobId}, reportData);
     return savedReport
 
 }
@@ -217,7 +217,6 @@ exports.getPriceSuggestions = async (products, from, till) => {
     // console.log(products);
     await Promise.all(products.map(async (product) => {
         const response = await getRequest(`/pricesuggestions?stations=${product.stationId}&products=${product.productId}&from=${from}&till=${till}`)
-
         pricesuggestions = [...pricesuggestions, ...response.data];
     }));
     return pricesuggestions;
@@ -258,12 +257,15 @@ exports.formatReportData = async (data, reportID) => {
     
     let reportData = {
         createdBy: user,
+        status: 'completed',
         customer,
         name,
         reportId: reportID,
         dates: {
             from_date: dates.from,
-            till_date: dates.till
+            till_date: dates.till,
+            from_dateLY: moment(dates.from).subtract(1, 'years').format('YYYY-MM-DD'),
+            till_dateLY: moment(dates.till).subtract(1, 'years').format('YYYY-MM-DD')
         },
         locations: []
     };
@@ -300,6 +302,7 @@ exports.formatReportData = async (data, reportID) => {
                 const countTransactionsDifference = formatDifference(countTransactions, countTransactionsLY, 0);
 
                 // Get the Strategy information of the product
+                const dailyVolumes = filteredData;
                 const stationsPricesuggestions = pricesuggestions.filter(element => element.productId === product.productId && element.stationId === station);
                 const indexArray = (stationsPricesuggestions.length - 1);
                 const latestPricesuggesion = stationsPricesuggestions[indexArray];
@@ -345,7 +348,8 @@ exports.formatReportData = async (data, reportID) => {
                         value: benchMarkData.volumeDifference,
                         state: benchMarkData.volumeDifference > 0 ? 'positive' : 'negative'
                     },
-                    pricesuggestions: stationsPricesuggestions
+                    pricesuggestions: stationsPricesuggestions,
+                    dailyVolumes: dailyVolumes,
                 };
                 newStationObj.products.push(newProductObj);
             }

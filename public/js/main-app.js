@@ -8,14 +8,18 @@ import {loadProducts} from './modules/tableForm';
 import {check2fa} from './modules/set2fa';
 import {navigation} from './modules/navigation';
 import {socket} from './modules/socket';
-import {loadDocument, deletePopUp} from './modules/tableClick';
+import {showdropdown, deletePopUp} from './modules/tableClick';
+import {handleFlashMessages} from './modules/flash';
+import {homeTools} from './modules/homeTools';
 
 initialize();
 socket();
+handleFlashMessages();
+homeTools('#(#home)');
 closeModal($('#chart-modal'));
 check2fa($('#loginForm'))
 generateChart($('#generate-report'))
-loadDocument('#documentTable')
+showdropdown('#documentTable')
 generateReport($('#nextBtn'))
 generatePNG($$('.downloadImage'))
 generatePdf($('#customer-report'))

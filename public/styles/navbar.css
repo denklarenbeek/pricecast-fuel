@@ -3,6 +3,10 @@
     height: 80px;
 }
 
+.navbar .container {
+    height: 100%;
+}
+
 .navbar-container {
     display: flex;
     width: 100%;

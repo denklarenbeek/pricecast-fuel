@@ -9,8 +9,9 @@ table {
 }
 
 table, th, tr, td {
-    border: 1px solid #CBCBCB;
+    border: 1px solid #DFE1E6;
     border-collapse: collapse;
+    border-radius: 2px 2px 0px 0px;
 }
 
 table tr, table th {
@@ -18,20 +19,25 @@ table tr, table th {
     text-align: start;
 }
 
-th, td {
-    padding-left: 12px;
+th {
+    font-size: 14px;
+    color: #002F49;
+    font-family: 'avenirBold';
+    text-align: left;
+    padding: 9px 11px;
+}
+
+td {
+    padding: 6px 11px;
+    font-size: 14px;
 }
 
 th:first-of-type {
     width: 250px;
 }
 
-table th, .table-header {
-    color: #9d9d9d;
-}
-
 table td {
-    cursor: pointer;
+    cursor: default;
 }
 
 table td:hover {
@@ -46,6 +52,14 @@ table td:hover {
     background-color: white;
 }
 
+tr.inprogress td {
+    color: var(--grey);
+}
+
+tr.inprogress td:hover {
+    background: none;
+}
+
 td.negative {
     color: red;
 }
@@ -56,6 +70,8 @@ td.positive {
 
 .td-action {
     position: relative;
+    height: 50px;
+    cursor: pointer;
 }
 
 .popup-container {
@@ -93,5 +109,33 @@ td.positive {
 }
 
 .report-dropdown  {
+    display: none;
     position: absolute;
+    background-color: white;
+    top: 50px;
+    right: 8px;
+    /* padding: 20px 20px; */
+    z-index: 99;
+    width: 120px;
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 2px 2px 0px 0px;
+}
+
+.report-dropdown.open {
+    display: block;
+}
+
+.report-dropdown-item {
+    margin: 0;
+    border-bottom: 1px solid var(--grey);
+    padding: 10px 20px;
+}
+
+.report-dropdown-item:hover {
+    background-color: #D9F1FF;
+}
+
+td[data-table-entity="id"].open {
+    display: block;
 }

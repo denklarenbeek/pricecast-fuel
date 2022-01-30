@@ -1,0 +1,55 @@
+h2.home {
+    margin-bottom: 0;
+}
+
+.tagline {
+    font-family: 'avenirMedium';
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+.tools {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tool {
+    width: 25%;
+    height: 200px;
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    padding: 10px;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: rgba(0,0,0,0);
+    z-index: 999;
+    background-size: cover;
+}
+
+.tool p {
+    margin: 0;
+    text-transform: uppercase;
+    font-family: 'avenirBold';
+}
+
+.tool i {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.tool.under-development {
+    cursor: not-allowed;
+    color: var(--grey);
+    border-color:  var(--grey);
+}
+
+.tool.under-development i,
+.tool.under-development p {
+    color: var(--grey)
+}
