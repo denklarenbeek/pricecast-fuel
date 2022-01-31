@@ -25,7 +25,7 @@ exports.getAllReports = async (req, res, next) => {
     let reports;
 
     if(!administrator) {
-        reports = await Report.find({createdBy: id}).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find({sharedWith: id}).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
     } else {
         reports = await Report.find().sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
     }

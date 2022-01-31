@@ -1,6 +1,6 @@
 const { Worker, QueueEvents } = require('bullmq');
 const { requestData } = require('./controller/DataController');
-const IORedis = require('ioredis')
+const connection = require('./utility/redisConnection');
 const socketApi = require('./utility/socket-io');
 const Report = require('./models/Report');
 
@@ -34,7 +34,7 @@ const ReportWorker = new Worker('reports', async(job) => {
         console.log(error.message);        
     }
 
-}, { connection: new IORedis(process.env.REDIS_URL) });
+}, { connection });
 
 ReportWorker.on('error', err => {
     console.log('error occurred')
@@ -42,7 +42,7 @@ ReportWorker.on('error', err => {
     socketApi.sendNotification(jobId, 'error', err);
 });
 
-const queueEvents = new QueueEvents('reports');
+const queueEvents = new QueueEvents('reports', { connection });
 
 queueEvents.on('completed', (job) => {
     const {jobId, returnvalue} = job;
@@ -56,9 +56,13 @@ queueEvents.on('progress', (job, response) => {
     console.log('worker in progress!', job);
 });
 
-queueEvents.on('failed', (jobId, failedReason) => {
+queueEvents.on('failed', async (jobId, failedReason) => {
     // jobId received a progress event
     socketApi.sendNotification(jobId, 'error', failedReason);
+    const report = await Report.find({reportId: jobId});
+    const newreport = {...report};
+    newreport.status = 'failed';
+    await Report.findOneAndUpdate({reportId: jobId}, newreport);
     console.log(jobId, failedReason);
 });
 

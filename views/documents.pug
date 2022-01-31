@@ -14,7 +14,7 @@ block content
                         th Owner
                         th(style='width: 10px')
                     each report in reports 
-                        tr(class='tableClick' class=(report.status === 'inprogress' ? 'inprogress' : '') data-id=report.reportId id=report.reportId)
+                        tr(class='tableClick' class=(report.status === 'inprogress' || report.status === 'failed' ? 'inprogress' : '') data-id=report.reportId id=report.reportId)
                             td(data-table-entity='id') #{report.name}
                                 input(type="text", name="name" id='name' value=report.name style='height: 30px; display: none')
                             td(data-table-entity='customer') #{report.customer}
@@ -26,10 +26,11 @@ block content
                                     .report-dropdown(data-dropdownid=report.reportId) 
                                         p.report-dropdown-item(onClick=`window.location.href="/documents/${report.reportId}"`) Watch
                                         p.report-dropdown-item(class='edit-item') Edit
-                                        p.report-dropdown-item Share PDF
+                                        p.report-dropdown-item Share Report
                                         p.report-dropdown-item Delete
 
                                 if report.status === 'inprogress'
                                     i(class="fas fa-spinner loading-spinner" data-clickable='false')
-            
+                                if report.status === 'failed'
+                                    i(class="fas fa-exclamation-triangle" data-clickable='false')
     

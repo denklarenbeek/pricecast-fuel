@@ -92,6 +92,11 @@ const ReportSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    sharedWith: [
+        {
+            type: mongoose.Schema.ObjectId, ref: 'User'
+        }
+    ],
     reportId: String,
     customer: String,
     dates: {},

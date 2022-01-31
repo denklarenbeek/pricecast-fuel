@@ -61,7 +61,8 @@ exports.requestData = async (req, jobId, user) => {
         const allProducts = await Product.find();
         //Get all stations with a benchmark product
         for(const id of benchmarkIds) {
-            allProducts.map(productM => {
+            allProducts.map(productM => {          
+                console.log(periodOfComparison)
                 if(productM.benchmark === id && periodOfComparison < 6.5){
                     let productObj = {
                         from_date: from_dateIso,
@@ -70,6 +71,9 @@ exports.requestData = async (req, jobId, user) => {
                         product: productM.productId
                     }
                     benchmarkProducts.push(productObj);
+                } else if(productM.benchmark === id && periodOfComparison > 6.5) {
+                    //TODO: CREATE A MONTLY BASED REQUEST
+                    console.log(`Requested period ${productM.benchmark} is longer then 6 months ${periodOfComparison}`)
                 }
             });
         };
@@ -94,7 +98,7 @@ exports.requestData = async (req, jobId, user) => {
             };
         };
     }
-    
+
     await Promise.all(benchmarkProducts.map(async (product) => {
         const response = await getRequest(`/aggregation?stations=${product.station}&products=${product.product}&from=${product.from_date}&till=${product.till_date}`)
 
@@ -149,7 +153,7 @@ exports.requestData = async (req, jobId, user) => {
     const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
 
     const returnObj = {
-        user:req.user,
+        user: req.user,
         daybetween,
         customer,
         name,
@@ -215,7 +219,7 @@ exports.calculateBenchmarkv2 = async (info, products) => {
 exports.getPriceSuggestions = async (products, from, till) => {
     let pricesuggestions = [];
     // console.log(products);
-    await Promise.all(products.map(async (product) => {
+    await Promise.allSettled(products.map(async (product) => {
         const response = await getRequest(`/pricesuggestions?stations=${product.stationId}&products=${product.productId}&from=${from}&till=${till}`)
         pricesuggestions = [...pricesuggestions, ...response.data];
     }));
@@ -252,10 +256,9 @@ const vbiState = (vbi) => {
 
 exports.formatReportData = async (data, reportID) => {
     const {user, customer, dates, ownStationData, pricesuggestions, benchamarkStationData, daybetween, name} = data;
-
-    console.log('user', user);
     
     let reportData = {
+        sharedWith: [user],
         createdBy: user,
         status: 'completed',
         customer,

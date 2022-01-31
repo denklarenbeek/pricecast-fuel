@@ -1,5 +1,4 @@
 const {getRequest, proxyRequest} = require('./AxiosController');
-const {formatReportData} = require('../utility/formattingData');
 const {cid} = require('../config');
 const { formatAPIUrl } = require('../utility/formatting');
 const mail = require('../utility/email');

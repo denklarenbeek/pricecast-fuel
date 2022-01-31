@@ -10,11 +10,12 @@ block content
             .header-overlay
         .report
             each location in report.locations
+                .container(style='justify-content: start')
+                    h2(id=location.stationId) #{location.name}
                 each product in location.products
                     if product.strategy.vbi.value
                         .product(id=product.productId, data-customer=product.productId).page-end
                             .container
-                                h3(id=location.stationId) #{location.name}
                                 .title-bar 
                                     .title-bar-left
                                         if product.strategy.vbi

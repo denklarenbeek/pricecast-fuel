@@ -1,9 +1,9 @@
 const {Queue} = require('bullmq');
 const uuid = require('uuid');
-const IORedis = require('ioredis');
+const connection = require('../utility/redisConnection');
 const Report = require('../models/Report');
 
-exports.reportQueue = new Queue('reports', { connection: new IORedis(process.env.REDIS_URL) });
+exports.reportQueue = new Queue('reports', { connection });
 
 exports.taskQueue = async (req, res, next) => {
     const uid = uuid.v4();
@@ -21,7 +21,7 @@ exports.taskQueue = async (req, res, next) => {
 
     try {
         const reportsWithName = await Report.find({name: regexp});
-        console.log(reportsWithName);
+
         if(reportsWithName.length) {
             name = `${name}_v${reportsWithName.length + 1}`;
         };
