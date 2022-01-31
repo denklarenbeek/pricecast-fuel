@@ -17,8 +17,8 @@ const socketApi = require('./utility/socket-io');
 const io = socketApi.io;
 io.attach(server);
 
-const redis = require("redis");
-const client = redis.createClient(process.env.REDIS_URL);
+// const redis = require("redis");
+// const client = redis.createClient(process.env.REDIS_URL);
 
 require('dotenv').config({ path: 'variables.env' })
 
@@ -32,10 +32,10 @@ mongoose.connect(process.env.DB_URL, {
 }).catch(err => console.log(err));
 
 //Initialize workers
-client.on('error', (err) => console.log('Redis Client Error', err));
-client.on('connect', () => {
-    console.log('REDIS is connected.....')
-});
+// client.on('error', (err) => console.log('Redis Client Error', err));
+// client.on('connect', () => {
+//     console.log('REDIS is connected.....')
+// });
 // client.connect().then(() => {
 //     console.log('redis connected');
 // }).catch(err => console.log('error', err));
