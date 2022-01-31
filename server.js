@@ -18,7 +18,7 @@ const io = socketApi.io;
 io.attach(server);
 
 const redis = require("redis");
-const client = redis.createClient({url: process.env.REDIS_URL});
+const client = redis.createClient(process.env.REDIS_URL);
 
 require('dotenv').config({ path: 'variables.env' })
 
