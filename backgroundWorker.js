@@ -12,8 +12,6 @@ const ReportWorker = new Worker('reports', async(job) => {
         user: job.data.user
     }
 
-    // console.log(job);
-
     try {
         
         // First create a report based on the ID so on reload we can show that the report is still loading
@@ -28,9 +26,6 @@ const ReportWorker = new Worker('reports', async(job) => {
 
         await Report.create(newReport);
         const data = await requestData(obj, job.id, job.user);
-        // let data = {
-        //     createdBy: 'Dennis'
-        // }
 
         return { msg: 'done', status: 200, data }
 
