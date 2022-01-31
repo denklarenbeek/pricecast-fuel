@@ -75,7 +75,6 @@ exports.authRoute = async (req, res, next) => {
     if(req.session.authenticated) {
         next()
     } else {
-        req.flash('notification', {status: 'error', message: 'You are not allowed to do that'});
         res.redirect('/login')
     }
 }
