@@ -30,7 +30,7 @@ const ReportWorker = new Worker('reports', async(job) => {
         return { msg: 'done', status: 200, data }
 
     } catch (error) {
-        console.log(error);        
+        // console.log(error);        
         console.log(error.message);        
     }
 
