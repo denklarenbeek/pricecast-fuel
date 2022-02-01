@@ -59,7 +59,8 @@
     font-size: 32px;
 }
 
-.product .container {
+.product .container,
+.report .container {
     max-width: 1100px;
 }
 

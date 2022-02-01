@@ -44,21 +44,23 @@ ReportWorker.on('error', err => {
 
 const queueEvents = new QueueEvents('reports', { connection });
 
-queueEvents.on('completed', (job) => {
+queueEvents.on('completed', async (job) => {
     const {jobId, returnvalue} = job;
-    const userID = returnvalue.data.createdBy
-    console.log(`Job ${jobId} which was created by ${userID} has finished`);
-    socketApi.sendNotification(jobId, 'completed', returnvalue.data);
-});
 
-queueEvents.on('progress', (job, response) => {
-    // Job { jobId, data (progress) }
-    console.log('worker in progress!', job);
+    if(!returnvalue) {
+        socketApi.sendNotification(jobId, 'error', 'Something went wrong');
+        await Report.findOneAndUpdate({status: 'failed'});
+        console.log(`${jobId} failed to success`);
+    } else {
+        const userID = returnvalue.data.createdBy
+        console.log(`Job ${jobId} which was created by ${userID} has finished`);
+        socketApi.sendNotification(jobId, 'completed', returnvalue.data);
+    }
 });
 
 queueEvents.on('failed', async (jobId, failedReason) => {
     // jobId received a progress event
-    socketApi.sendNotification(jobId, 'error', failedReason);
+    
     const report = await Report.find({reportId: jobId});
     const newreport = {...report};
     newreport.status = 'failed';
