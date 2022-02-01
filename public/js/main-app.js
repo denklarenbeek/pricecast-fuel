@@ -16,7 +16,7 @@ import {taskStatus} from './modules/taskStatus';
 initialize();
 socket();
 handleFlashMessages();
-taskStatus('JEP');
+taskStatus($('#getActiveJobs'));
 homeTools('#(#home)');
 closeModal($('#chart-modal'));
 check2fa($('#loginForm'))

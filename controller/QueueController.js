@@ -38,6 +38,7 @@ exports.taskQueue = async (req, res, next) => {
         console.log(error);
         req.flash('notification',{status: 'error', message: 'something went wrong'})
         res.redirect('/documents')
+        throw error
     }
 }
 
@@ -46,15 +47,44 @@ exports.cleanQueue = async () => {
 }
 
 exports.getAllJobs = async (req, res) => {
-    console.log(req.query.id);
-    let response;
     if(req.query.id) {
         const id = req.query.id
         const job = await this.reportQueue.getJob(id);
         console.log(job);
         return res.send(job);
     } else {
-        const jobs = await this.reportQueue.getJobs(["completed", "failed", "delayed", "active", "wait", "paused"]);
-        return res.send(jobs);
+        const newJobs = await this.reportQueue.getJobs(["active"]);
+
+        // const newJobs = [];
+
+        // for(const job of jobs) {
+        //     const newJob = {
+        //         id: job.id,
+        //         form: job.data.form,
+        //         created: new Date(job.timestamp),
+        //     };
+
+        //     if(job.finishedOn){
+        //         console.log(job.finishedOn, job.data.form.customer)
+        //         newJob.completed = true
+        //     } else {
+        //         newJob.completed = false
+        //     };
+
+        //     if(job.processedOn){
+        //         newJob.processed = true
+        //     } else {
+        //         newJob.processed = false
+        //     }
+
+        //     newJobs.push(newJob);
+        // }
+
+        // // Sort on created date
+        // newJobs.sort((a, b) => {
+        //     return new Date(b.created)- new Date(a.created)
+        // });
+
+        return res.send(newJobs);
     }
 }

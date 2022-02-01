@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function check2fa (button) {
     if(!button) return
-
+    console.log('button is here!');
     const tokenForm = document.getElementById('tokenForm');
 
     const groupClass = document.createElement('div');
