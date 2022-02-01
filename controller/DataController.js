@@ -99,6 +99,8 @@ exports.requestData = async (req, jobId, user) => {
         };
     }
 
+    try {
+        
     await Promise.all(benchmarkProducts.map(async (product) => {
         const response = await getRequest(`/aggregation?stations=${product.station}&products=${product.product}&from=${product.from_date}&till=${product.till_date}`)
 
@@ -173,6 +175,11 @@ exports.requestData = async (req, jobId, user) => {
     const reportData = await this.formatReportData(returnObj, jobId);
     const savedReport = await Report.findOneAndUpdate({reportId: jobId}, reportData);
     return savedReport
+
+    } catch (error) {
+        console.log('Error occurs', error)
+        throw error
+    }
 
 }
 

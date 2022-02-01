@@ -44,3 +44,17 @@ exports.taskQueue = async (req, res, next) => {
 exports.cleanQueue = async () => {
     await this.reportQueue.obliterate({ force: true });
 }
+
+exports.getAllJobs = async (req, res) => {
+    console.log(req.query.id);
+    let response;
+    if(req.query.id) {
+        const id = req.query.id
+        const job = await this.reportQueue.getJob(id);
+        console.log(job);
+        return res.send(job);
+    } else {
+        const jobs = await this.reportQueue.getJobs(["completed", "failed", "delayed", "active", "wait", "paused"]);
+        return res.send(jobs);
+    }
+}

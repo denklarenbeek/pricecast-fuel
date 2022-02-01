@@ -11,10 +11,12 @@ import {socket} from './modules/socket';
 import {showdropdown, deletePopUp} from './modules/tableClick';
 import {handleFlashMessages} from './modules/flash';
 import {homeTools} from './modules/homeTools';
+import {taskStatus} from './modules/taskStatus';
 
 initialize();
 socket();
 handleFlashMessages();
+taskStatus('JEP');
 homeTools('#(#home)');
 closeModal($('#chart-modal'));
 check2fa($('#loginForm'))
