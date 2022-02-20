@@ -15,6 +15,10 @@ const Products = {
         value: String,
         state: String
     },
+    volumePP: {
+        value: String,
+        state: String
+    },
     volumeDifference: {
         value: String,
         state: String
@@ -31,6 +35,10 @@ const Products = {
         value: String,
         state: String
     },
+    volumePerDayPP: {
+        value: String,
+        state: String
+    },
     volumePerDayDifference: {
         value: String,
         state: String
@@ -40,6 +48,10 @@ const Products = {
         state: String
     },
     marginLY: {
+        value: String,
+        state: String
+    },
+    marginPP: {
         value: String,
         state: String
     },
@@ -55,6 +67,10 @@ const Products = {
         value: String,
         state: String
     },
+    unitMarginPP: {
+        value: String,
+        state: String
+    },
     unitMarginDifference: {
         value: String,
         state: String
@@ -64,6 +80,10 @@ const Products = {
         state: String
     },
     countTransactionsLY: {
+        value: Number,
+        state: String
+    },
+    countTransactionsPP: {
         value: Number,
         state: String
     },
@@ -77,7 +97,8 @@ const Products = {
         state: String
     },
     pricesuggestions: [],
-    dailyVolumes: []
+    dailyVolumes: [],
+    previousPeriod: []
 }
 
 const ReportSchema = new Schema({

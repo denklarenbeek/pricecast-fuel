@@ -130,10 +130,20 @@ exports.requestData = async (req, jobId, user) => {
 
     let stationData = [];
     let benchmarkData = []
+    let stationDataPrevious = [];
 
     const ownStations = [...new Set(products.map(item => item.stationId))];
 
     for(const station of ownStations) {
+
+        if(previousPeriod) {
+            const ownStationPreviousPeriod = dataOfLastPeriod.filter(record => {
+                console.log(typeof(record.stationId), typeof(station))
+                return record.stationId === station
+            });
+            stationDataPrevious = [...stationDataPrevious, ...ownStationPreviousPeriod];
+        }
+
 
         //Filter out the own stations to present in a separate Array;
         const newStation = dataOfPresent.filter(record => {
@@ -164,14 +174,22 @@ exports.requestData = async (req, jobId, user) => {
         name,
         dates: {
             from: req.body.from_date,
-            till: req.body.till_date
+            till: req.body.till_date,
+            tillPP: endDateLastPeriod,
+            fromPP: startDateLastPeriod
         },
         ownStationData: {
             products,
             stations: ownStations,
-            thisYear: stationData
+            thisYear: stationData,
+            previousPeriod: []
         },
         pricesuggestions
+    }
+
+    if(previousPeriod) {
+        console.log('# of objects', stationDataPrevious.length)
+        returnObj.ownStationData.previousPeriod = stationDataPrevious
     }
 
     if(benchmark) {
@@ -284,7 +302,9 @@ exports.formatReportData = async (data, reportID) => {
             from_date: dates.from,
             till_date: dates.till,
             from_dateLY: moment(dates.from).subtract(1, 'years').format('YYYY-MM-DD'),
-            till_dateLY: moment(dates.till).subtract(1, 'years').format('YYYY-MM-DD')
+            till_dateLY: moment(dates.till).subtract(1, 'years').format('YYYY-MM-DD'),
+            from_datePP: moment(dates.fromPP).format('YYYY-MM-DD'),
+            till_datePP: moment(dates.tillPP).format('YYYY-MM-DD')
         },
         locations: []
     };
@@ -302,28 +322,39 @@ exports.formatReportData = async (data, reportID) => {
                 let filteredData = ownStationData.thisYear.filter(item => {
                     return item.productId === product.productId && item.stationId === product.stationId
                 });
+                let filteredDataPreviousPeriod = ownStationData.previousPeriod.filter(item => {
+                    return item.productId === product.productId && item.stationId === product.stationId
+                });
 
                 // Format the volume data per product
                 const totalVolume = filteredData.reduce((sum, record) => { return sum + record.sumVolume}, 0).toFixed(0);
                 const totalVolumeLY = filteredData.reduce((sum, record) => { return sum + record.sumVolumeLY}, 0).toFixed(0);
                 const totalVolumeDifference = formatDifference(totalVolume, totalVolumeLY, 0);
+                const totalVolumePreviousPeriod = filteredDataPreviousPeriod.reduce((sum, record) => { return sum + record.sumVolume}, 0).toFixed(0);
                 const volumePerDay = (totalVolume / daybetween).toFixed(0);
                 const volumePerDayLY = (totalVolumeLY / daybetween).toFixed(0);
+                const volumePerDayPreviousPeriod = (totalVolumePreviousPeriod / daybetween).toFixed(0);
                 const volumePerDayDifference = formatDifference(volumePerDay, volumePerDayLY, 0);
                 const sumMargin = filteredData.reduce((sum, record) => { return sum + record.sumMargin}, 0);
                 const sumMarginLY = filteredData.reduce((sum, record) => { return sum + record.sumMarginLY}, 0);
+                const sumMarginPreviousPeriod = filteredDataPreviousPeriod.reduce((sum, record) => { return sum + record.sumMargin}, 0).toFixed(0);
                 const sumMarginDifference = formatDifference(sumMargin, sumMarginLY, 2);
                 const unitMargin = (sumMargin / totalVolume);
                 const unitMarginLY = (sumMarginLY / totalVolumeLY);
+                const unitMarginPreviousPeriod = (sumMarginPreviousPeriod / totalVolumePreviousPeriod);
                 const unitMarginDifference = formatDifference(unitMargin, unitMarginLY, 4);
                 const countTransactions = filteredData.reduce((sum, record) => { return sum + record.countTransactions}, 0).toFixed(0);
                 const countTransactionsLY = filteredData.reduce((sum, record) => { return sum + record.countTransactionsLY}, 0).toFixed(0);
+                const countTransactionsPreviousPeriod = filteredDataPreviousPeriod.reduce((sum, record) => { return sum + record.countTransactions}, 0).toFixed(0);
                 const countTransactionsDifference = formatDifference(countTransactions, countTransactionsLY, 0);
 
                 // Get the Strategy information of the product
                 const dailyVolumes = filteredData;
                 const stationsPricesuggestions = pricesuggestions.filter(element => element.productId === product.productId && element.stationId === station);
-                const indexArray = (stationsPricesuggestions.length - 1);
+                let indexArray = 0
+                if(stationsPricesuggestions.length > 1) {
+                    indexArray = (stationsPricesuggestions.length - 1);
+                }
                 const latestPricesuggesion = stationsPricesuggestions[indexArray];
 
                 let strategy = {};
@@ -342,31 +373,36 @@ exports.formatReportData = async (data, reportID) => {
                         strategy.volumeIndex = latestPricesuggesion.volumeIndex
                 }
 
-                
-
                 let newProductObj = {
                     productId: product.productId,
                     name: product.name,
                     benchmarkId: product.benchmark,
                     volume: formatNumber(totalVolume, 'number'),
                     volumeLY: formatNumber(totalVolumeLY, 'number'),
+                    volumePP: '',
                     volumeDifference: formatNumber(totalVolumeDifference.number.value, 'number'),
                     volumeDifferencePercentage: formatNumber(totalVolumeDifference.percentage.value, 'percentage'),
                     volumePerDay: formatNumber(volumePerDay, 'number'),
                     volumePerDayLY: formatNumber(volumePerDayLY, 'number'),
+                    volumePerDayPP: '',
                     volumePerDayDifference: formatNumber(volumePerDayDifference.number.value, 'number'),
                     margin: formatNumber(sumMargin, 'currency', 2),
                     marginLY: formatNumber(sumMarginLY, 'currency', 2),
+                    marginPP: '',
                     marginDifference: formatNumber(sumMarginDifference.number.value, 'currency', 2),
                     unitMargin: formatNumber(unitMargin, 'currency', 4),
                     unitMarginLY: formatNumber(unitMarginLY, 'currency', 4),
+                    unitMarginPP: '',
                     unitMarginDifference: formatNumber(unitMarginDifference.number.value, 'currency', 4),
                     countTransactions: formatNumber(countTransactions, 'number'),
                     countTransactionsLY: formatNumber(countTransactionsLY, 'number'),
+                    countTransactionsPP: '',
                     countTransactionsDifference: formatNumber(countTransactionsDifference.number.value, 'number'),
                     strategy,
                     pricesuggestions: stationsPricesuggestions,
                     dailyVolumes: dailyVolumes,
+                    benchmark: [],
+                    previousPeriod: []
                 };
 
                 if(benchamarkStationData) {
@@ -375,6 +411,15 @@ exports.formatReportData = async (data, reportID) => {
                         value: benchMarkData.volumeDifference,
                         state: benchMarkData.volumeDifference > 0 ? 'positive' : 'negative'
                     }
+                }
+
+                if(ownStationData.previousPeriod.length > 0) {
+                    newProductObj.previousPeriod = ownStationData.previousPeriod
+                    newProductObj.countTransactionsPP = formatNumber(countTransactionsPreviousPeriod, 'number')
+                    newProductObj.unitMarginPP = formatNumber(unitMarginPreviousPeriod, 'currency', 4)
+                    newProductObj.marginPP = formatNumber(sumMarginPreviousPeriod, 'currency', 2)
+                    newProductObj.volumePerDayPP = formatNumber(volumePerDayPreviousPeriod, 'number')
+                    newProductObj.volumePP = formatNumber(totalVolumePreviousPeriod, 'number')
                 }
 
                 newStationObj.products.push(newProductObj);

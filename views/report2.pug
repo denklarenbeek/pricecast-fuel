@@ -34,33 +34,45 @@ block content
                                         th(id="report-period") #{report.dates.from_date} - #{report.dates.till_date}
                                         th #{report.dates.from_dateLY} - #{report.dates.till_dateLY}
                                         th Verschil
+                                        if product.previousPeriod.length > 0
+                                            th #{report.dates.from_datePP} - #{report.dates.till_datePP}
                                     tr
                                         td.table-header Totaal Volume 
                                         td #{product.volume.value}
                                         td #{product.volumeLY.value}
                                         td(class=product.volumeDifference.state) #{product.volumeDifference.value} 
+                                        if product.previousPeriod.length > 0
+                                            td #{product.volumePP.value}
                                     tr 
                                         td.table-header Gem. volume per dag
                                         td #{product.volumePerDay.value}
                                         td #{product.volumePerDayLY.value}
                                         td(class=product.volumePerDayDifference.state) #{product.volumePerDayDifference.value}
+                                        if product.previousPeriod.length > 0
+                                            td #{product.volumePerDayPP.value}
                                     tr 
                                         td.table-header Totaal marge
                                         td #{product.margin.value}
                                         td #{product.marginLY.value}
                                         td(class=product.marginDifference.state ) #{product.marginDifference.value}
+                                        if product.previousPeriod.length > 0
+                                            td #{product.marginPP.value}
                                     tr  
                                         td.table-header Marge per liter
                                         td #{product.unitMargin.value}
                                         td #{product.unitMarginLY.value}
                                         td(class=product.unitMarginDifference.state) #{product.unitMarginDifference.value}
+                                        if product.previousPeriod.length > 0
+                                            td #{product.unitMarginPP.value}
                                     tr  
                                         td.table-header Aantal transacties
                                         td #{product.countTransactions.value}
                                         td #{product.countTransactionsLY.value}
                                         td(class=product.countTransactionsDifference.state) #{product.countTransactionsDifference.value}
+                                        if product.previousPeriod.length > 0
+                                            td #{product.countTransactionsPP.value}
                     
-                            if product.benchmark
+                            if product.benchmark.value
                                 .table(style="margin-top: 40px")
                                     table 
                                         tr 
