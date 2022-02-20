@@ -145,6 +145,17 @@ form {
     width: 45%;
 }
 
+.error select, 
+.error input {
+    border-color: red;
+}
+
+.input-error {
+    color: red;
+    margin-top: 10px;
+    font-size: 10px;
+}
+
 
 label {
     font-family: avenirMedium;

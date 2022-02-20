@@ -149,8 +149,11 @@ exports.requestData = async (req, jobId, user) => {
         // console.log(newData);
         benchmarkData = [...benchmarkData, ...newData];
     };
+    let calculatedBenchmark = []
 
-    const calculatedBenchmark = await this.calculateBenchmarkv2(benchmarkData, products);
+    if(benchmark) {
+        calculatedBenchmark = await this.calculateBenchmarkv2(benchmarkData, products);
+    }
     
     const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
 
@@ -168,17 +171,23 @@ exports.requestData = async (req, jobId, user) => {
             stations: ownStations,
             thisYear: stationData
         },
-        benchamarkStationData: calculatedBenchmark,
         pricesuggestions
     }
 
+    if(benchmark) {
+        returnObj.benchamarkStationData = calculatedBenchmark
+    }
+
     const reportData = await this.formatReportData(returnObj, jobId);
+
     const savedReport = await Report.findOneAndUpdate({reportId: jobId}, reportData);
     return savedReport
 
     } catch (error) {
         console.log('Error occurs', error)
-        throw error
+        // Set document status to error
+        const result = await Report.findByIdAndUpdate({reportId: jobId}, {status: 'failed'})
+        // throw error
     }
 
 }
@@ -333,7 +342,7 @@ exports.formatReportData = async (data, reportID) => {
                         strategy.volumeIndex = latestPricesuggesion.volumeIndex
                 }
 
-                const benchMarkData = benchamarkStationData.find(record => record.benchmark === product.benchmark);
+                
 
                 let newProductObj = {
                     productId: product.productId,
@@ -356,13 +365,18 @@ exports.formatReportData = async (data, reportID) => {
                     countTransactionsLY: formatNumber(countTransactionsLY, 'number'),
                     countTransactionsDifference: formatNumber(countTransactionsDifference.number.value, 'number'),
                     strategy,
-                    benchmark: {
-                        value: benchMarkData.volumeDifference,
-                        state: benchMarkData.volumeDifference > 0 ? 'positive' : 'negative'
-                    },
                     pricesuggestions: stationsPricesuggestions,
                     dailyVolumes: dailyVolumes,
                 };
+
+                if(benchamarkStationData) {
+                    const benchMarkData = benchamarkStationData.find(record => record.benchmark === product.benchmark);
+                    newProductObj.benchmark = {
+                        value: benchMarkData.volumeDifference,
+                        state: benchMarkData.volumeDifference > 0 ? 'positive' : 'negative'
+                    }
+                }
+
                 newStationObj.products.push(newProductObj);
             }
         }

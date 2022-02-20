@@ -9,6 +9,8 @@ exports.taskQueue = async (req, res, next) => {
     const uid = uuid.v4();
     const {customer, from_date, till_date} = req.body
 
+    console.log(req.body);
+
     let name = `Report_${customer}_${from_date}-${till_date}`;
 
     let user = '12345678'

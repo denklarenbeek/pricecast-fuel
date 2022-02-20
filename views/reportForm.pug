@@ -4,20 +4,20 @@ block content
     .container.full-page
         .centered-content
             h1 PriceCast Fuel Report 
-            form(action="/report" method="POST")
-                .form-group 
+            form(id="submitFormData" method="POST")
+                .form-group#customer
                     label(for="customer") Klant 
                     select(name="customer" id="customer-selector" required)
                         option(value='empty')
                         each customer in customers
                             option(value=customer) #{customer}
-                .form-group.half
+                .form-group.half#dates
                     label(for="from_date") Vanaf 
                     input(type="date" name="from_date" required)
                 .form-group.half
                     label(for="till_date") Tot 
                     input(type="date" name="till_date" required) 
-                .form-group 
+                .form-group#products
                     label(for="products" id="product-selector") Producten
                     .multi-selector 
                         .list
@@ -40,5 +40,5 @@ block content
                         input(type="radio" name='benchmark' value='false' id='benchmark_false' checked)
                         label(for="benchmark_false" ) No
                 .form-group
-                    input(type="submit", value="Volgende" id="nextBtn")
+                    input(type="submit", value="Volgende")
                                     

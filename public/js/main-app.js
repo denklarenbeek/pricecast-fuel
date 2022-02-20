@@ -1,5 +1,5 @@
 import { $, $$ } from './modules/bling';
-import {generateReport} from './modules/base';
+import {generateReport} from './modules/submitForm';
 import {generatePNG} from './modules/generatePng'
 import {generatePdf} from './modules/generatePdf'
 import {generateChart, closeModal} from './modules/generateChart';
@@ -22,7 +22,7 @@ closeModal($('#chart-modal'));
 check2fa($('#loginForm'))
 generateChart($('#generate-report'))
 showdropdown('#documentTable')
-generateReport($('#nextBtn'))
+generateReport($('#submitFormData'))
 generatePNG($$('.downloadImage'))
 generatePdf($('#customer-report'))
 loadProducts($('#product-selector'))
