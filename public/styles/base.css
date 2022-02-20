@@ -156,7 +156,6 @@ form {
     font-size: 10px;
 }
 
-
 label {
     font-family: avenirMedium;
     font-weight: bold;
@@ -206,6 +205,29 @@ input, select {
     width: 15px;
     top: 6px;
     color: var(--light-blue)
+}
+
+#location-list {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 10px 20px;
+}
+
+#location-list label {
+    width: 48%;
+}
+
+.location-span {
+    font-size: 12px;
+}
+
+.location-list-item {
+    height: auto;
+    width: auto;
+    margin-left: 24px;
 }
 
 .list {

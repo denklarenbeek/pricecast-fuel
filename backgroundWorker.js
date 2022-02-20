@@ -49,8 +49,8 @@ queueEvents.on('completed', async (job) => {
 
     if(!returnvalue) {
         socketApi.sendNotification(jobId, 'error', 'Something went wrong');
-        await Report.findOneAndUpdate({status: 'failed'});
-        console.log(`${jobId} failed to success`);
+        const response = await Report.find({reportId: jobId});
+        console.log(`${jobId} failed to success`, response);
     } else {
         const userID = returnvalue.data.createdBy
         console.log(`Job ${jobId} which was created by ${userID} has finished`);

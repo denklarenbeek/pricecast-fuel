@@ -11,6 +11,9 @@ block content
                         option(value='empty')
                         each customer in customers
                             option(value=customer) #{customer}
+                    #location-list 
+                        //- Product are put in programmatic
+
                 .form-group.half#dates
                     label(for="from_date") Vanaf 
                     input(type="date" name="from_date" required)
