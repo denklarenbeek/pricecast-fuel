@@ -65,7 +65,7 @@ queueEvents.on('failed', async (jobId, failedReason) => {
     const newreport = {...report};
     newreport.status = 'failed';
     await Report.findOneAndUpdate({reportId: jobId}, newreport);
-    console.log(jobId, failedReason);
+    console.log('FAILED', jobId, failedReason);
 });
 
 module.exports = ReportWorker;

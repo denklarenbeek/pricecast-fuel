@@ -63,7 +63,7 @@ exports.requestData = async (req, jobId, user) => {
         for(const id of benchmarkIds) {
             allProducts.map(productM => {          
                 console.log(periodOfComparison)
-                if(productM.benchmark === id && periodOfComparison < 6.5){
+                if(productM.benchmark === id && periodOfComparison < 6.5 && productM !== 0){
                     let productObj = {
                         from_date: from_dateIso,
                         till_date: till_dateIso,
@@ -71,7 +71,7 @@ exports.requestData = async (req, jobId, user) => {
                         product: productM.productId
                     }
                     benchmarkProducts.push(productObj);
-                } else if(productM.benchmark === id && periodOfComparison > 6.5) {
+                } else if(productM.benchmark === id && productM !== 0 && periodOfComparison > 6.5) {
                     //TODO: CREATE A MONTLY BASED REQUEST
                     console.log(`Requested period ${productM.benchmark} is longer then 6 months ${periodOfComparison}`)
                 }
@@ -226,7 +226,7 @@ exports.calculateBenchmarkv2 = async (info, products) => {
 exports.getPriceSuggestions = async (products, from, till) => {
     let pricesuggestions = [];
     // console.log(products);
-    await Promise.allSettled(products.map(async (product) => {
+    await Promise.all(products.map(async (product) => {
         const response = await getRequest(`/pricesuggestions?stations=${product.stationId}&products=${product.productId}&from=${from}&till=${till}`)
         pricesuggestions = [...pricesuggestions, ...response.data];
     }));
@@ -316,20 +316,22 @@ exports.formatReportData = async (data, reportID) => {
                 const stationsPricesuggestions = pricesuggestions.filter(element => element.productId === product.productId && element.stationId === station);
                 const indexArray = (stationsPricesuggestions.length - 1);
                 const latestPricesuggesion = stationsPricesuggestions[indexArray];
+
+                let strategy = {};
                 
-                let strategy = {
-                    name: latestPricesuggesion.strategy,
-                    minBandwith: parseFloat(latestPricesuggesion.raipriceBoundaryMin - latestPricesuggesion.minCompetitorPrice).toFixed(3),
-                    maxBandwith: parseFloat(latestPricesuggesion.raipriceBoundaryMax - latestPricesuggesion.minCompetitorPrice).toFixed(3),
-                    intensity: latestPricesuggesion.intensity,
-                    bandwithBehaviour: latestPricesuggesion.boundaryBehaviour,
-                    vbi: {
-                        state: vbiState(latestPricesuggesion.vbi),
-                        value: latestPricesuggesion.vbi,
-                        date: formatDate(latestPricesuggesion.timestamp, 'YYYY-MM-DD (HH:MM:SS)')
-                    },
-                    volumeIndex: latestPricesuggesion.volumeIndex
-                };
+                if(latestPricesuggesion) {
+                        strategy.name = latestPricesuggesion.strategy || stationsPricesuggestions[0].strategy,
+                        strategy.minBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMin - latestPricesuggesion.minCompetitorPrice).toFixed(3),
+                        strategy.maxBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMax - latestPricesuggesion.minCompetitorPrice).toFixed(3),
+                        strategy.intensity = latestPricesuggesion.intensity,
+                        strategy.bandwithBehaviour = latestPricesuggesion.boundaryBehaviour,
+                        strategy.vbi = {
+                            state: vbiState(latestPricesuggesion.vbi),
+                            value: latestPricesuggesion.vbi,
+                            date: formatDate(latestPricesuggesion.timestamp, 'YYYY-MM-DD (HH:MM:SS)')
+                        },
+                        strategy.volumeIndex = latestPricesuggesion.volumeIndex
+                }
 
                 const benchMarkData = benchamarkStationData.find(record => record.benchmark === product.benchmark);
 

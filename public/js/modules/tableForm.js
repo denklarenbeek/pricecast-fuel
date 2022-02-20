@@ -44,7 +44,9 @@ export async function loadProducts (productInput) {
 
         // Get the products of the selected CID
         const {stations} = JSON.parse(window.localStorage.getItem('stations'));
-        const relatedStations = stations.filter(station => station.cid === cid);        
+        const relatedStations = stations.filter(station => station.cid === cid);  
+        
+        console.log('related stations', relatedStations)
 
         try {
 

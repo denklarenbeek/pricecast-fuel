@@ -15,6 +15,7 @@ async function formatInitialData (data) {
 async function setInitialData () {
     try {
         const newStations = await axios.get(`${window.location.protocol}//${window.location.host}/api/station`);
+        console.log(newStations)
         const filteredData = await formatInitialData(newStations.data);
         const stationsObj = {
             created: Date.now(),
