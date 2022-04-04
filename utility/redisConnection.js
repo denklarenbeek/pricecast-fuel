@@ -1,7 +1,7 @@
 const IORedis = require('ioredis');
 
 const options = {
-    maxRetriesPerRequest: 5,
+    maxRetriesPerRequest: null,
     enableReadyCheck: false
 };
 

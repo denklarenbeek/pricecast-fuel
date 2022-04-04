@@ -69,8 +69,8 @@ export function generateReport (form) {
             try {
                 // SET THE BUTTON TO A LOAD BUTTON
                 console.log('loading.....', inputData, errors)
-                // await axios.post(`${window.location.protocol}//${window.location.host}/report`, inputData);
-                // window.location.href = '/documents'
+                await axios.post(`${window.location.protocol}//${window.location.host}/report`, inputData);
+                window.location.href = '/documents'
             
             } catch (error) {
                 submitButton.innerHTML = 'Error'

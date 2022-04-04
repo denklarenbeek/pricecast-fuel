@@ -1,0 +1,17 @@
+.jobs-item-row {
+    display: flex;
+    /* justify-content: space-between; */
+    border: 1px solid black;
+    padding: 0 10px;
+    margin-top: 10px;
+}
+
+.jobs-item-row-name {
+    width: 240px;
+}
+
+.jobs-item-row-remove {
+    margin-left: auto;
+    cursor: pointer;
+}
+

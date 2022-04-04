@@ -41,49 +41,35 @@ exports.taskQueue = async (req, res, next) => {
     }
 }
 
-exports.cleanQueue = async () => {
-    await this.reportQueue.obliterate({ force: true });
+exports.cleanQueue = async (req, res) => {
+    try {
+        console.log('received delete request');
+        await this.reportQueue.obliterate({ force: true });
+        res.json({
+            status: 'success',
+            msg: 'done'
+        })
+    
+    } catch (error) {
+        res.status(200).send({
+            status: 'error',
+            msg: error
+        })    
+    }
 }
 
-exports.getAllJobs = async (req, res) => {
-    if(req.query.id) {
-        const id = req.query.id
-        const job = await this.reportQueue.getJob(id);
-        console.log(job);
-        return res.send(job);
-    } else {
-        const newJobs = await this.reportQueue.getJobs(["active"]);
+exports.getJobs = async (req, res) => {
+    let newJobs = [];
 
-        // const newJobs = [];
-
-        // for(const job of jobs) {
-        //     const newJob = {
-        //         id: job.id,
-        //         form: job.data.form,
-        //         created: new Date(job.timestamp),
-        //     };
-
-        //     if(job.finishedOn){
-        //         console.log(job.finishedOn, job.data.form.customer)
-        //         newJob.completed = true
-        //     } else {
-        //         newJob.completed = false
-        //     };
-
-        //     if(job.processedOn){
-        //         newJob.processed = true
-        //     } else {
-        //         newJob.processed = false
-        //     }
-
-        //     newJobs.push(newJob);
-        // }
-
-        // // Sort on created date
-        // newJobs.sort((a, b) => {
-        //     return new Date(b.created)- new Date(a.created)
-        // });
-
-        return res.send(newJobs);
+    if(req.query.status) {
+        const statusJobs = await this.reportQueue.getJobs([req.query.status]);
+        newJobs = [...statusJobs];
     }
+
+    return res.send(newJobs);
+}
+
+exports.deleteJob = async (req, res) => {
+    console.log('ID to delete', req.body);
+    res.send({msg: 'oke'})
 }

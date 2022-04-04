@@ -18,6 +18,7 @@
 :root {
     --blue: #002F49;
     --light-blue: #04A4FF;
+    --red: #d24d57;
     --grey: #D3D3D3;
     --green: #39C538;
     --select-border: #777;
@@ -296,6 +297,12 @@ input[type='submit']:disabled, button[type='submit']:disabled {
     font-size: 14px;
     cursor: pointer;
     margin-top: 20px;
+}
+
+.btn.error {
+    background-color: var(--red);
+    color: white;
+    cursor: not-allowed;
 }
 
 .forgot-password-text {

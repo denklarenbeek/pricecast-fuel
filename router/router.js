@@ -5,7 +5,7 @@ const {reportForm, getReport, getAllReports, deleteReport, getOneReport} = requi
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts} = require('../controller/ApiController');
 const {adminSettings, createNewProduct, checkQueue} = require('../controller/SettingsController');
-const {taskQueue, cleanQueue, getAllJobs} = require('../controller/QueueController');
+const {taskQueue, cleanQueue, getJobs, deleteJob} = require('../controller/QueueController');
 
 router.get('/', authRoute, (req, res) => {
     res.render('home', {
@@ -52,12 +52,7 @@ router.get('/api/products', getAllProducts);
 router.get('/api/getqueue', checkQueue);
 router.delete('/api/report/:report', deleteReport);
 router.get('/api/report/:report', getOneReport);
-router.get('/api/tasks', getAllJobs);
-router.get('/api/queue/clean', async (req, res) => {
-
-    const x = await cleanQueue('report');
-    res.send({msg: 'done'});
-})
-
+router.get('/api/queue/jobs', getJobs);
+router.delete('/api/queue/clean', cleanQueue)
 
 module.exports = router;
