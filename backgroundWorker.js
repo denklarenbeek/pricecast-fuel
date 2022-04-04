@@ -36,11 +36,11 @@ const ReportWorker = new Worker('reports', async(job) => {
 
 }, { connection });
 
-ReportWorker.on('error', err => {
-    console.log('error occurred')
-    console.log(err);
-    socketApi.sendNotification(jobId, 'error', err);
-});
+// ReportWorker.on('error', err => {
+//     console.log('error occurred')
+//     console.log(err);
+//     socketApi.sendNotification(null, 'error', err);
+// });
 
 const queueEvents = new QueueEvents('reports', { connection });
 
@@ -58,14 +58,19 @@ queueEvents.on('completed', async (job) => {
     }
 });
 
-queueEvents.on('failed', async (jobId, failedReason) => {
+queueEvents.on('failed', async (jobId) => {
     // jobId received a progress event
-    
-    const report = await Report.find({reportId: jobId});
-    const newreport = {...report};
-    newreport.status = 'failed';
-    await Report.findOneAndUpdate({reportId: jobId}, newreport);
-    console.log('FAILED', jobId, failedReason);
+    socketApi.sendNotification(null, 'error', {jobId, msg: 'error occurs in the on failed handler'});
+    // const report = await Report.find({reportId: jobId});
+    // const newreport = {...report};
+    // newreport.status = 'failed';
+    // await Report.findOneAndUpdate({reportId: jobId}, newreport);
+    // console.log('FAILED', jobId, failedReason);
+});
+
+queueEvents.on('error', async (jobId) => {
+    socketApi.sendNotification(null, 'error', {jobId, msg: 'Error occurs in the error handler'});
+    console.log('erros occurs in the queue, catched by the on error handler')
 });
 
 module.exports = ReportWorker;
