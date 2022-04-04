@@ -152,7 +152,7 @@ export function shareReport (button) {
                 } 
                 try {
                     console.log(selectInput.value);
-                    const userid = '61dc64484cbea38bb8f932db'
+                    const userid = selectInput.dataset.userid
                     const result = await axios.get(`${window.location.protocol}//${window.location.host}/api/sharereport?id=${documentid}&shared=${userid}`);
                     window.location.href = '/documents';
 
@@ -180,12 +180,11 @@ export function shareReport (button) {
                         const nameRow = document.createElement('p');
                         nameRow.classList.add('nameRow');
                         nameRow.innerHTML =  user.name
-                        nameRow.setAttribute('user', user.name)
+                        nameRow.setAttribute('user', user._id)
 
                         nameRow.addEventListener('click', (e) => {
-                            console.log(user);
                             selectInput.value = user.name;
-                            selectInput.dataset.reportid = user._id
+                            selectInput.dataset.userid = user._id
                             rowContainer.remove();
                         });
 
