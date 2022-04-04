@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {reportForm, getReport, getAllReports, deleteReport, getOneReport} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
-const {getProductsByCid, getAllStations, generateReport, checkConnection} = require('../controller/ApiController');
+const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts} = require('../controller/ApiController');
 const {adminSettings, createNewProduct, checkQueue} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue, getAllJobs} = require('../controller/QueueController');
 
@@ -48,6 +48,7 @@ router.get('/api/station/:stationId/products', getProductsByCid)
 router.get('/api/station', getAllStations)
 router.get('/api/connection', checkConnection)
 router.post('/api/product', createNewProduct);
+router.get('/api/products', getAllProducts);
 router.get('/api/getqueue', checkQueue);
 router.delete('/api/report/:report', deleteReport);
 router.get('/api/report/:report', getOneReport);
