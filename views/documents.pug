@@ -32,7 +32,7 @@ block content
                                     .report-dropdown(data-dropdownid=report.reportId) 
                                         p.report-dropdown-item(onClick=`window.location.href="/documents/${report.reportId}"`) Watch
                                         p.report-dropdown-item.sharebutton(data-reportid=report.reportId) Share Report
-                                        p.report-dropdown-item Delete
+                                        p.report-dropdown-item.delete-row(data-reportid=report.reportId) Delete
 
                                 if report.status === 'inprogress'
                                     i(class="fas fa-spinner loading-spinner" data-clickable='false')
