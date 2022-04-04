@@ -130,6 +130,9 @@ const ReportSchema = new Schema({
     ]
 });
 
+ReportSchema.index({sharedWith: 1 });
+ReportSchema.index({reportId: 1 });
+
 const Report = mongoose.model('Report', ReportSchema);
 
 

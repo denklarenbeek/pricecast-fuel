@@ -269,16 +269,21 @@ input, select {
 
 }
 
-input[type='submit'] {
+input[type='submit'], button[type='submit'] {
     background: var(--light-blue);
     border-radius: 24px;
     height: 44px;
     width: 50%;
     margin-right: auto;
-    margin-left: auto;
+    /* margin-left: auto; */
     color: white;
     border: none;
     cursor: pointer;
+}
+
+input[type='submit']:disabled, button[type='submit']:disabled {
+    background: var(--select-focus);
+    cursor: not-allowed;
 }
 
 .btn {
@@ -298,3 +303,31 @@ input[type='submit'] {
     margin-top: 10px;
 }
 
+#tokenForm input[type='tel'] {
+    height: 100px;
+    font-size: 45px;
+    letter-spacing: 32px;
+    width: 320px;
+    min-width: 370px;
+    padding-left: 24px;
+    border: 0;
+    outline: none;
+    background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 60px 1px;
+    background-repeat: repeat-x;
+    background-position-x: 52px;
+    padding: 0;
+    padding-left: 24px;
+}
+
+#tokenForm input::-webkit-outer-spin-button,
+#tokenForm input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+#tokenForm input[type=number] {
+  -moz-appearance: textfield;
+}

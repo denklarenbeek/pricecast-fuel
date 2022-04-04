@@ -15,9 +15,10 @@ export async function check2fa (button) {
     groupClass.appendChild(label);
 
     const input = document.createElement('input');
-    input.setAttribute('type', 'number');
+    input.setAttribute('type', 'tel');
     input.setAttribute('name', 'token');
     input.setAttribute('id', 'token');
+    input.setAttribute('maxlength', 6);
 
     groupClass.appendChild(input);
 

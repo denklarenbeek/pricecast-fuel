@@ -5,7 +5,8 @@ export function generateReport (form) {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
+        
+        const submitButton = form.querySelector('button[type="submit"]');
         /*
             FORM VALIDATION
                 1. Get all the input fields
@@ -19,6 +20,8 @@ export function generateReport (form) {
         const inputData = Object.fromEntries(data.entries());
         const {customer, from_date, till_date, benchmark, comparison} = inputData;
 
+        // console.log(inputData);
+
         let errors = [];
 
         // Check if there is an input field starts with product
@@ -31,8 +34,10 @@ export function generateReport (form) {
             errors.push(errormessage)
         };
 
-        if(customer === 'empty') {
-            let errormessage = {msg: 'Customer field is empty', field: 'customer'}
+        // Check if there is an input field starts with location-
+        const selectedLocations = Object.keys(inputData).filter(input => input.startsWith('location-'));
+        if(selectedLocations === 'empty') {
+            let errormessage = {msg: 'Location field is empty, please select at leat one location', field: 'customer'}
             errors.push(errormessage);
             console.log('Customer field is empty')
         }
@@ -51,24 +56,30 @@ export function generateReport (form) {
                 errorSpan.innerHTML = error.msg
                 // find the right id element
                 const idElement = document.getElementById(error.field);
+                console.log(error.field, idElement);
                 // add span element
                 idElement.classList.add('error')
                 idElement.appendChild(errorSpan);
             })
         } else {
+            // Set the button to a spinner
+            submitButton.innerHTML = '<i class="fas fa-spinner loading-spinner"></i>'
+            submitButton.disabled = true;
             // AXIOS POST TO BACKEND && ROUTE TO DOCUMENTS PAGE
             try {
-                const result = await axios.post(`${window.location.protocol}//${window.location.host}/report`, inputData);
-                window.location.href = '/documents'
+                // SET THE BUTTON TO A LOAD BUTTON
+                console.log('loading.....', inputData, errors)
+                // await axios.post(`${window.location.protocol}//${window.location.host}/report`, inputData);
+                // window.location.href = '/documents'
             
             } catch (error) {
+                submitButton.innerHTML = 'Error'
                 console.log(error)
             }
         }
         
         // const overlay = document.getElementById('overlay');
         // overlay.classList.add('show');
-        console.log('loading.....', inputData, errors)
     });
 };
 

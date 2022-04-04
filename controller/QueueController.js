@@ -9,8 +9,6 @@ exports.taskQueue = async (req, res, next) => {
     const uid = uuid.v4();
     const {customer, from_date, till_date} = req.body
 
-    console.log(req.body);
-
     let name = `Report_${customer}_${from_date}-${till_date}`;
 
     let user = '12345678'
@@ -19,7 +17,6 @@ exports.taskQueue = async (req, res, next) => {
     }
 
     const regexp = new RegExp("^"+ name);
-
 
     try {
         const reportsWithName = await Report.find({name: regexp});
@@ -31,7 +28,7 @@ exports.taskQueue = async (req, res, next) => {
         req.body.name = name;
 
 
-        console.log('try to add the job');
+        console.log('try to add the job', req.body);
         const job = await this.reportQueue.add(uid, {form: req.body, user}, {jobId: uid});
 
         req.flash('notification', {status: 'success', message: `Your task <a href='/documents/${uid}' style='color: white'>${uid}</a> successfully started. Check this page in a couple of minutes`});   

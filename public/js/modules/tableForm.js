@@ -30,8 +30,6 @@ const createInput = (type, options) => {
     if(options.checked) {
         input.checked = options.checked
     }
-
-    console.log(input);
     return input
     
 }
@@ -44,6 +42,7 @@ function insertProducts (products) {
     products.forEach(product => {
         const label = document.createElement('label');
         label.classList.add("task");
+        console.log(product.name);
         label.setAttribute('for', product.name)
 
         const span = document.createElement('span');
@@ -52,7 +51,7 @@ function insertProducts (products) {
 
         label.appendChild(span);
 
-        const input = createInput('checkbox', {name: `product-${product.id}`, value: `${product.name}`, id: `${product.name}`, classnameList: ['select-input'], checked: false})
+        const input = createInput('checkbox', {name: `product-${product.productId}`, value: `${product.name}`, id: `${product.name}`, classnameList: ['select-input'], checked: false})
 
         label.appendChild(input);
 
@@ -74,17 +73,19 @@ export async function loadProducts (productInput) {
 
         // Get the products of the selected CID and filter on pricing enabled
         const {stations} = JSON.parse(window.localStorage.getItem('stations'));
-        const relatedStations = stations.filter(station => station.cid === cid && station.properties.propertyMap.pricingEnabled === 'true');  
+        const relatedStations = stations.filter(station => station.cid === cid );  
         
         // Add the related stations to the form as checkboxes
-        
+       
         const locationContainer = document.getElementById('location-list');
         locationContainer.innerHTML = '';
 
         for(const location of relatedStations) {
+            const isActive =  (location.properties.propertyMap.pricingEnabled === 'true')
+
             const label = document.createElement('label');
             label.classList.add('location')
-            label.setAttribute('for', location.name)
+            label.setAttribute('for', `location-${location.id}`)
 
             const span = document.createElement('span');
             span.classList.add('location-span');
@@ -92,35 +93,49 @@ export async function loadProducts (productInput) {
 
             label.appendChild(span);
 
-            const input = createInput('checkbox', {name: `location-${location}`, value: `${location}`, id: `location-${location}`, classnameList: ['location-list-item'], checked: true, disabled: true})
+            const input = createInput('checkbox', {name: `location-${location.id}`, value: `${location.name}`, id: `location-${location.id}`, classnameList: ['location-list-item'], checked: isActive})
             label.appendChild(input);
             locationContainer.appendChild(label)
         }
 
         console.log('related stations', relatedStations)
 
-        try {
+        const {products} = JSON.parse(window.localStorage.getItem('products'));
 
-            const newProducts = relatedStations.map(async station => {
-                return await axios.get(`${window.location.protocol}//${window.location.host}/api/station/${station.id}/products`);
-            });
-            Promise.all(newProducts).then((response) => {
-                console.log('products', response);
+        let productsArr = [];
 
-                let arrProd = []
-                response.forEach(station => {
-                    const newobj = [...arrProd, ...station.data.products];
-                    arrProd = newobj;
-                })
-                const key = 'id';
-                const uniqueProducts = [...new Map(arrProd.map(item => [item[key], item])).values()];
+        relatedStations.map(station => {
+            const relatedProducts = products.filter(product => product.stationId === station.id);
+            productsArr = [...productsArr, ...relatedProducts];
+        });
 
-                const filtereduniqueProducts = uniqueProducts.filter(item => item.name.toLowerCase() !== 'totaal' && item.name.toLowerCase() !== 'total')
-                insertProducts(filtereduniqueProducts);
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        const x = productsArr.filter((v,i,a)=>a.findIndex(v2=>(v2.productId===v.productId))===i)
+
+        console.log(x);
+        insertProducts(x);
+
+        // try {
+
+        //     const newProducts = relatedStations.map(async station => {
+        //         return await axios.get(`${window.location.protocol}//${window.location.host}/api/station/${station.id}/products`);
+        //     });
+        //     Promise.all(newProducts).then((response) => {
+        //         console.log('products', response);
+
+        //         let arrProd = []
+        //         response.forEach(station => {
+        //             const newobj = [...arrProd, ...station.data.products];
+        //             arrProd = newobj;
+        //         })
+        //         const key = 'id';
+        //         const uniqueProducts = [...new Map(arrProd.map(item => [item[key], item])).values()];
+
+        //         const filtereduniqueProducts = uniqueProducts.filter(item => item.name.toLowerCase() !== 'totaal' && item.name.toLowerCase() !== 'total')
+        //         insertProducts(filtereduniqueProducts);
+        //     });
+        // } catch (error) {
+        //     console.log(error);
+        // }
     })
 
 }

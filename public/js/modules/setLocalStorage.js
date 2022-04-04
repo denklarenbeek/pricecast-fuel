@@ -6,7 +6,7 @@ async function formatInitialData (data) {
 
     // filter out al not active stations
     const filteredData = stations.filter(station => {
-        return (station.properties.propertyMap.pricingEnabled === "true" && cid.indexOf(station.cid) !== -1)
+        return (cid.indexOf(station.cid) !== -1)
     });
 
     return {filteredData, cid};
@@ -15,17 +15,24 @@ async function formatInitialData (data) {
 async function setInitialData () {
     try {
         const newStations = await axios.get(`${window.location.protocol}//${window.location.host}/api/station`);
-        console.log(newStations)
+        const newProducts = await axios.get(`${window.location.protocol}//${window.location.host}/api/products`);
+        console.log('newproducts', newProducts)
         const filteredData = await formatInitialData(newStations.data);
         const stationsObj = {
             created: Date.now(),
             stations: filteredData.filteredData,
             cid: filteredData.cid
         }
+        const productsObj = {
+            created: Date.now(),
+            products: newProducts.data
+        }
+        const localProductsData = JSON.stringify(productsObj);
         const localStationData = JSON.stringify(stationsObj);
         window.localStorage.setItem('stations', localStationData);
+        window.localStorage.setItem('products', localProductsData);
         console.log('received data from API & set localstorage')
-        return stationsObj;
+        return {stationsObj, productsObj};
         
     } catch (error) {
         console.log(error);
@@ -70,7 +77,8 @@ export async function initialize (param) {
     } else {
         console.log('no localStorage')
         try {             
-            stations = await setInitialData();
+            const result = await setInitialData();
+            stations = result.stationsObj
             console.log('created localstorage')
         } catch (error) {
             console.error(error);

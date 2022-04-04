@@ -11,6 +11,10 @@ io.on('connection', (socket) => {
 socketApi.sendNotification = (jobId, status, data) => {
   
   io.sockets.emit('reportstatus', {jobId, status, data})
+
+  if(status === 'error') {
+    console.log('some error has occurred', data);
+  }
 }
 
 module.exports = socketApi;
