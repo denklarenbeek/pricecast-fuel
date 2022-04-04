@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const {reportForm, getReport, getAllReports, deleteReport, getOneReport} = require('../controller/ReportController');
+const {reportForm, getReport, getAllReports, deleteReport, getOneReport, sharereport} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
-const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts} = require('../controller/ApiController');
+const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts, autoCompleteUsers} = require('../controller/ApiController');
 const {adminSettings, createNewProduct, checkQueue} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue, getJobs, deleteJob} = require('../controller/QueueController');
 
@@ -54,5 +54,7 @@ router.delete('/api/report/:report', deleteReport);
 router.get('/api/report/:report', getOneReport);
 router.get('/api/queue/jobs', getJobs);
 router.delete('/api/queue/clean', cleanQueue)
+router.get('/api/users', autoCompleteUsers);
+router.get('/api/sharereport', sharereport)
 
 module.exports = router;

@@ -28,11 +28,10 @@ block content
                             td #{report.createdBy.name}
                             td(data-clickable='false' data-rowid=report.reportId class='td-action' style='display: flex; justify-content: center; align-items: center; border: none')
                                 if report.status === 'completed'
-                                    p(class='dropdown-icon' style="font-family: 'avenirBold'; font-size: 16px") ...
+                                    p(class='dropdown-icon') ...
                                     .report-dropdown(data-dropdownid=report.reportId) 
                                         p.report-dropdown-item(onClick=`window.location.href="/documents/${report.reportId}"`) Watch
-                                        p.report-dropdown-item(class='edit-item') Edit
-                                        p.report-dropdown-item Share Report
+                                        p.report-dropdown-item.sharebutton(data-reportid=report.reportId) Share Report
                                         p.report-dropdown-item Delete
 
                                 if report.status === 'inprogress'

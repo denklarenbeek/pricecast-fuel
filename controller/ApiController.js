@@ -81,6 +81,8 @@ exports.autoCompleteUsers = async (req, res, next) => {
         }
     })
     // limit to only 5 results
-    .limit(5);
+    .limit(5)
+    .select(["name", "email", "_id"]);
+
     res.json(users);
 }

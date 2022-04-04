@@ -13,6 +13,7 @@ import {handleFlashMessages} from './modules/flash';
 import {homeTools} from './modules/homeTools';
 import {taskStatus} from './modules/taskStatus';
 import {pagination} from './modules/tableClick';
+import {shareReport} from './modules/tableClick'
 
 initialize();
 socket();
@@ -30,3 +31,4 @@ loadProducts($('#product-selector'))
 navigation($('.navbar_button'))
 deletePopUp($('#documentTable'))
 pagination($('.pagination'))
+shareReport($$('.sharebutton'))

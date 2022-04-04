@@ -37,3 +37,43 @@ span.pagenumbers {
     margin-left: 10px;
     vertical-align: middle;
 }
+
+.search-user-container {
+    background: white;
+    width: 80%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.search-user-container input {
+    width: 60%;
+    position: relative;
+}
+
+.search-user-results {
+    position: absolute;
+    background: white;
+    width: 48%;
+}
+
+
+.search-user-results p {
+    cursor: pointer;
+    margin: 0;
+    padding: 30px 15px;
+    margin-bottom: 1px solid var(--grey);
+}
+
+.search-user-results p:hover {
+    background: var(--grey)
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}

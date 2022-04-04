@@ -1,6 +1,7 @@
 const Report = require('../models/Report');
 const {cid} = require('../config');
 const moment = require('moment');
+const mongoose = require('mongoose');
 
 exports.reportForm = async (req, res, next) => {
     const customers = cid
@@ -92,4 +93,33 @@ exports.deleteReport = async (req, res, next) => {
         console.log(error);
        return res.status(500);
     }
+}
+
+exports.sharereport = async (req, res, next) => {
+
+    const id = req.query.id;
+    const sharedWith = req.query.shared
+    try {
+        
+        
+        const report = await Report.findOne({reportId: id});
+        const newReport = report;
+        const newId = mongoose.Types.ObjectId(sharedWith);
+        console.log(newId)
+        const isAlreadyThere = newReport.sharedWith.includes(sharedWith);
+
+        if(isAlreadyThere) {
+            req.flash('notification', {status: 'error', message: 'That user already had access'});
+            return res.send({status: "error", msg: "that one already has access"})
+        } else {
+            newReport.sharedWith.push(newId);
+        }   
+
+        const result = await Report.findOneAndUpdate({reportId: id}, newReport, {new: true});
+        req.flash('notification', {status: 'success', message: 'shared the document with the user'});
+        res.send({status: 'success' })
+    } catch (error) {
+        req.flash('notification', {status: 'error', message: 'Something went wrong while sharing'});
+    }
+
 }

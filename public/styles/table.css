@@ -72,6 +72,7 @@ td.positive {
     position: relative;
     height: 50px;
     cursor: pointer;
+    padding: 0;
 }
 
 .popup-container {
@@ -113,10 +114,10 @@ td.positive {
     position: absolute;
     background-color: white;
     top: 50px;
-    right: 8px;
+    right: -1px;
     /* padding: 20px 20px; */
     z-index: 99;
-    width: 120px;
+    width: 140px;
     text-align: center;
     border: 1px solid var(--grey);
     border-radius: 2px 2px 0px 0px;
@@ -138,4 +139,11 @@ td.positive {
 
 td[data-table-entity="id"].open {
     display: block;
+}
+
+.dropdown-icon {
+    font-family: 'avenirBold';
+    font-size: 16px; 
+    padding: 15px;
+    margin: 0;
 }
