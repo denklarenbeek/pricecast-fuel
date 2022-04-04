@@ -19,15 +19,22 @@ exports.getReport = async (req, res, next) => {
 }
 
 exports.getAllReports = async (req, res, next) => {
+    let items_per_page = 10;
+    let actual_page = 0;
+
+    if(req.query.page && req.query.page !== 1) {
+        actual_page = req.query.page - 1
+    } 
+
     const id = req.session.user._id;
 
     const administrator = req.session.user.administrator;
     let reports;
 
     if(!administrator) {
-        reports = await Report.find({sharedWith: id}).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find({sharedWith: id}).limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
     } else {
-        reports = await Report.find().sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find().limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
     }
     
     for(let i = 0; i < reports.length; i++) {
@@ -35,7 +42,13 @@ exports.getAllReports = async (req, res, next) => {
         reports[i].newDate = newCreated;
     }
 
-    res.render('documents', {reports});
+    const count_of_documents = await Report.countDocuments();
+    const pages = Math.ceil(count_of_documents / items_per_page);
+    const page = actual_page + 1;
+
+    console.log( pages, page, count_of_documents )
+
+    res.render('documents', {reports, page, quantity: count_of_documents, pages, per_page: items_per_page });
 };
 
 exports.getOneReport = async(req, res) => {

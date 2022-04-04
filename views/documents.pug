@@ -1,9 +1,15 @@
 extends layout.pug
 
 block content
-    .container.full-page
+    .container
         .centered-content(style='width: 90%')
+            - var documentsEnd = (page * per_page)
+            - var documentsBegin = (documentsEnd - (per_page - 1))
             h2 All Documents
+                if page === pages  
+                    span.pagenumbers (#{documentsBegin} - #{quantity})
+                else 
+                    span.pagenumbers (#{documentsBegin} - #{documentsEnd})
 
             .table.documents
                 table(id='documentTable')
@@ -33,4 +39,8 @@ block content
                                     i(class="fas fa-spinner loading-spinner" data-clickable='false')
                                 if report.status === 'failed'
                                     i(class="fas fa-exclamation-triangle" data-clickable='false')
-    
+                
+                - var n = 1
+                .pagination
+                    while n <= pages
+                        p.page(class=(n === page ? 'actual' : '') data-pagenumber=n)= n++

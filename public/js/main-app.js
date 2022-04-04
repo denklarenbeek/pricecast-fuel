@@ -12,6 +12,7 @@ import {showdropdown, deletePopUp} from './modules/tableClick';
 import {handleFlashMessages} from './modules/flash';
 import {homeTools} from './modules/homeTools';
 import {taskStatus} from './modules/taskStatus';
+import {pagination} from './modules/tableClick';
 
 initialize();
 socket();
@@ -28,3 +29,4 @@ generatePdf($('#customer-report'))
 loadProducts($('#product-selector'))
 navigation($('.navbar_button'))
 deletePopUp($('#documentTable'))
+pagination($('.pagination'))

@@ -36,13 +36,9 @@ export function showdropdown (table) {
             console.log(textNode)
             const input = inputTd.lastElementChild();
             input.classList.add('open');
-
         })
     }
-
 };
-
-
 
 function createPopup (id) {
 
@@ -89,6 +85,20 @@ export function deletePopUp (button) {
             button.appendChild(popup);
 
         })
+    })
+}
+
+export function pagination (page) {
+
+    if(!page) return
+
+    const paginationButtons = document.querySelectorAll('.page');
+
+    paginationButtons.map(button => {
+        button.addEventListener('click', (e) => {
+            console.log(e.target.dataset.pagenumber);
+            window.location.href = `/documents?page=${e.target.dataset.pagenumber}`
+        });
     })
 
 }

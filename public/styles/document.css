@@ -7,3 +7,33 @@
 .documents td {
     font-size: 14px
 }
+
+.pagination {
+    display: flex;
+    margin-top: 25px;
+}
+
+.page {
+    margin: 0;
+    padding: 15px;
+    border-top: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+    border-right: 1px solid var(--grey);
+    color: var(--grey);
+    cursor: pointer;
+}
+
+.page.actual, .page:hover {
+    color: white;
+    background-color: var(--blue);
+}
+
+.page:first-child {
+    border-left: 1px solid var(--grey);
+}
+
+span.pagenumbers {
+    font-size: 12px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
