@@ -1,8 +1,8 @@
 const {getRequest, proxyRequest} = require('./AxiosController');
 const {cid} = require('../config');
-const { formatAPIUrl } = require('../utility/formatting');
 const mail = require('../utility/email');
 const Product = require('../models/Product');
+const User = require('../models/User');
 
 exports.checkConnection = async (req, res) => {
     try {
@@ -68,4 +68,19 @@ exports.getAllProducts = async (req, res, next) => {
         console.error(error)
         throw error
     }
+}
+
+exports.autoCompleteUsers = async (req, res, next) => {
+    console.log(req.query.q);
+    const users = await User
+    // first find users that match
+    .find({ 
+        "name": { 
+            "$regex": req.query.q, 
+            "$options": "i" 
+        }
+    })
+    // limit to only 5 results
+    .limit(5);
+    res.json(users);
 }
