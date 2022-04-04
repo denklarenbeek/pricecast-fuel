@@ -18,6 +18,7 @@ exports.requestData = async (req, jobId, user) => {
     const from_dateIso = moment.utc(req.body.from_date).toISOString();
     const till_dateIso = moment.utc(req.body.till_date).toISOString();
 
+    let locations
     let products = [];
     let productids = [];
     let benchmarkIds = [];
@@ -63,7 +64,7 @@ exports.requestData = async (req, jobId, user) => {
         for(const id of benchmarkIds) {
             allProducts.map(productM => {          
                 console.log(periodOfComparison)
-                if(productM.benchmark === id && periodOfComparison < 6.5 && productM !== 0){
+                if(productM.benchmark === id && productM !== 0){
                     let productObj = {
                         from_date: from_dateIso,
                         till_date: till_dateIso,
@@ -71,7 +72,7 @@ exports.requestData = async (req, jobId, user) => {
                         product: productM.productId
                     }
                     benchmarkProducts.push(productObj);
-                } else if(productM.benchmark === id && productM !== 0 && periodOfComparison > 6.5) {
+                } else if(productM.benchmark === id && productM !== 0 && periodOfComparison > 15.5) {
                     //TODO: CREATE A MONTLY BASED REQUEST
                     console.log(`Requested period ${productM.benchmark} is longer then 6 months ${periodOfComparison}`)
                 }
@@ -360,9 +361,21 @@ exports.formatReportData = async (data, reportID) => {
                 let strategy = {};
                 
                 if(latestPricesuggesion) {
-                        strategy.name = latestPricesuggesion.strategy || stationsPricesuggestions[0].strategy,
-                        strategy.minBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMin - latestPricesuggesion.minCompetitorPrice).toFixed(3),
-                        strategy.maxBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMax - latestPricesuggesion.minCompetitorPrice).toFixed(3),
+                        strategy.name = latestPricesuggesion.strategy || stationsPricesuggestions[0].strategy;
+                        // CHECK IF STRATEGY = R-AI,
+                            // IF SO, BASED THE MIN && MAX ON THE BOUNDARY BEHVIOUR
+                        if(latestPricesuggesion.strategy === 'R-AI' || latestPricesuggesion.strategy === 'R-AIv2') {
+                            if(latestPricesuggesion.boundaryBehaviour === 'HIGHEST_COMPETITOR_PRICE') {
+                                strategy.minBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMin - latestPricesuggesion.maxCompetitorPrice).toFixed(3);
+                                strategy.maxBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMax - latestPricesuggesion.maxCompetitorPrice).toFixed(3);
+                            } else if (latestPricesuggesion.boundaryBehaviour === 'AVERAGE_COMPETITOR_PRICE') {
+                                strategy.minBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMin - latestPricesuggesion.meanCompetitorPrice).toFixed(3);
+                                strategy.maxBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMax - latestPricesuggesion.meanCompetitorPrice).toFixed(3);
+                            } else if (latestPricesuggesion.boundaryBehaviour === 'LOWEST_COMPETITOR_PRICE') {
+                                strategy.minBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMin - latestPricesuggesion.minCompetitorPrice).toFixed(3);
+                                strategy.maxBandwith = parseFloat(latestPricesuggesion.raipriceBoundaryMax - latestPricesuggesion.minCompetitorPrice).toFixed(3);
+                            }
+                        }
                         strategy.intensity = latestPricesuggesion.intensity,
                         strategy.bandwithBehaviour = latestPricesuggesion.boundaryBehaviour,
                         strategy.vbi = {
