@@ -46,9 +46,7 @@ exports.getAllReports = async (req, res, next) => {
     const count_of_documents = await Report.countDocuments();
     const pages = Math.ceil(count_of_documents / items_per_page);
     const page = actual_page + 1;
-
-    console.log( pages, page, count_of_documents )
-
+    
     res.render('documents', {reports, page, quantity: count_of_documents, pages, per_page: items_per_page });
 };
 
@@ -85,7 +83,6 @@ exports.getOneReport = async(req, res) => {
 }
 
 exports.deleteReport = async (req, res, next) => {
-    console.log('route hit', req.params.report);
     try {
         await Report.findOneAndDelete({reportId: req.params.report});
         return res.status(200).json({deleted: true});
@@ -100,8 +97,6 @@ exports.sharereport = async (req, res, next) => {
     const id = req.query.id;
     const sharedWith = req.query.shared
     try {
-        
-        
         const report = await Report.findOne({reportId: id});
         const newReport = report;
         const newId = mongoose.Types.ObjectId(sharedWith);

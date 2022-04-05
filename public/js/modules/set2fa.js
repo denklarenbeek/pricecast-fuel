@@ -48,6 +48,8 @@ export async function check2fa (button) {
             password: formData.get('password')
         }
 
+        console.log(user);
+
         try {
             const validPassword = await axios.post(`${window.location.protocol}//${window.location.host}/api/auth/login`, user);
             if(validPassword){
@@ -56,9 +58,12 @@ export async function check2fa (button) {
                 tokenForm.appendChild(hiddenInput);
                 tokenForm.appendChild(groupClass);
                 tokenForm.appendChild(submitClass);
+            } else {
+                window.location.href = '/login'
             }
         } catch (error) {
-            console.error(error)
+            console.error('Hi', error)
+            window.location.href = '/login'
         }
 
     })

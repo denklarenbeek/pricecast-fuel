@@ -101,21 +101,24 @@ exports.login = async (req, res, next) => {
     try {
         const user = await User.findOne({email: email.toLowerCase()});
 
-        if(!user) return res.json({msg: 'Invalid credentials'});
+        if(!user) {
+            req.flash('notification', {status: 'error', message: 'Invalid Credentials'});
+            return res.json({statys: 'error'});
+        }
 
         //Compare the hashed password
         const validPassword = await bcrypt.compare(password, user.password);
-
+        console.log(validPassword)
         if(validPassword) {
-            res.status(200).json({validPassword: true})
+            res.status(200).json({status: 'success'})
         } else {
             req.flash('notification', {status: 'error', message: 'Invalid Credentials'});
-            res.redirect('/login');
+            res.status(400).json({status: 'error'})
         }
     } catch (error) {
         console.error(error)
         req.flash('notification', {status: 'error', message: 'Invalid Credentials'});
-        res.redirect('/login');
+        res.status(400).json({status: 'error'})
     }
 
 }
