@@ -43,7 +43,7 @@ html
                 if locals.authenticated 
                   p(href='/pricecast' data-slug='/pricecast' class=(currentPath.startsWith('/pricecast') ? 'navbar_button nav__link--active' : 'navbar_button')) PriceCast
                   p(href='/documents' data-slug='/documents' class=(currentPath.startsWith('/documents') ? 'navbar_button nav__link--active' : 'navbar_button')) Documents
-                  p(class=(currentPath === '/settings' ? 'navbar_button nav__link--active' : 'navbar_button') data-slug='/settings') Settings
+                  p(class=(currentPath.startsWith('/settings') ? 'navbar_button nav__link--active' : 'navbar_button') data-slug='/settings') Settings
                   p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
                 if !locals.authenticated
                   p(href='/login' data-slug='/login' class=(currentPath.startsWith('/login') ? 'navbar_button nav__link--active' : 'navbar_button')) Login

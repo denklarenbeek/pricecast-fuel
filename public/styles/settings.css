@@ -1,3 +1,23 @@
+
+.inpage-menu {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.inpage-menu p {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+    font-family: avenirBold;
+    border-bottom: 1px solid white;
+    font-size: 18px;
+}
+
+.inpage-menu p:hover, .inpage-menu p.active {
+    border-bottom: 1px solid var(--light-blue);
+}
+
+
 .jobs-item-row {
     display: flex;
     /* justify-content: space-between; */
@@ -39,5 +59,9 @@
 .product-edit {
     cursor: pointer;
     padding: 15px 30px;
+}
+
+#editProductForm {
+    flex-direction: column;
 }
 

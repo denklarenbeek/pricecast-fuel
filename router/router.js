@@ -23,11 +23,11 @@ router.get('/', authRoute, (req, res) => {
     )
 })
 router.get('/pricecast', authRoute, reportForm);
-router.post('/report', taskQueue)
+router.post('/report',authRoute, taskQueue)
 router.get('/documents/:reportId', authRoute, getReport);
 router.get('/documents', authRoute, getAllReports)
 
-router.post('/waiting', taskQueue);
+router.post('/waiting',authRoute, taskQueue);
 
 router.get('/login', (req, res) => res.render('login'));
 
@@ -36,22 +36,24 @@ router.get('/register', tokenRoute, (req,res) => {res.render('2fa', {email: req.
 router.get('/forgot', (req, res) => {res.render('forgot')});
 
 /* ADMINISTRATOR ROUTE */
-router.get('/settings', authRoute, adminRoute, (req,res) => { res.render('settings')});
-router.get('/settings/productmatrix', getBenchmarkProducts)
+router.get('/settings', authRoute, (req,res) => { res.render('settings')});
+router.get('/settings/admin', authRoute, adminRoute, (req,res) => { res.render('admin')});
+router.get('/settings/customers', authRoute, adminRoute, (req,res) => { res.render('customers')});
+router.get('/settings/productmatrix', authRoute, adminRoute, getBenchmarkProducts)
 
 
 /* API Routes */
-router.get('/api/station/:stationId/products', getProductsByCid)
-router.get('/api/station', getAllStations)
-router.get('/api/connection', checkConnection)
-router.post('/api/products', createNewProduct);
-router.get('/api/products', getAllProducts);
-router.get('/api/getqueue', checkQueue);
-router.delete('/api/report/:report', deleteReport);
-router.get('/api/report/:report', getOneReport);
-router.get('/api/queue/jobs', getJobs);
-router.delete('/api/queue/clean', cleanQueue)
-router.get('/api/users', autoCompleteUsers);
-router.get('/api/sharereport', sharereport)
+router.get('/api/station/:stationId/products', authRoute, getProductsByCid)
+router.get('/api/station',authRoute, getAllStations)
+router.get('/api/connection', authRoute, checkConnection)
+router.post('/api/products',authRoute, createNewProduct);
+router.get('/api/products',authRoute, getAllProducts);
+router.get('/api/getqueue',authRoute, checkQueue);
+router.delete('/api/report/:report',authRoute, deleteReport);
+router.get('/api/report/:report',authRoute, getOneReport);
+router.get('/api/queue/jobs',authRoute, getJobs);
+router.delete('/api/queue/clean',authRoute, cleanQueue)
+router.get('/api/users',authRoute, autoCompleteUsers);
+router.get('/api/sharereport',authRoute, sharereport)
 
 module.exports = router;

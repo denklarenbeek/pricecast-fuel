@@ -1,0 +1,29 @@
+extends layout.pug
+
+include mixins/_inpageMenu
+include mixins/_divider
+
+block content
+    .container.full-page
+        .centered-content(style="width: 100%")
+            h2 Settings
+
+            +inpageMenu()
+
+            #active-jobs
+                p(style='font-family: avenirBold') Get All Active Jobs 
+                button.btn#getActiveJobs Get Active Jobs
+                #jobsContainer
+
+            +divider({height: '40px'})   
+
+            #new-registration
+                P(style='font-family: avenirBold')  New Registration
+                form(action="/api/auth/generatetoken" method="POST" style='margin-bottom: 60px')
+                    .form-group(style='margin-bottom: 0')
+                        label(for='email')
+                        input(type='email', name='email' id='email')
+                    button.btn(type='submit') Send inivation
+                        //- input(class='btn' type='submit' style='width: 20%')
+
+            

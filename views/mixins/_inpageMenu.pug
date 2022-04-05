@@ -1,0 +1,6 @@
+mixin inpageMenu       
+    .inpage-menu
+        p(class=(currentPath === '/settings' ? 'active' : '') onclick="window.location.href='/settings'"  data-slug='/') Profile 
+        p(class=(currentPath === '/settings/admin' ? 'active' : '') onclick="window.location.href='/settings/admin'" data-slug='/admin') Admin 
+        p(class=(currentPath === '/settings/productmatrix' ? 'active' : '') onclick="window.location.href='/settings/productmatrix'" data=slug='/productmatrix') Product Matrix 
+        p(class=(currentPath === '/settings/customers' ? 'active' : '') onclick="window.location.href='/settings/customers'" data-slug='/customers') Customers 

@@ -1,9 +1,14 @@
 extends layout.pug
 
+include mixins/_inpageMenu
+
 block content
     .container.full-page
         .centered-content(style="width: 100%")
-            h2 ProductMatrix
+            h2 Settings
+
+            +inpageMenu()
+
             .table
                 table
                     tr

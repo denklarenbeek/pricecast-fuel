@@ -48,6 +48,10 @@ h2 {
     font-size: 24px;
 }
 
+h3 {
+    margin-bottom: 0;
+}
+
 .container {
     max-width: 90%;
     margin-left: auto;
@@ -180,6 +184,7 @@ label {
 input, select {
     height: 60px;
     width: 100%;
+    max-width: 600px;
     padding: 14px 20px;
     border: 1px solid var(--grey);
     border-radius: 2px;
@@ -285,9 +290,8 @@ input, select {
 
 input[type='submit'], button[type='submit'] {
     background: var(--light-blue);
-    border-radius: 24px;
     height: 44px;
-    width: 50%;
+    /* width: 50%; */
     margin-right: auto;
     /* margin-left: auto; */
     color: white;
@@ -310,6 +314,7 @@ input[type='submit']:disabled, button[type='submit']:disabled {
     font-size: 14px;
     cursor: pointer;
     margin-top: 20px;
+    min-width: 150px;
 }
 
 .btn.error {
