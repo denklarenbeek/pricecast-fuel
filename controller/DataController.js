@@ -166,7 +166,15 @@ exports.requestData = async (req, jobId, user) => {
         calculatedBenchmark = await this.calculateBenchmarkv2(benchmarkData, products);
     }
     
-    const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
+    //Check if the comparison period is les then 1 month, otherwise only get 1 week of pricesuggestions
+    let pricesuggestion_fromdate = from_dateIso;
+    let pricesuggestion_tilldate = till_dateIso
+
+    if(periodOfComparison > 1) {
+        pricesuggestion_fromdate = moment(till_date).subtract(7, 'days').toISOString()
+    }
+ 
+    const pricesuggestions = await this.getPriceSuggestions(products, pricesuggestion_fromdate, pricesuggestion_tilldate);
 
     const returnObj = {
         user: req.user,
@@ -198,7 +206,7 @@ exports.requestData = async (req, jobId, user) => {
     }
 
     const reportData = await this.formatReportData(returnObj, jobId);
-
+    reportData.updatedAt = Date.now();
     const savedReport = await Report.findOneAndUpdate({reportId: jobId}, reportData);
     return savedReport
 
