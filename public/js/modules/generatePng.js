@@ -1,5 +1,4 @@
 import * as htmlToImage from 'html-to-image';
-import { saveAs } from 'file-saver';
 
 export function generatePNG (buttons) {
     if(!buttons) return

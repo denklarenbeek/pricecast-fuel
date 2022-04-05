@@ -94,6 +94,7 @@ export function shareReport (button) {
 
             const container = document.createElement('div');
             container.classList.add('search-user-container');
+            container.classList.add('overlay-container');
             const textParagraph = document.createElement('h4');
             textParagraph.innerHTML = 'With who do you want to share this document?'
 

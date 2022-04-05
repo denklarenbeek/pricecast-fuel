@@ -4,7 +4,7 @@ const router = express.Router();
 const {reportForm, getReport, getAllReports, deleteReport, getOneReport, sharereport} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts, autoCompleteUsers} = require('../controller/ApiController');
-const {adminSettings, createNewProduct, checkQueue} = require('../controller/SettingsController');
+const {adminSettings, createNewProduct, checkQueue, getBenchmarkProducts} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue, getJobs, deleteJob} = require('../controller/QueueController');
 
 router.get('/', authRoute, (req, res) => {
@@ -31,23 +31,20 @@ router.post('/waiting', taskQueue);
 
 router.get('/login', (req, res) => res.render('login'));
 
-router.get('/register', tokenRoute, (req,res) => {
-    res.render('2fa', {email: req.email})
-});
+router.get('/register', tokenRoute, (req,res) => {res.render('2fa', {email: req.email})});
 
-router.get('/forgot', (req, res) => {
-    res.render('forgot')
-});
+router.get('/forgot', (req, res) => {res.render('forgot')});
 
 /* ADMINISTRATOR ROUTE */
-router.get('/settings', authRoute, adminRoute, adminSettings);
+router.get('/settings', authRoute, adminRoute, (req,res) => { res.render('settings')});
+router.get('/settings/productmatrix', getBenchmarkProducts)
 
 
 /* API Routes */
 router.get('/api/station/:stationId/products', getProductsByCid)
 router.get('/api/station', getAllStations)
 router.get('/api/connection', checkConnection)
-router.post('/api/product', createNewProduct);
+router.post('/api/products', createNewProduct);
 router.get('/api/products', getAllProducts);
 router.get('/api/getqueue', checkQueue);
 router.delete('/api/report/:report', deleteReport);

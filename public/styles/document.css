@@ -39,11 +39,6 @@ span.pagenumbers {
 }
 
 .search-user-container {
-    background: white;
-    width: 80%;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
     position: relative;
 }
 

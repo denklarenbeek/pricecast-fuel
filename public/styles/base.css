@@ -63,7 +63,7 @@ h2 {
     right: 0;
     left: 0;
     background: rgba(0,0,0,0.5);
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,6 +74,19 @@ h2 {
     display: flex;
     opacity: 1;
     animation: opacity 0.5s linear
+}
+
+.overlay-active {
+    overflow: hidden;
+}
+
+.overlay-container {
+    background: white;
+    width: 80%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
 }
 
 .loading {

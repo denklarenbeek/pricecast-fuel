@@ -1,6 +1,38 @@
-import axios from 'axios';
 
-const createInput = (type, options) => {
+export function createLabel (options) {
+
+    const label = document.createElement('label');
+    label.setAttribute('for', options.for);
+    label.innerHTML = options.value;
+
+    if(options.class) {
+        for(const classname of options.class) {
+            label.classList.add(classname);
+        }
+    }
+    
+    return label
+
+}
+
+export function closeOverlayButton (container) {
+    const overlay = document.getElementById('overlay')
+    const body = document.getElementById('body');
+
+    const closeContainerButton =  document.createElement('i');
+    closeContainerButton.classList.add('fas');
+    closeContainerButton.classList.add('fa-times');
+    closeContainerButton.classList.add('close-button');
+    closeContainerButton.addEventListener('click', (e) => {
+        container.remove();
+        overlay.classList.remove('show');
+        body.classList.remove('overlay-active')
+    });
+
+    return closeContainerButton
+}
+
+export function createInput (type, options) {
     
     const input = document.createElement('input');
     input.setAttribute('type', type)
@@ -113,29 +145,6 @@ export async function loadProducts (productInput) {
 
         console.log(x);
         insertProducts(x);
-
-        // try {
-
-        //     const newProducts = relatedStations.map(async station => {
-        //         return await axios.get(`${window.location.protocol}//${window.location.host}/api/station/${station.id}/products`);
-        //     });
-        //     Promise.all(newProducts).then((response) => {
-        //         console.log('products', response);
-
-        //         let arrProd = []
-        //         response.forEach(station => {
-        //             const newobj = [...arrProd, ...station.data.products];
-        //             arrProd = newobj;
-        //         })
-        //         const key = 'id';
-        //         const uniqueProducts = [...new Map(arrProd.map(item => [item[key], item])).values()];
-
-        //         const filtereduniqueProducts = uniqueProducts.filter(item => item.name.toLowerCase() !== 'totaal' && item.name.toLowerCase() !== 'total')
-        //         insertProducts(filtereduniqueProducts);
-        //     });
-        // } catch (error) {
-        //     console.log(error);
-        // }
     })
 
 }

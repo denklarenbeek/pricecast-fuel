@@ -17,24 +17,4 @@ block content
                 .form-group
                     input(class='btn' type='submit' style='width: 20%')
 
-            h3 ProductMatrix
-            .table
-                table
-                    tr
-                        th.table-header Product ID
-                        th.table-header Product Name
-                        th.table-header PLU
-                        th.table-header BenchMark 
-                        th.table-header Station ID 
-                        th.table-header Station Name
-                        th.table-header Change
-                    each product in products
-                        tr
-                            td #{product.productId}
-                            td #{product.name}
-                            td #{product.plu}
-                            td #{product.benchmark}
-                            td #{product.stationId}
-                            td #{product.stationName}
-                
-                button.btn Add new product
+            

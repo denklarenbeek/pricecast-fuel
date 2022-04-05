@@ -1,0 +1,29 @@
+extends layout.pug
+
+block content
+    .container.full-page
+        .centered-content(style="width: 100%")
+            h2 ProductMatrix
+            .table
+                table
+                    tr
+                        th.table-header Product ID
+                        th.table-header Product Name
+                        th.table-header PLU
+                        th.table-header BenchMark 
+                        th.table-header Station ID 
+                        th.table-header Station Name
+                        th.table-header Change
+                    each product in products
+                        tr(data-databaseid=product._id)
+                            td(data-productId) #{product.productId}
+                            td(data-name) #{product.name}
+                            td(data-plu) #{product.plu}
+                            td(data-benchmark) #{product.benchmark}
+                            td(data-stationId) #{product.stationId}
+                            td(data-stationname) #{product.stationName}
+                            td
+                                i(class="fas fa-edit product-edit" data-databaseid=product._id)
+                
+                button.btn.add-product#add-product
+                    i(class="fas fa-plus")

@@ -8,37 +8,34 @@ exports.checkQueue = async (req, res, next) => {
 
 }
 
-exports.adminSettings = async (req, res, next) => {
+exports.getBenchmarkProducts = async (req, res, next) => {
 
     // Get the productMatrix
     const products = await Product.find().sort('stationName');
-    res.render('settings', {products});
+    res.render('productMatrix', {products});
 }
 
-exports.createNewProduct = async (req, res, next) => {
+exports.createNewProduct = async (req, res) => {
 
-    const {products} = req.body
+    const products = req.body;
     let newProduct;
 
     if(products) {
         products.forEach(async (product) => {
             const productExist = await Product.findOne({productId: product.productId, stationId: product.stationId})
             if(productExist) {
-                console.log(product);
                 newProduct = await Product.findOneAndUpdate({productId: product.productId, stationId: product.stationId}, product)
-                console.log('Product updated');
-                return
+                req.flash('notification', {status: 'success', message: 'The product is updated'});
             } else {
                 newProduct = await Product.create(product);
+                req.flash('notification', {status: 'success', message: 'The product is created'});
                 console.log(newProduct)
             }
+            return res.status(200).json({status: 'success'})
             
         })
-        res.redirect('/settings');
     } else {
         req.flash('notification',{status: 'error', message: 'No products found'});
-        res.render('settings');
-        return
+        return res.status(200).json({status: 'error', message: 'There were no products found'});
     }
-
 }
