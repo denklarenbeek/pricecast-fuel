@@ -74,7 +74,7 @@ exports.requestData = async (req, jobId, user) => {
                     benchmarkProducts.push(productObj);
                 } else if(productM.benchmark === id && productM !== 0 && periodOfComparison > 15.5) {
                     //TODO: CREATE A MONTLY BASED REQUEST
-                    console.log(`Requested period ${productM.benchmark} is longer then 6 months ${periodOfComparison}`)
+                    console.log(`Requested period ${productM.benchmark} is longer then 15 months ${periodOfComparison}`)
                 }
             });
         };
@@ -109,7 +109,7 @@ exports.requestData = async (req, jobId, user) => {
         console.log(apiData.length);
     }));
 
-    
+    console.log('Received all Volume Data')
     const dataOfLastPeriod = apiData.filter(obj => {
 
         const startDate = new Date(startDateLastPeriod);
@@ -162,6 +162,7 @@ exports.requestData = async (req, jobId, user) => {
     };
     let calculatedBenchmark = []
 
+    console.log('Done filtering the results')
     if(benchmark) {
         calculatedBenchmark = await this.calculateBenchmarkv2(benchmarkData, products);
     }
@@ -212,7 +213,7 @@ exports.requestData = async (req, jobId, user) => {
 }
 
 exports.calculateBenchmarkv2 = async (info, products) => {
-
+    console.log('Start caclulating the benchmark')
     const uniqueBenchMarkIDs = [...new Set(products.map(item => item.benchmark))];
 
     let benchmarkData = [];
@@ -220,6 +221,7 @@ exports.calculateBenchmarkv2 = async (info, products) => {
 
     // Find the benchmark ID of every day and add that to the information.
     for(const product of info) {
+        console.log(`Loop over: ${info.length} items for the benchmark ID`);
         let newProduct = {...product};
         const product_db = await Product.findOne({productId: product.productId});
         newProduct.benchmark = product_db.benchmark;
@@ -227,6 +229,7 @@ exports.calculateBenchmarkv2 = async (info, products) => {
     }
 
     for(const id of uniqueBenchMarkIDs) {
+        console.log(`Create for ${uniqueBenchMarkIDs.length} items the new product obj`);
         let newObj = {
             benchmark: id,
             volume: 0,

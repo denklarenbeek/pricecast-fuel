@@ -113,6 +113,9 @@ const ReportSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    updatedAt: {
+        type: Date
+    },
     sharedWith: [
         {
             type: mongoose.Schema.ObjectId, ref: 'User'

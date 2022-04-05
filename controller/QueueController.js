@@ -27,12 +27,11 @@ exports.taskQueue = async (req, res, next) => {
 
         req.body.name = name;
 
-
-        console.log('try to add the job', req.body);
         const job = await this.reportQueue.add(uid, {form: req.body, user}, {jobId: uid});
+        console.log(`Job added at ${Date.now()}`);
 
         req.flash('notification', {status: 'success', message: `Your task <a href='/documents/${uid}' style='color: white'>${uid}</a> successfully started. Check this page in a couple of minutes`});   
-        res.redirect('/documents');
+        res.status(200).json({status: "success"});
     } catch (error) {
         console.log(error);
         req.flash('notification',{status: 'error', message: 'something went wrong'})
