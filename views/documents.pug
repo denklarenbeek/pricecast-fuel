@@ -26,7 +26,7 @@ block content
                             td(data-table-entity='customer') #{report.customer}
                             td(data-table-entity='date') #{report.newDate}
                             td #{report.createdBy.name}
-                            td(data-clickable='false' data-rowid=report.reportId class='td-action' style='display: flex; justify-content: center; align-items: center; border: none')
+                            td(data-clickable='false' data-rowid=report.reportId class=(report.status === 'failed' ? 'failed td-action' : 'td-action') style='display: flex; justify-content: center; align-items: center; border: none')
                                 if report.status === 'completed'
                                     p(class='dropdown-icon') ...
                                     .report-dropdown(data-dropdownid=report.reportId) 
@@ -37,7 +37,7 @@ block content
                                 if report.status === 'inprogress'
                                     i(class="fas fa-spinner loading-spinner" data-clickable='false')
                                 if report.status === 'failed'
-                                    i(class="fas fa-exclamation-triangle" data-clickable='false')
+                                    i(class="fas fa-exclamation-triangle" data-rowid=report.reportId data-clickable='false')
                 
                 - var n = 1
                 .pagination

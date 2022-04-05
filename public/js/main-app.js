@@ -8,7 +8,7 @@ import {loadProducts} from './modules/tableForm';
 import {check2fa} from './modules/set2fa';
 import {navigation} from './modules/navigation';
 import {socket} from './modules/socket';
-import {showdropdown, deletePopUp} from './modules/tableClick';
+import {showdropdown, deletePopUp, doubleClicktoDelete} from './modules/tableClick';
 import {handleFlashMessages} from './modules/flash';
 import {homeTools} from './modules/homeTools';
 import {taskStatus} from './modules/settings';
@@ -31,6 +31,7 @@ generatePdf($('#customer-report'))
 loadProducts($('#product-selector'))
 navigation($('.navbar_button'))
 deletePopUp($('#documentTable'))
+doubleClicktoDelete($('#documentTable'))
 pagination($('.pagination'))
 shareReport($$('.sharebutton'))
 createNewProduct($('#add-product'))

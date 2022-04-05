@@ -40,6 +40,22 @@ export function showdropdown (table) {
     }
 };
 
+export function doubleClicktoDelete (button) {
+    if(!button) return
+
+    const rows = document.querySelectorAll('.failed');
+    rows.map(row => {
+        row.addEventListener('dblclick', async (e) => {
+            const id = e.target.dataset.rowid;
+            try {
+                const response = await axios.delete(`${window.location.protocol}//${window.location.host}/api/report/${id}`);
+                const row = document.getElementById(id);
+                row.remove();
+            } catch (error) {   
+            }
+        })
+    })
+}
 
 export function deletePopUp (button) {
     if(!button) return
