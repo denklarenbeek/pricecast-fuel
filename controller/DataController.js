@@ -167,7 +167,7 @@ exports.requestData = async (req, jobId, user) => {
         calculatedBenchmark = await this.calculateBenchmarkv2(benchmarkData, products);
     }
     
-    const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
+    // const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
 
     const returnObj = {
         user: req.user,
@@ -224,7 +224,7 @@ exports.calculateBenchmarkv2 = async (info, products) => {
         console.log(`Loop over: ${info.length} items for the benchmark ID`);
         let newProduct = {...product};
         const product_db = await Product.findOne({productId: product.productId});
-        newProduct.benchmark = product_db.benchmark;
+        newProduct.benchmark = 2;
         benchmarkData.push(newProduct);
     }
 
