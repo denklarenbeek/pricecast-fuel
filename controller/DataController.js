@@ -63,7 +63,6 @@ exports.requestData = async (req, jobId, user) => {
         //Get all stations with a benchmark product
         for(const id of benchmarkIds) {
             allProducts.map(productM => {          
-                console.log(periodOfComparison)
                 if(productM.benchmark === id && productM !== 0){
                     let productObj = {
                         from_date: from_dateIso,
@@ -167,7 +166,7 @@ exports.requestData = async (req, jobId, user) => {
         calculatedBenchmark = await this.calculateBenchmarkv2(benchmarkData, products);
     }
     
-    // const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
+    const pricesuggestions = await this.getPriceSuggestions(products, from_dateIso, till_dateIso);
 
     const returnObj = {
         user: req.user,
@@ -219,13 +218,17 @@ exports.calculateBenchmarkv2 = async (info, products) => {
     let benchmarkData = [];
     let dataX = []
 
+    const product_db = await Product.find();
+
     // Find the benchmark ID of every day and add that to the information.
     for(const product of info) {
-        console.log(`Loop over: ${info.length} items for the benchmark ID`);
+        // console.log(`Loop over: ${info.length} items for the benchmark ID`);
         let newProduct = {...product};
-        const product_db = await Product.findOne({productId: product.productId});
-        newProduct.benchmark = 2;
-        benchmarkData.push(newProduct);
+        const benchmarkid = product_db.find(element => element.productId === product.productId);
+        if(benchmarkid) {
+            newProduct.benchmark = benchmarkid.benchmark;
+            benchmarkData.push(newProduct);
+        }
     }
 
     for(const id of uniqueBenchMarkIDs) {
@@ -256,7 +259,6 @@ exports.calculateBenchmarkv2 = async (info, products) => {
 
 exports.getPriceSuggestions = async (products, from, till) => {
     let pricesuggestions = [];
-    // console.log(products);
     await Promise.all(products.map(async (product) => {
         const response = await getRequest(`/pricesuggestions?stations=${product.stationId}&products=${product.productId}&from=${from}&till=${till}`)
         pricesuggestions = [...pricesuggestions, ...response.data];
