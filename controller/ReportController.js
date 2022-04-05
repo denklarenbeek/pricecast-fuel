@@ -31,22 +31,24 @@ exports.getAllReports = async (req, res, next) => {
 
     const administrator = req.session.user.administrator;
     let reports;
+    let count_of_documents;
 
     if(!administrator) {
         reports = await Report.find({sharedWith: id}).limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        count_of_documents = await Report.countDocuments({sharedWith: id});
     } else {
         reports = await Report.find().limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        count_of_documents = await Report.countDocuments();
     }
     
     for(let i = 0; i < reports.length; i++) {
         let newCreated = moment(reports[i].createdAt).fromNow();
         reports[i].newDate = newCreated;
     }
-
-    const count_of_documents = await Report.countDocuments();
+     
     const pages = Math.ceil(count_of_documents / items_per_page);
     const page = actual_page + 1;
-    
+
     res.render('documents', {reports, page, quantity: count_of_documents, pages, per_page: items_per_page });
 };
 
