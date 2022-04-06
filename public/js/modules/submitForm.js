@@ -101,12 +101,16 @@ const validateDatesInput = (from_date, till_date) => {
     } else if (tillDate === fromDate) {
         console.log('Start and end date are the same')
         return {msg: 'The selected period has te be at least 1 day', field: 'dates'}  
-    } else if (periodOfTime > 3) {
-        console.log('Period is longer then 3 months')
-        return {msg: 'The report period cannot be longer then 3 months', field: 'dates'}
     // If the date is before 2015 throw a error (2015 = 1420066800000)
     } else if (fromDate < 1420066800000 || tillDate < 1420066800000) {
         console.log('There is no data of that period')
         return {msg: 'There is no data of that period', field: 'dates'}
     }
 }
+
+/*  I removede the limitation of 3 months
+    else if (periodOfTime > 3) {
+        console.log('Period is longer then 3 months')
+        return {msg: 'The report period cannot be longer then 3 months', field: 'dates'}
+    }
+*/
