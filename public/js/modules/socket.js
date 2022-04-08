@@ -3,7 +3,7 @@ export function socket () {
     const socket = io();
 
     socket.on('connect', () => {
-        console.log('connected......')
+        console.log(`connected...... [id=${socket.id}] `);
     })
 
     socket.on('reportstatus', (response) => {
