@@ -118,14 +118,21 @@ export async function loadProducts (productInput) {
             label.classList.add('location')
             label.setAttribute('for', `location-${location.id}`)
 
+            const pricing = document.createElement('i');
+            pricing.classList.add('fas');
+            pricing.classList.add('fa-euro-sign');
+
             const span = document.createElement('span');
             span.classList.add('location-span');
             span.innerHTML = location.name
 
-            label.appendChild(span);
-
+            
             const input = createInput('checkbox', {name: `location-${location.id}`, value: `${location.name}`, id: `location-${location.id}`, classnameList: ['location-list-item'], checked: isActive})
             label.appendChild(input);
+            label.appendChild(span);
+            if(isActive) {
+                label.appendChild(pricing);
+            }
             locationContainer.appendChild(label)
         }
 

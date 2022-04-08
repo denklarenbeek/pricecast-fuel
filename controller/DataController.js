@@ -18,7 +18,10 @@ exports.requestData = async (req, jobId, user) => {
     const from_dateIso = moment.utc(req.body.from_date).toISOString();
     const till_dateIso = moment.utc(req.body.till_date).toISOString();
 
-    let locations
+    const products_in_db = await Product.find();
+
+    let locations = [];
+    let locationids = [];
     let products = [];
     let productids = [];
     let benchmarkIds = [];
@@ -37,6 +40,23 @@ exports.requestData = async (req, jobId, user) => {
     // Variable to store all the received data from the API
     let apiData = [];
 
+    // Convert locations into arguments
+    const locationObjectKeys = Object.keys(req.body).filter(function (propertyName) {
+        if(propertyName.indexOf("location-") === 0) {
+            return propertyName.split('-')[1];
+        };
+    });
+
+    //Push the product ID's tot a array
+    for(const location of locationObjectKeys) {
+        const id = location.split('-')[1];
+        locationids.push(parseInt(id));
+        let matchingLocation = products_in_db.find(element => element.stationId === location.stationId);
+        locations = [...locations, matchingLocation];
+    };
+
+    console.log(locationObjectKeys);
+
     // Convert products into arguments
     const productObjectKeys = Object.keys(req.body).filter(function (propertyName) {
         if(propertyName.indexOf("product-") === 0) {
@@ -51,7 +71,7 @@ exports.requestData = async (req, jobId, user) => {
         let matchingProduct = await Product.find({productId: id});
         products = [...products, ...matchingProduct];
     };
-    
+
     //Get all benchmark products
     if(benchmark) {
         for(const id of productids) {
@@ -78,23 +98,29 @@ exports.requestData = async (req, jobId, user) => {
             });
         };
     } else {
+        // console.log(locationids);
         for(const product in products) {
-            let productObj = {
-                from_date: from_dateIso,
-                till_date: till_dateIso,
-                station: products[product].stationId,
-                product: products[product].productId
-            };
-            benchmarkProducts.push(productObj);
-            if(previousPeriod) {
-                let previousperiod = {
+            let stationId = products[product].stationId;
+            let isRequested = locationids.includes(stationId);
+            
+            if(isRequested) {
+                let productObj = {
+                    from_date: from_dateIso,
+                    till_date: till_dateIso,
+                    station: products[product].stationId,
+                    product: products[product].productId
+                };
+                benchmarkProducts.push(productObj);
+            }
+            if(previousPeriod && isRequested) {
+                let previousperiod = { 
                     from_date: startDateLastPeriod,
                     till_date: endDateLastPeriod,
                     station: products[product].stationId,
                     product: products[product].productId,
                     previous: true
                 }
-            benchmarkProducts.push(previousperiod);
+                benchmarkProducts.push(previousperiod);
             };
         };
     }
@@ -108,7 +134,6 @@ exports.requestData = async (req, jobId, user) => {
         console.log(apiData.length);
     }));
 
-    console.log('Received all Volume Data')
     const dataOfLastPeriod = apiData.filter(obj => {
 
         const startDate = new Date(startDateLastPeriod);
@@ -132,9 +157,9 @@ exports.requestData = async (req, jobId, user) => {
     let benchmarkData = []
     let stationDataPrevious = [];
 
-    const ownStations = [...new Set(products.map(item => item.stationId))];
+    // const ownStations = [...new Set(products.map(item => item.stationId))];
 
-    for(const station of ownStations) {
+    for(const station of locationids) {
 
         if(previousPeriod) {
             const ownStationPreviousPeriod = dataOfLastPeriod.filter(record => {
@@ -174,7 +199,7 @@ exports.requestData = async (req, jobId, user) => {
         pricesuggestion_fromdate = moment(till_date).subtract(7, 'days').toISOString()
     }
  
-    const pricesuggestions = await this.getPriceSuggestions(products, pricesuggestion_fromdate, pricesuggestion_tilldate);
+    const pricesuggestions = await this.getPriceSuggestions(products, pricesuggestion_fromdate, pricesuggestion_tilldate, locationids);
 
     const returnObj = {
         user: req.user,
@@ -189,7 +214,7 @@ exports.requestData = async (req, jobId, user) => {
         },
         ownStationData: {
             products,
-            stations: ownStations,
+            stations: locationids,
             thisYear: stationData,
             previousPeriod: []
         },
@@ -265,11 +290,15 @@ exports.calculateBenchmarkv2 = async (info, products) => {
 
 };
 
-exports.getPriceSuggestions = async (products, from, till) => {
+exports.getPriceSuggestions = async (products, from, till, selectedLocations) => {
+    // console.log(products);
     let pricesuggestions = [];
     await Promise.all(products.map(async (product) => {
-        const response = await getRequest(`/pricesuggestions?stations=${product.stationId}&products=${product.productId}&from=${from}&till=${till}`)
-        pricesuggestions = [...pricesuggestions, ...response.data];
+        const isRequested = selectedLocations.includes(product.stationId);
+        if(isRequested) {
+            const response = await getRequest(`/pricesuggestions?stations=${product.stationId}&products=${product.productId}&from=${from}&till=${till}`)
+            pricesuggestions = [...pricesuggestions, ...response.data];
+        }
     }));
     return pricesuggestions;
 };

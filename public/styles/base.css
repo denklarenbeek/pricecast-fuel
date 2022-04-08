@@ -237,6 +237,13 @@ input, select {
 
 #location-list label {
     width: 48%;
+    display: flex;
+}
+
+.location i {
+    font-size: 12px;
+    margin-left: 8px;
+    color: var(--grey);
 }
 
 .location-span {
@@ -246,7 +253,7 @@ input, select {
 .location-list-item {
     height: auto;
     width: auto;
-    margin-left: 24px;
+    margin-right: 24px;
 }
 
 .list {

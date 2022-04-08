@@ -7,7 +7,7 @@ const Report = require('./models/Report');
 // Worker initialization
 const ReportWorker = new Worker('reports', async(job) => {
 
-    let obj = {
+    let formInfo = {
         body: job.data.form,
         user: job.data.user
     }
@@ -26,7 +26,7 @@ const ReportWorker = new Worker('reports', async(job) => {
         };
 
         await Report.create(newReport);
-        const data = await requestData(obj, job.id, job.user);
+        const data = await requestData(formInfo, job.id, job.user);
 
         return { msg: 'done', status: 200, data }
 
@@ -36,12 +36,6 @@ const ReportWorker = new Worker('reports', async(job) => {
     }
 
 }, { connection });
-
-// ReportWorker.on('error', err => {
-//     console.log('error occurred')
-//     console.log(err);
-//     socketApi.sendNotification(null, 'error', err);
-// });
 
 const queueEvents = new QueueEvents('reports', { connection });
 

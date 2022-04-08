@@ -79,7 +79,7 @@ function openProductEditMenu (product, submitText) {
 
     const productId = createInput('number', {value: product.productId, id: 'productId', name: 'productId'});
     const productIdLabel = createLabel({value: 'Product ID', for: 'productId', class: ['product-input']})
-    const productname = createInput('text', {value: product.productname, id: 'productname', name: 'productname'});    
+    const productname = createInput('text', {value: product.productname, id: 'name', name: 'name'});    
     const productnameLabel = createLabel({value: 'Product Name', for: 'productname', class: ['product-input']})
     const plu = createInput('number', {value: product.plu, id: 'plu', name: 'plu'});    
     const pluLabel = createLabel({value: 'PLU', for: 'plu', class: ['product-input']})
@@ -103,11 +103,11 @@ function openProductEditMenu (product, submitText) {
         const formData = document.getElementById('editProductForm')
 
         product.productId = formData.querySelector("[name='productId']").value;
-        product.productname = formData.querySelector("[name='productname']").value
+        product.name = formData.querySelector("[name='name']").value
         product.plu = formData.querySelector("[name='plu']").value
         product.benchmark = formData.querySelector("[name='benchmark']").value
         product.stationId = formData.querySelector("[name='stationId']").value
-        product.stationname = formData.querySelector("[name='stationname']").value
+        product.stationName = formData.querySelector("[name='stationname']").value
         
         try {
             const result = await axios.post(`${window.location.protocol}//${window.location.host}/api/products`, [product]);

@@ -6,19 +6,24 @@ const Report = require('../models/Report');
 exports.reportQueue = new Queue('reports', { connection });
 
 exports.taskQueue = async (req, res, next) => {
+    
+    console.log(req.body);
     const uid = uuid.v4();
     const {customer, from_date, till_date} = req.body
 
     let name = `Report_${customer}_${from_date}-${till_date}`;
 
-    let user = '12345678'
+    let user = '61dd4c3b4cbea38bb8f932f6'
     if(req.session.user) {
         user = req.session.user._id
     }
 
+
+
     const regexp = new RegExp("^"+ name);
 
     try {
+
         const reportsWithName = await Report.find({name: regexp});
 
         if(reportsWithName.length) {

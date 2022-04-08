@@ -20,6 +20,8 @@ exports.createNewProduct = async (req, res) => {
     const products = req.body;
     let newProduct;
 
+    console.log(req.body);
+
     if(products) {
         products.forEach(async (product) => {
             const productExist = await Product.findOne({productId: product.productId, stationId: product.stationId})

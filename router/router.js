@@ -23,7 +23,7 @@ router.get('/', authRoute, (req, res) => {
     )
 })
 router.get('/pricecast', authRoute, reportForm);
-router.post('/report',authRoute, taskQueue)
+router.post('/report', taskQueue)
 router.get('/documents/:reportId', authRoute, getReport);
 router.get('/documents', authRoute, getAllReports)
 
