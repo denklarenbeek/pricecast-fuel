@@ -22,6 +22,9 @@ const UserSchema = new Schema({
     administrator: {
         type: Boolean,
         default: false
+    },
+    last_logged_in: {
+        type: Date
     }
 })
 

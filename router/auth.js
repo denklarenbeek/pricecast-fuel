@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const {authtest, login, logout, register, verifySecret, validateSecret, generateToken} = require('../controller/AuthController');
+const {me, login, logout, register, verifySecret, validateSecret, generateToken} = require('../controller/AuthController');
 
 /*
     API AUTHENTICATION ROUTES
 */
-router.get('/', authtest)
+router.get('/me', me)
 
 // Register user & create temp_secret
 router.post('/login', login)

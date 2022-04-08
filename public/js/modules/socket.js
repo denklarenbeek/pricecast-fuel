@@ -1,13 +1,18 @@
 export function socket () {
-    
+
     const socket = io();
 
     socket.on('connect', () => {
         console.log(`connected...... [id=${socket.id}] `);
-    })
+    });
 
     socket.on('reportstatus', (response) => {
-        const {jobId, status, data} = response
+        const {jobId, status, data, user} = response;
+
+        const user_local = JSON.parse(window.localStorage.getItem('user'));
+
+        if(user_local._id !== user) return;
+
         /*
             1.  Check which page the user is on
             2a. If user is on documents page find the DOM element by the id given
@@ -18,22 +23,21 @@ export function socket () {
 
         //Job finished successfully
         console.log(status, jobId);
-        if(status === 'completed') {
-
-            if(window.location.href.indexOf("documents") > -1) {
+        if(window.location.href.indexOf("documents") > -1) {
                 const tableRow = document.getElementById(jobId);
                 document.location.reload();
             } else {
-                const flashContainer = document.getElementById('flash-messages');
-                const messageText = `Your report for <a href='/documents/${jobId}' style='color: white'>${data.customer}</a> is done`
-                const message = createFlashmessage('success', messageText);
-                flashContainer.appendChild(message);
-            }
-        } else if (status === 'error') {
-            const messageText = `Something went wrong creating your report ${data}`
-            createFlashmessage('error', messageText)
-        }
 
+                if(status === 'completed') {
+                    const flashContainer = document.getElementById('flash-messages');
+                    const messageText = `Your report for <a href='/documents/${jobId}' style='color: white'>${data.customer}</a> is done`
+                    const message = createFlashmessage('success', messageText);
+                    flashContainer.appendChild(message);
+                }  else if (status === 'error') {
+                    const messageText = `Something went wrong creating your report ${data}`
+                    createFlashmessage('error', messageText)
+                }
+            }
     });
 };
 

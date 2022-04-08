@@ -74,7 +74,6 @@ function insertProducts (products) {
     products.forEach(product => {
         const label = document.createElement('label');
         label.classList.add("task");
-        console.log(product.name);
         label.setAttribute('for', product.name)
 
         const span = document.createElement('span');
@@ -130,8 +129,6 @@ export async function loadProducts (productInput) {
             locationContainer.appendChild(label)
         }
 
-        console.log('related stations', relatedStations)
-
         const {products} = JSON.parse(window.localStorage.getItem('products'));
 
         let productsArr = [];
@@ -142,8 +139,6 @@ export async function loadProducts (productInput) {
         });
 
         const x = productsArr.filter((v,i,a)=>a.findIndex(v2=>(v2.productId===v.productId))===i)
-
-        console.log(x);
         insertProducts(x);
     })
 

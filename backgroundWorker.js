@@ -20,6 +20,7 @@ const ReportWorker = new Worker('reports', async(job) => {
             reportId: job.id,
             name: job.data.form.name,
             createdBy: job.data.user,
+            sharedWith: [job.data.user],
             customer: job.data.form.customer,
             status: 'inprogress'
         };
@@ -48,13 +49,13 @@ queueEvents.on('completed', async (job) => {
     const {jobId, returnvalue} = job;
 
     if(!returnvalue) {
-        socketApi.sendNotification(jobId, 'error', 'Something went wrong');
         const response = await Report.findOneAndUpdate({reportId: jobId}, {status: 'failed'}, {new: true});
+        socketApi.sendNotification(jobId, 'error', 'Something went wrong', response.createdBy.toHexString());
         console.log(`${jobId} failed to success`, response);
     } else {
         const userID = returnvalue.data.createdBy
         console.log(`Job ${jobId} which was created by ${userID} has finished`);
-        socketApi.sendNotification(jobId, 'completed', returnvalue.data);
+        socketApi.sendNotification(jobId, 'completed', returnvalue.data, userID);
     }
 });
 

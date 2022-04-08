@@ -8,8 +8,14 @@ const saltRounds = 10;
 const {getRequest} = require('./AxiosController');
 const mail = require('../utility/email');
 
-exports.authtest = (req, res, next) => {
-    res.send({msg: 'API ROUTE OKE!'})
+exports.me = (req, res, next) => {
+    const user = req.session.user;
+
+    res.json({
+        _id: user._id,
+        // name: user.name,
+        // email: user.email
+    });
 };
 
 exports.generateToken = async (req, res,next) => {

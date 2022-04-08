@@ -63,6 +63,12 @@ export async function initialize (param) {
 
     checkA2iConnection();
 
+    const result = await axios.get(`${window.location.protocol}//${window.location.host}/api/auth/me`);
+    const me = result.data;
+
+    const stringifyUser = JSON.stringify(me);
+    window.localStorage.setItem('user', stringifyUser)
+
     let stations;
 
     if(window.localStorage !== 'undefined' && window.localStorage.getItem('stations')){
