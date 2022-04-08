@@ -174,7 +174,7 @@ exports.requestData = async (req, jobId, user) => {
         pricesuggestion_fromdate = moment(till_date).subtract(7, 'days').toISOString()
     }
  
-    // const pricesuggestions = await this.getPriceSuggestions(products, pricesuggestion_fromdate, pricesuggestion_tilldate);
+    const pricesuggestions = await this.getPriceSuggestions(products, pricesuggestion_fromdate, pricesuggestion_tilldate);
 
     const returnObj = {
         user: req.user,

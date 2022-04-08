@@ -66,7 +66,7 @@ export function taskStatus (button) {
 
 };
 
-function openProductEditMenu (product) {
+function openProductEditMenu (product, submitText) {
 
     const overlay = document.getElementById('overlay');
     const body = document.getElementById('body');
@@ -94,7 +94,7 @@ function openProductEditMenu (product) {
 
     const submit = document.createElement('button');
     submit.classList.add('btn');
-    submit.innerHTML = 'Wijzig product'
+    submit.innerHTML = submitText
 
     submit.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -147,7 +147,7 @@ export function createNewProduct (productbutton) {
 
     const button = document.getElementById('add-product');
     button.addEventListener('click', (e) => {
-        openProductEditMenu({})
+        openProductEditMenu({}, 'Add new product')
     })
 
 }
@@ -168,7 +168,7 @@ export function editProduct (productbutton) {
             product.stationId = element.querySelector("[data-stationId]").innerHTML
             product.stationname = element.querySelector("[data-stationname]").innerHTML
             console.log(product);
-            openProductEditMenu(product)
+            openProductEditMenu(product, 'Change product')
 
         })
     })
