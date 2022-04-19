@@ -62,7 +62,7 @@
     padding: 15px 30px;
 }
 
-#editProductForm {
+#editProductForm, #editCustomerForm {
     flex-direction: column;
 }
 

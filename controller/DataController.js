@@ -27,7 +27,7 @@ exports.requestData = async (req, jobId, user) => {
     let benchmarkIds = [];
     let previousPeriod = false;
     let lastYear = false;
-    let periodOfComparison = (till_date.diff(from_date)) / 2629746000;
+    let periodOfComparison = (till_date.diff(from_date)) / 2764800000 ;
     let benchmarkProducts = [];
 
     lastYear = comparison.indexOf('last_year') !== -1;
@@ -112,16 +112,32 @@ exports.requestData = async (req, jobId, user) => {
                 };
                 benchmarkProducts.push(productObj);
             }
-            if(previousPeriod && isRequested) {
-                let previousperiod = { 
-                    from_date: startDateLastPeriod,
-                    till_date: endDateLastPeriod,
-                    station: products[product].stationId,
-                    product: products[product].productId,
-                    previous: true
-                }
-                benchmarkProducts.push(previousperiod);
-            };
+            // if(previousPeriod && isRequested) {
+            //     let previousperiod = { 
+            //         from_date: startDateLastPeriod,
+            //         till_date: endDateLastPeriod,
+            //         station: products[product].stationId,
+            //         product: products[product].productId,
+            //         previous: true
+            //     }
+            //     benchmarkProducts.push(previousperiod);
+            // };
+        };
+    }
+
+    for(const product in products) {
+        let stationId = products[product].stationId;
+            let isRequested = locationids.includes(stationId);
+
+        if(previousPeriod && isRequested) {
+            let previousperiod = { 
+                from_date: startDateLastPeriod,
+                till_date: endDateLastPeriod,
+                station: products[product].stationId,
+                product: products[product].productId,
+                previous: true
+            }
+            benchmarkProducts.push(previousperiod);
         };
     }
 
@@ -210,7 +226,8 @@ exports.requestData = async (req, jobId, user) => {
             from: req.body.from_date,
             till: req.body.till_date,
             tillPP: endDateLastPeriod,
-            fromPP: startDateLastPeriod
+            fromPP: startDateLastPeriod,
+            periodOfComparison
         },
         ownStationData: {
             products,
@@ -347,7 +364,8 @@ exports.formatReportData = async (data, reportID) => {
             from_dateLY: moment(dates.from).subtract(1, 'years').format('YYYY-MM-DD'),
             till_dateLY: moment(dates.till).subtract(1, 'years').format('YYYY-MM-DD'),
             from_datePP: moment(dates.fromPP).format('YYYY-MM-DD'),
-            till_datePP: moment(dates.tillPP).format('YYYY-MM-DD')
+            till_datePP: moment(dates.tillPP).format('YYYY-MM-DD'),
+            periodOfComparison: dates.periodOfComparison
         },
         locations: []
     };

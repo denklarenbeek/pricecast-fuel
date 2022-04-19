@@ -3,8 +3,8 @@ const router = express.Router();
 
 const {reportForm, getReport, getAllReports, deleteReport, getOneReport, sharereport} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
-const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts, autoCompleteUsers} = require('../controller/ApiController');
-const {adminSettings, createNewProduct, checkQueue, getBenchmarkProducts} = require('../controller/SettingsController');
+const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts, autoCompleteUsers, autoCompleteCustomer} = require('../controller/ApiController');
+const {adminSettings, createNewProduct, checkQueue, getBenchmarkProducts, createCustomer, getCustomers} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue, getJobs, deleteJob} = require('../controller/QueueController');
 
 router.get('/', authRoute, (req, res) => {
@@ -38,7 +38,7 @@ router.get('/forgot', (req, res) => {res.render('forgot')});
 /* ADMINISTRATOR ROUTE */
 router.get('/settings', authRoute, (req,res) => { res.render('settings')});
 router.get('/settings/admin', authRoute, adminRoute, (req,res) => { res.render('admin')});
-router.get('/settings/customers', authRoute, adminRoute, (req,res) => { res.render('customers')});
+router.get('/settings/customers', authRoute, adminRoute, getCustomers);
 router.get('/settings/productmatrix', authRoute, adminRoute, getBenchmarkProducts)
 
 
@@ -47,6 +47,7 @@ router.get('/api/station/:stationId/products', authRoute, getProductsByCid)
 router.get('/api/station',authRoute, getAllStations)
 router.get('/api/connection', authRoute, checkConnection)
 router.post('/api/products',authRoute, createNewProduct);
+router.post('/api/customers',authRoute, createCustomer);
 router.get('/api/products',authRoute, getAllProducts);
 router.get('/api/getqueue',authRoute, checkQueue);
 router.delete('/api/report/:report',authRoute, deleteReport);
@@ -54,6 +55,7 @@ router.get('/api/report/:report',authRoute, getOneReport);
 router.get('/api/queue/jobs',authRoute, getJobs);
 router.delete('/api/queue/clean',authRoute, cleanQueue)
 router.get('/api/users',authRoute, autoCompleteUsers);
+router.get('/api/customers', autoCompleteCustomer);
 router.get('/api/sharereport',authRoute, sharereport)
 
 module.exports = router;

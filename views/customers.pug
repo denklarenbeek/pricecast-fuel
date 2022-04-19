@@ -9,6 +9,21 @@ block content
 
             +inpageMenu()
 
-            p Table with the CID's
+            .table
+                table
+                    tr
+                        th.table-header Customer ID
+                        th.table-header Customer Name
+                        th.table-header Picture
+                    each customer in customers
+                        tr(data-databaseid=customer._id)
+                            td(data-customerId) #{customer.cid}
+                            td(data-name) #{customer.name}
+                            td(data-picture) #{customer.picture}
+                            td
+                                i(class="fas fa-edit product-edit" data-databaseid=customer._id)
+                
+                button.btn.add-product#add-customer
+                    i(class="fas fa-plus")
 
             

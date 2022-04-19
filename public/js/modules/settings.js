@@ -65,8 +65,14 @@ export function taskStatus (button) {
     })
 
 };
-
-function openProductEditMenu (product, submitText) {
+// form id
+// button text
+// Fields []
+// inputFields = ['productId', 'productname', 'plu', 'benchmark', 'stationId', 'stationname']
+// DATA
+// API
+// Callback url
+function openProductEditMenu (formId, inputFields, api, submitText, callback_url) {
 
     const overlay = document.getElementById('overlay');
     const body = document.getElementById('body');
@@ -75,20 +81,16 @@ function openProductEditMenu (product, submitText) {
     container.classList.add('overlay-container');
 
     const form = document.createElement('form');
-    form.setAttribute('id', 'editProductForm');
+    form.setAttribute('id', formId);
 
-    const productId = createInput('number', {value: product.productId, id: 'productId', name: 'productId'});
-    const productIdLabel = createLabel({value: 'Product ID', for: 'productId', class: ['product-input']})
-    const productname = createInput('text', {value: product.productname, id: 'name', name: 'name'});    
-    const productnameLabel = createLabel({value: 'Product Name', for: 'productname', class: ['product-input']})
-    const plu = createInput('number', {value: product.plu, id: 'plu', name: 'plu'});    
-    const pluLabel = createLabel({value: 'PLU', for: 'plu', class: ['product-input']})
-    const benchmark = createInput('number', {value: product.benchmark, id: 'benchmark', name: 'benchmark'});    
-    const benchmarkLabel = createLabel({value: 'Benchmark ID', for: 'benchmark', class: ['product-input']})
-    const stationId = createInput('number', {value: product.stationId, id: 'stationId', name: 'stationId'});    
-    const stationIdLabel = createLabel({value: 'Station ID', for: 'stationId', class: ['product-input']})
-    const stationname = createInput('text', {value: product.stationname, id: 'stationname', name: 'stationname'});
-    const stationnameLabel = createLabel({value: 'Station Name', for: 'stationname', class: ['product-input']})
+    for(const input of inputFields) {
+    
+        const inputEl = createInput(input.type, {value: input.value, id: input.id, name: input.name});
+        const label = createLabel({value: input.name, for: input.id, class: input.class})
+        
+        form.appendChild(label);
+        form.appendChild(inputEl);
+    }
 
     const closeButton = closeOverlayButton(container);
 
@@ -98,38 +100,23 @@ function openProductEditMenu (product, submitText) {
 
     submit.addEventListener('click', async (e) => {
         e.preventDefault();
-        let product = {}
+        let item = {}
         submit.innerHTML = '<i class="fas fa-spinner loading-spinner"></i>';
-        const formData = document.getElementById('editProductForm')
+        const formData = document.getElementById(formId)
 
-        product.productId = formData.querySelector("[name='productId']").value;
-        product.name = formData.querySelector("[name='name']").value
-        product.plu = formData.querySelector("[name='plu']").value
-        product.benchmark = formData.querySelector("[name='benchmark']").value
-        product.stationId = formData.querySelector("[name='stationId']").value
-        product.stationName = formData.querySelector("[name='stationname']").value
-        
+        for (const input of inputFields) {
+            item[input.name] = formData.querySelector(`[name='${input.name}']`).value;
+        }
+
         try {
-            const result = await axios.post(`${window.location.protocol}//${window.location.host}/api/products`, [product]);
-            window.location.href = '/settings/productmatrix'
+            const result = await axios.post(`${window.location.protocol}//${window.location.host}/api/${api}`, [item]);
+            window.location.href = callback_url
         } catch (error) {
-            window.location.href = '/settings/productmatrix'
+            window.location.href = callback_url
         }
 
     })
     
-    form.appendChild(productIdLabel);
-    form.appendChild(productId);
-    form.appendChild(productnameLabel);
-    form.appendChild(productname);
-    form.appendChild(pluLabel);
-    form.appendChild(plu);
-    form.appendChild(benchmarkLabel);
-    form.appendChild(benchmark);
-    form.appendChild(stationIdLabel);
-    form.appendChild(stationId);
-    form.appendChild(stationnameLabel);
-    form.appendChild(stationname);
     form.appendChild(submit)
     form.appendChild(closeButton);
 
@@ -137,7 +124,21 @@ function openProductEditMenu (product, submitText) {
     overlay.appendChild(container)
     overlay.classList.add('show');
     body.classList.add('overlay-active');
-    
+
+}
+
+export function createNewCustomer (customerbutton) {
+
+    if(!customerbutton) return
+
+    const button = document.getElementById('add-customer');
+    button.addEventListener('click', (e) => {
+        openProductEditMenu('editCustomerForm', [
+            {type: 'number',id: 'cid', name: 'cid', value:'' , class: ['product-input']},
+            {type: 'text',id: 'name', name: 'name', value:'' , class: ['product-input']},
+            {type: 'text',id: 'picture', name: 'picture', value:'' , class: ['product-input']},
+        ], 'customers', 'Add new customer', '/settings/customers')
+    })
 
 }
 
@@ -147,9 +148,15 @@ export function createNewProduct (productbutton) {
 
     const button = document.getElementById('add-product');
     button.addEventListener('click', (e) => {
-        openProductEditMenu({}, 'Add new product')
+        openProductEditMenu('editProductForm', [
+            {type: 'number',id: 'productId', name: 'productId', value:'' , class: ['product-input']},
+            {type: 'text',id: 'name', name: 'name', value:'' , class: ['product-input']},
+            {type: 'number',id: 'plu', name: 'plu', value:'' , class: ['product-input']},
+            {type: 'number',id: 'benchmark', name: 'benchmark', value:'' , class: ['product-input']},
+            {type: 'number', id: 'stationId', name: 'stationId', value:'' , class: ['product-input']},
+            {type: 'text', id: 'stationname', name: 'stationname', value:'' , class: ['product-input']}
+        ], 'products', 'Add new product', '/settings/productmatrix')
     })
-
 }
 
 export function editProduct (productbutton) {
@@ -168,7 +175,14 @@ export function editProduct (productbutton) {
             product.stationId = element.querySelector("[data-stationId]").innerHTML
             product.stationname = element.querySelector("[data-stationname]").innerHTML
             console.log(product);
-            openProductEditMenu(product, 'Change product')
+            openProductEditMenu('editProductForm', [
+                {type: 'number',id: 'productId', name: 'productId', value: product.productId , class: ['product-input']},
+                {type: 'text',id: 'name', name: 'name', value: product.productname , class: ['product-input']},
+                {type: 'number',id: 'plu', name: 'plu', value: product.plu , class: ['product-input']},
+                {type: 'number',id: 'benchmark', name: 'benchmark', value: product.benchmark , class: ['product-input']},
+                {type: 'number', id: 'stationId', name: 'stationId', value: product.stationId , class: ['product-input']},
+                {type: 'text', id: 'stationname', name: 'stationname', value: product.stationname , class: ['product-input']}
+            ], 'products', 'Change product', '/settings/productmatrix')
 
         })
     })

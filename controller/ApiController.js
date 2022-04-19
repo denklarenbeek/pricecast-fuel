@@ -1,8 +1,9 @@
-const {getRequest, proxyRequest} = require('./AxiosController');
+const {getRequest} = require('./AxiosController');
 const {cid} = require('../config');
 const mail = require('../utility/email');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const Customer = require('../models/Customer');
 
 exports.checkConnection = async (req, res) => {
     try {
@@ -85,4 +86,18 @@ exports.autoCompleteUsers = async (req, res, next) => {
     .select(["name", "email", "_id"]);
 
     res.json(users);
+}
+
+exports.autoCompleteCustomer = async (req, res) => {
+    const searchKey = req.query.q;
+    console.log('hi there')
+    try {
+        const result = await getRequest(`/station`);
+        const stations = result.data;
+        const x = stations.filter(x => x.cid.toLowerCase().includes(searchKey.toLowerCase()))
+        res.send({msg: x});
+    } catch (error) {
+        
+    }
+
 }

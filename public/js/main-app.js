@@ -11,7 +11,7 @@ import {socket} from './modules/socket';
 import {showdropdown, deletePopUp, doubleClicktoDelete} from './modules/tableClick';
 import {handleFlashMessages} from './modules/flash';
 import {homeTools} from './modules/homeTools';
-import {taskStatus} from './modules/settings';
+import {createNewCustomer, taskStatus} from './modules/settings';
 import {createNewProduct, editProduct} from './modules/settings';
 import {pagination} from './modules/tableClick';
 import {shareReport} from './modules/tableClick'
@@ -36,3 +36,4 @@ pagination($('.pagination'))
 shareReport($$('.sharebutton'))
 createNewProduct($('#add-product'))
 editProduct($('#add-product'))
+createNewCustomer($('#add-customer'))

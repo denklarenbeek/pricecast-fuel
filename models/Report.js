@@ -107,6 +107,9 @@ const ReportSchema = new Schema({
         ref: 'User',
         required: true
     },
+    requested: {
+        type: Object
+    },
     status: String,
     name: String,
     createdAt: {
