@@ -42,6 +42,9 @@ const ContactSchema = new Schema({
         ref: 'User',
         required: true
     },
+    description: {
+        type: String
+    },
     createdAt: {
         type: Date,
         default: Date.now

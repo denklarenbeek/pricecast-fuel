@@ -21,6 +21,10 @@ nav {
     padding: 10px 0;
 }
 
+/* .navbar-menu-icon {
+    display: none;
+} */
+
 p.navbar_button {
     cursor: pointer;
     border-bottom: 1px solid rgba(0,0,0,0);

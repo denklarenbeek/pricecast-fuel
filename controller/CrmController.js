@@ -25,6 +25,7 @@ exports.createNewContact = async (req, res) => {
         city: formInput.city,
         country: formInput.country,
         language: formInput.language,
+        description: formInput.description,
         sales_rep: formInput.sales_rep,
     }
 

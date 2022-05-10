@@ -50,15 +50,11 @@ block content
                         option(value='empty')
                         each sales_rep in sales_reps
                             option(value=sales_rep._id selected=(sales_rep._id.toString() === user._id.toString() ? 'selected' : false)) #{sales_rep.name}
-
+                .form-group(style='flex-direction: row')
+                    label(for="send_confirmation" style="width: 80%; align-self: center; margin-bottom: 0;") Send thank you message
+                    input(type="checkbox" style="width: 5%"  name='send_confirmation' value='send_confirmation' id='send_confirmation' checked)
+                .form-group
+                    label(for="description") Notes
+                    textarea(name="description", cols="30", rows="10")
                 .form-group
                     button(class='btn' type="submit") Save Contact
-
-                //- .form-group 
-                //-     label(for="comparison") Verglijk met 
-                //-     .form-group.comparison
-                //-         input(type="checkbox" name='comparison' value='last_year' id='last_year' checked)
-                //-         label(for="last_year" ) Vorig jaar 
-                //-     .form-group.comparison
-                //-         input(type="checkbox" name='comparison' value='last_period' id='last_period') 
-                //-         label(for="last_period") Vorige periode

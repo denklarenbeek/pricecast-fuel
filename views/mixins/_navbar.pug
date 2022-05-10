@@ -1,0 +1,25 @@
+mixin navbar
+    nav
+      .navbar 
+        .container
+          .navbar-container 
+              .navbar-start 
+                if locals.authenticated 
+                  p(href='/' data-slug='/' class=(currentPath === '/' ? 'navbar_button nav__link--active' : 'navbar_button') style='position: relative') Home
+                  if user
+                    p.user (#{user.name})
+                .navbar-menu#navbar-menu
+                    i(class="fas fa-bars")                
+                
+                
+              .navbar-end#navbar-end
+                .navbar-menu-icon.close#navbar-menu-icon
+                    i(class="fas fa-times")
+                if locals.authenticated 
+                  p(href='/pricecast' data-slug='/pricecast' class=(currentPath.startsWith('/pricecast') ? 'navbar_button nav__link--active' : 'navbar_button')) PriceCast
+                  p(href='/uniti-crm' data-slug='/uniti-crm' class=(currentPath.startsWith('/uniti-crm') ? 'navbar_button nav__link--active' : 'navbar_button')) Uniti
+                  p(href='/documents' data-slug='/documents' class=(currentPath.startsWith('/documents') ? 'navbar_button nav__link--active' : 'navbar_button')) Documents
+                  p(class=(currentPath.startsWith('/settings') ? 'navbar_button nav__link--active' : 'navbar_button') data-slug='/settings') Settings
+                  p(id='logoutButton' class='navbar_button' data-slug='/logout') Logout
+                if !locals.authenticated
+                  p(href='/login' data-slug='/login' class=(currentPath.startsWith('/login') ? 'navbar_button nav__link--active' : 'navbar_button')) Login

@@ -7,6 +7,7 @@ import {initialize} from './modules/setLocalStorage';
 import {loadProducts} from './modules/tableForm';
 import {check2fa} from './modules/set2fa';
 import {navigation} from './modules/navigation';
+import {openMobileNavbar, closeMobileNavbar} from './modules/navigation'
 import {socket} from './modules/socket';
 import {showdropdown, deletePopUp, doubleClicktoDelete} from './modules/tableClick';
 import {handleFlashMessages} from './modules/flash';
@@ -31,6 +32,8 @@ generatePNG($$('.downloadImage'))
 generatePdf($('#customer-report'))
 loadProducts($('#product-selector'))
 navigation($('.navbar_button'))
+openMobileNavbar($('#navbar-menu'))
+closeMobileNavbar($('#navbar-menu-icon'))
 deletePopUp($('#documentTable'))
 doubleClicktoDelete($('#documentTable'))
 pagination($('.pagination'))
