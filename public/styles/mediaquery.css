@@ -1,0 +1,42 @@
+
+.form-group.responsive {
+    width: 100%;
+}
+
+@media all and (max-width: 1280px) {
+    .form-group input, .form-group select {
+        max-width: 100%
+    }
+}
+
+@media all and (max-width: 800px) {
+
+    .inner {
+        width: 30%;
+    }
+
+    .flash {
+        padding: 1.2rem;
+    }
+
+    .centered-content {
+        width: 100%;
+    }
+
+    .navbar-start {
+        position: relative;
+    }
+
+    .navbar-start .user {
+        position: absolute;
+        top: 30px;
+        left: 14px;
+        font-size: 8px;
+        width: 200px;
+    }
+
+    .navbar_button {
+        font-size: 14px
+    }
+
+}

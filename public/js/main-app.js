@@ -15,6 +15,7 @@ import {createNewCustomer, taskStatus} from './modules/settings';
 import {createNewProduct, editProduct} from './modules/settings';
 import {pagination} from './modules/tableClick';
 import {shareReport} from './modules/tableClick'
+import {saveContact} from './modules/saveContact';
 
 initialize();
 socket();
@@ -37,3 +38,5 @@ shareReport($$('.sharebutton'))
 createNewProduct($('#add-product'))
 editProduct($('#add-product'))
 createNewCustomer($('#add-customer'))
+
+saveContact($('#crmForm'))

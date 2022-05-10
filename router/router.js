@@ -4,7 +4,7 @@ const router = express.Router();
 const {reportForm, getReport, getAllReports, deleteReport, getOneReport, sharereport} = require('../controller/ReportController');
 const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthController');
 const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts, autoCompleteUsers, autoCompleteCustomer} = require('../controller/ApiController');
-const {adminSettings, createNewProduct, checkQueue, getBenchmarkProducts, createCustomer, getCustomers} = require('../controller/SettingsController');
+const {adminSettings, createNewProduct, checkQueue, getBenchmarkProducts, createCustomer, getCustomers, getContacts} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue, getJobs, deleteJob} = require('../controller/QueueController');
 
 router.get('/', authRoute, (req, res) => {
@@ -14,7 +14,7 @@ router.get('/', authRoute, (req, res) => {
                 name: 'PriceCast', icon: 'far fa-chart-bar', status: 'active', slug: '/pricecast'
             },
             {
-                name: 'Alarm Intake', icon: 'fas fa-file-download', status: 'under-development', slug: '/alarm-intake'
+                name: 'Uniti CRM', icon: 'far fa-address-card', status: 'active', slug: '/uniti-crm'
             },
             {
                 name: 'Site survey', icon: 'fas fa-draw-polygon', status: 'under-development', slug: 'site-survey'
@@ -35,11 +35,13 @@ router.get('/register', tokenRoute, (req,res) => {res.render('2fa', {email: req.
 
 router.get('/forgot', (req, res) => {res.render('forgot')});
 
+
 /* ADMINISTRATOR ROUTE */
 router.get('/settings', authRoute, (req,res) => { res.render('settings')});
+router.get('/settings/contacts', authRoute, getContacts);
 router.get('/settings/admin', authRoute, adminRoute, (req,res) => { res.render('admin')});
 router.get('/settings/customers', authRoute, adminRoute, getCustomers);
-router.get('/settings/productmatrix', authRoute, adminRoute, getBenchmarkProducts)
+router.get('/settings/productmatrix', authRoute, adminRoute, getBenchmarkProducts);
 
 
 /* API Routes */

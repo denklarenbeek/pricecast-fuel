@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Customer = require('../models/Customer');
+const Contact = require('../models/Contact');
 const {reportQueue} = require('./QueueController');
 
 exports.checkQueue = async (req, res, next) => {
@@ -19,6 +20,11 @@ exports.getBenchmarkProducts = async (req, res, next) => {
 exports.getCustomers = async (req, res) => {
     const customers = await Customer.find().sort('name');
     res.render('customers', {customers});
+}
+
+exports.getContacts = async (req, res) => {
+    const contacts = await Contact.find().sort({'createdAt': -1});
+    res.render('contactOverview', {contacts});
 }
 
 exports.createNewProduct = async (req, res) => {

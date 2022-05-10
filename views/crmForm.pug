@@ -1,0 +1,64 @@
+extends layout.pug
+
+block content
+    .container
+        .content-bundler(style='width: 100%')
+            h1 Uniti Contacts
+            form(id="crmForm" method="POST")
+
+                .form-group
+
+
+                .form-group
+                    label(for="name") Name 
+                    input(type="text", name="name" id="name")
+                .form-group
+                    label(for="company") Company 
+                    input(type="text", name="company" id="company")
+                .form-group
+                    label(for="email") Email 
+                    input(type="email", name="email" id="email")
+
+                //- Nice to have - Country prefix && max-length 10 characters
+                .form-group
+                    label(for="phone") Phone number 
+                    input(type="number", name="phone" id="phone")
+
+                .form-group
+                    label(for="street") Street 
+                    input(type="text", name="street" id="street")
+                .form-group.responsive.half
+                    label(for="postal") Postcal code 
+                    input(type="text", name="postal" id="postal")
+                .form-group.responsive.half
+                    label(for="city") City 
+                    input(type="text", name="city" id="city")
+                .form-group
+                    label(for="country") Country 
+                    input(type="text", name="country" id="country")
+
+                .form-group#language
+                    label(for="language") Language 
+                    select(name="language" id="language-selector" required)
+                        option(value='empty')
+                        each language in languages
+                            option(value=language.name selected=(language.default === true ? 'selected' : false)) #{language.name}
+
+                .form-group#sales_rep
+                    label(for="sales_rep") Sales man 
+                    select(name="sales_rep" id="sales_rep-selector" required)
+                        option(value='empty')
+                        each sales_rep in sales_reps
+                            option(value=sales_rep._id selected=(sales_rep._id.toString() === user._id.toString() ? 'selected' : false)) #{sales_rep.name}
+
+                .form-group
+                    button(class='btn' type="submit") Save Contact
+
+                //- .form-group 
+                //-     label(for="comparison") Verglijk met 
+                //-     .form-group.comparison
+                //-         input(type="checkbox" name='comparison' value='last_year' id='last_year' checked)
+                //-         label(for="last_year" ) Vorig jaar 
+                //-     .form-group.comparison
+                //-         input(type="checkbox" name='comparison' value='last_period' id='last_period') 
+                //-         label(for="last_period") Vorige periode

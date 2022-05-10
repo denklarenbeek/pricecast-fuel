@@ -80,6 +80,7 @@ app.use((req, res, next) => {
 // Define routes
 app.use('/', require('./router/router'));
 app.use('/api/auth', require('./router/auth'));
+app.use('/uniti-crm', require('./router/crm'));
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} with IP address of ${ip.address()}`);

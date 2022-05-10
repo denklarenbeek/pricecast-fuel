@@ -25,6 +25,10 @@ const UserSchema = new Schema({
     },
     last_logged_in: {
         type: Date
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 })
 
