@@ -1,6 +1,11 @@
+nav {
+    width: 100%
+}
+
 .navbar {
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     height: 80px;
+    width: 100%;
 }
 
 .navbar .container {
