@@ -6,10 +6,7 @@ exports.CrmForm = async (req, res, next) => {
     const activeUsers = await User.find({active: true}).select('name');
     
     res.render('crmForm', {
-        languages: [{name: 'Dutch'}, 
-        {name: 'German'}, 
-        {name: 'English', 
-        default: true}], 
+        languages: [{name: 'Dutch'}, {name: 'German'}, {name: 'English',default: true}, {name: 'French'}, {name: 'Romanian'}, {name: 'Italian'}], 
         sales_reps: activeUsers,
         mtype: ["M1", "M2", "M3", "M4"],
         job_title: ["Owner", "Director", "Retail Manager", "Engineering Manager", "HSSE Manager", "Marketing Manager"]
