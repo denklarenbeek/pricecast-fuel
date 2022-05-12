@@ -1,5 +1,60 @@
 import axios from 'axios';
 
+export function uploadFile (fileInput) {
+    if(!fileInput) return
+
+
+    fileInput.addEventListener('change', async (e) => {
+
+        console.log('change', fileInput.files[0]);
+
+        let formData = new FormData();
+        formData.append('picture', fileInput.files[0]);
+
+        if(fileInput.files[0]) {
+
+            try {
+    
+                // Set spinner && remove chose file button
+                const div = document.getElementById('uploadfile');
+                const label = div.getElementsByTagName('label')[0];
+                label.innerHTML = 'Uploading picture....'
+                fileInput.classList.add('hidden');
+                const spinner = document.createElement('p');
+                spinner.classList.add('loading');
+                spinner.style.width = '50px';
+                spinner.style.height = '50px';
+                div.appendChild(spinner);
+                div.dataset.loading = true
+    
+                const result = await axios({
+                    method: 'post',
+                    url: `${window.location.protocol}//${window.location.host}/api/upload`, 
+                    data: formData, 
+                    headers: {'Content-Type': 'multipart/form-data' }
+                });
+    
+                if(result.data.status === 200) {
+                    spinner.remove()
+                    const {url} = result.data
+                    const image = document.createElement('img');
+                    image.src = url;
+                    image.style.width = '100%';
+                    label.innerHTML = 'Uploaded picture'
+                    div.dataset.loading = false
+                    div.appendChild(image);
+                }
+    
+            } catch (error) {
+                label.innerHTML = error.message
+                console.log(error);
+            }
+        }
+        
+    })
+
+}
+
 export function saveContact (form) {
     
 
@@ -9,31 +64,36 @@ export function saveContact (form) {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
+        const uploadingDiv = document.getElementById('uploadfile')
+        const label = uploadingDiv.getElementsByTagName('label')[0];
+
+        if(uploadingDiv.dataset.loading === 'true') {
+            console.log('still uploading');
+            uploadingDiv.scrollIntoView({behavior: "smooth", inline: 'start'});
+            label.innerHTML = 'Wait to the upload is completed'
+            return
+        }
+
         const submitButton = form.querySelector('button[type="submit"]');
-        /*
-            FORM VALIDATION
-                1. Get all the input fields
-                2. Check if they are not empty
-                3. Check if dates are not in the future
-                4. Check if the period is not longer than 3 months
-                5. Check if the from date is before the end date
-        */
 
-        const data = new FormData(form);
+        const data = new FormData(form)
         const inputData = Object.fromEntries(data.entries());
-        const {name, language, sales_rep} = inputData;
+        const {name} = inputData;
 
-        // console.log(inputData);
+        const uploadedImage = document.getElementById('uploaded-image');
+        if(uploadedImage) {
+            inputData.picture = uploadedImage.dataset.url
+        } else {
+            inputData.picture = undefined
+        }
 
         let errors = [];
 
         if(!name) {
             errors.push({msg: 'A name is required', field: 'name'})
+            document.getElementById('name').scrollIntoView({behavior: "smooth", inline: 'start'});
         }
-
-        if(language === 'empty') inputData.language = undefined
-        if(sales_rep === 'empty') inputData.sales_rep = undefined
 
         if(errors.length > 0) {
             errors.forEach(error => {
@@ -55,8 +115,11 @@ export function saveContact (form) {
             // AXIOS POST TO BACKEND && ROUTE TO DOCUMENTS PAGE
             try {
                 // SET THE BUTTON TO A LOAD BUTTON
-                console.log('loading.....', inputData, errors)
-                await axios.post(`${window.location.protocol}//${window.location.host}/uniti-crm`, inputData);
+                const result = await axios({
+                    method: 'post',
+                    url: `${window.location.protocol}//${window.location.host}/uniti-crm`, 
+                    data: inputData
+                });
                 window.location.href = '/uniti-crm'
             
             } catch (error) {
@@ -66,3 +129,22 @@ export function saveContact (form) {
         }
     });
 };
+
+
+
+export function toggleFormInputs (formgroup) {
+    if(!formgroup) return;
+
+    for(const group of formgroup) {
+
+        group.addEventListener('click', (e) => {
+            const parent = e.target.parentElement.parentElement
+            if(parent.classList.contains('hidden')){
+                parent.classList.remove('hidden')
+            } else {
+                parent.classList.add('hidden')
+            }
+        });
+
+    }
+}

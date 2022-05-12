@@ -4,6 +4,22 @@ const connection = require('./utility/redisConnection');
 const socketApi = require('./utility/socket-io');
 const Report = require('./models/Report');
 
+const MailWorker = new Worker('mail', async (job) => {
+    const info = job.data;
+
+    const emailInformation = await mail.send({
+        from: info.from,
+        user: {
+            email: info.user.email,
+            name: info.user.name
+        },
+        filename: info.filename,
+        subject: info.subject,
+        sales_rep
+    });
+   
+});
+
 // Worker initialization
 const ReportWorker = new Worker('reports', async(job) => {
 

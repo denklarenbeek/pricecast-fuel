@@ -36,6 +36,7 @@ exports.generateToken = async (req, res,next) => {
             const resetURL = `http://${req.headers.host}/register?token=${savedToken.token}`;
     
             const emailInformation = await mail.send({
+                from: 'noreply@bigbrother.nl',
                 user: {
                     email
                 },

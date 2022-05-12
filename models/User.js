@@ -29,6 +29,12 @@ const UserSchema = new Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    phone: {
+        type: String,
+    }, 
+    picture: {
+        type: String
     }
 })
 

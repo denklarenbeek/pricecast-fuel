@@ -154,6 +154,7 @@ form {
     flex-direction: column;
     margin-bottom: 24px;
     width: 100%;
+    max-width: 600px;
 }
 
 .form-group input[type='submit'] {

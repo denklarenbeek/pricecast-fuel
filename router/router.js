@@ -6,6 +6,7 @@ const {authRoute, tokenRoute, adminRoute} = require('../controller/AuthControlle
 const {getProductsByCid, getAllStations, generateReport, checkConnection, getAllProducts, autoCompleteUsers, autoCompleteCustomer} = require('../controller/ApiController');
 const {adminSettings, createNewProduct, checkQueue, getBenchmarkProducts, createCustomer, getCustomers, getContacts} = require('../controller/SettingsController');
 const {taskQueue, cleanQueue, getJobs, deleteJob} = require('../controller/QueueController');
+const {upload, resize} = require('../controller/UploadController')
 
 router.get('/', authRoute, (req, res) => {
     res.render('home', {
@@ -59,5 +60,6 @@ router.delete('/api/queue/clean',authRoute, cleanQueue)
 router.get('/api/users',authRoute, autoCompleteUsers);
 router.get('/api/customers', autoCompleteCustomer);
 router.get('/api/sharereport',authRoute, sharereport)
+router.post('/api/upload', upload, resize)
 
 module.exports = router;

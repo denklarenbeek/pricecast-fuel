@@ -5,15 +5,23 @@ exports.CrmForm = async (req, res, next) => {
 
     const activeUsers = await User.find({active: true}).select('name');
     
-    res.render('crmForm', {languages: [{name: 'Dutch'}, {name: 'German'}, {name: 'English', default: true}], sales_reps: activeUsers});
+    res.render('crmForm', {
+        languages: [{name: 'Dutch'}, 
+        {name: 'German'}, 
+        {name: 'English', 
+        default: true}], 
+        sales_reps: activeUsers,
+        mtype: ["M1", "M2", "M3", "M4"],
+        job_title: ["Owner", "Director", "Retail Manager", "Engineering Manager", "HSSE Manager", "Marketing Manager"]
+    });
 }
-
-
 
 exports.createNewContact = async (req, res) => {
 
+    console.log('hit the route');
+
     const formInput = req.body;
-    console.log(formInput)
+    console.log(req.body.picture)
 
     const newContact = {
         name: formInput.name,
@@ -27,10 +35,31 @@ exports.createNewContact = async (req, res) => {
         language: formInput.language,
         description: formInput.description,
         sales_rep: formInput.sales_rep,
+        picture: formInput.picture,
+        mtype: formInput.mtype,
+        job_title: formInput.job_title
     }
 
     try {
-        await Contact.create(newContact);
+        const savedOne = await Contact.create(newContact);
+        const populatedInfo = await Contact.find(savedOne).populate({path: 'sales_rep', select: 'name email phone picture'});
+        console.log(populatedInfo);
+        // When send_confirmation is true, send mail
+        
+        // from: req.body.sales_rep.email,
+        // sales_rep: {
+        //     name: req.body.sales_rep.name,
+        //     phone: req.body.sales_rep.phone,
+        //     email: req.body.sales_rep.email,
+        //     picture: req.body.sales_rep.picture
+        // },
+        // user: {
+        //     email: req.body.user.email,
+        //     name: req.body.user.name
+        // },
+        // await addMailToQueue()
+
+
         req.flash('notification',{status: 'success', message: `The contact ${newContact.name} is saved in the DB`})
         
         res.status(200).send({
@@ -45,6 +74,6 @@ exports.createNewContact = async (req, res) => {
     }
 
     res.send({msg: "Save a new contact to the DB"})
-    // CREATE A NEW CRM CONTACT
+    // // CREATE A NEW CRM CONTACT
 
 }

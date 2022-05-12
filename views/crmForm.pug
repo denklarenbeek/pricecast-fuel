@@ -4,9 +4,11 @@ block content
     .container
         .content-bundler(style='width: 100%')
             h1 Uniti Contacts
-            form(id="crmForm" method="POST")
+            form(id="crmForm" method="POST" enctype="multipart/form-data")
 
-                .form-group
+                .form-group#uploadfile
+                    label(for="file") Choose file to upload
+                    input(type='file' name='picture' id='picture')
 
 
                 .form-group
@@ -24,18 +26,38 @@ block content
                     label(for="phone") Phone number 
                     input(type="number", name="phone" id="phone")
 
-                .form-group
-                    label(for="street") Street 
-                    input(type="text", name="street" id="street")
-                .form-group.responsive.half
-                    label(for="postal") Postcal code 
-                    input(type="text", name="postal" id="postal")
-                .form-group.responsive.half
-                    label(for="city") City 
-                    input(type="text", name="city" id="city")
-                .form-group
-                    label(for="country") Country 
-                    input(type="text", name="country" id="country")
+                .form-group#mappointment
+                    label(for="mtype") M appointment 
+                    select(name="mtype" id="mtype-selector" required)
+                        each m in mtype
+                            option(value=m) #{m}
+
+                .form-group#jobtitle
+                    label(for="job_title") Job Title 
+                    select(name="job_title" id="job_title-selector" required)
+                        each job in job_title
+                            option(value=job) #{job}
+
+                .togglecontainer.hidden
+                    .toggler
+                        .clickme
+                        .section-title 
+                            p Address
+                            i(class="fas fa-caret-down")
+                        hr
+                    .form-group
+                        label(for="street") Street 
+                        input(type="text", name="street" id="street")
+                    .form-group.responsive.half
+                        label(for="postal") Postcal code 
+                        input(type="text", name="postal" id="postal")
+                    .form-group.responsive.half
+                        label(for="city") City 
+                        input(type="text", name="city" id="city")
+                    .form-group
+                        label(for="country") Country 
+                        input(type="text", name="country" id="country")
+                    hr
 
                 .form-group#language
                     label(for="language") Language 
@@ -51,8 +73,10 @@ block content
                         each sales_rep in sales_reps
                             option(value=sales_rep._id selected=(sales_rep._id.toString() === user._id.toString() ? 'selected' : false)) #{sales_rep.name}
                 .form-group(style='flex-direction: row')
-                    label(for="send_confirmation" style="width: 80%; align-self: center; margin-bottom: 0;") Send thank you message
-                    input(type="checkbox" style="width: 5%"  name='send_confirmation' value='send_confirmation' id='send_confirmation' checked)
+                    label(for="send_confirmation" style="align-self: center; margin-bottom: 0;") Send thank you message
+                    label(class="switch" for='send_confirmation')
+                        input(type="checkbox" checked name='send_confirmation' id='send_confirmation')
+                        span(class="slider round")
                 .form-group
                     label(for="description") Notes
                     textarea(name="description", cols="30", rows="10")

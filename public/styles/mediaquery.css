@@ -23,6 +23,7 @@
         align-self: center;
         font-size:   24px;
         cursor: pointer;
+        display: initial;        
     }
     
     .navbar-end {
@@ -36,6 +37,7 @@
     .navbar-menu-icon {
         position: absolute;
         cursor: pointer;
+        display: initial;
     }
 
     .navbar-menu-icon.close {

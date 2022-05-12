@@ -21,9 +21,9 @@ nav {
     padding: 10px 0;
 }
 
-/* .navbar-menu-icon {
+.navbar-menu, .navbar-menu-icon {
     display: none;
-} */
+}
 
 p.navbar_button {
     cursor: pointer;

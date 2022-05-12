@@ -1,9 +1,35 @@
-const {Queue} = require('bullmq');
+const {Queue, QueueScheduler} = require('bullmq');
 const uuid = require('uuid');
 const connection = require('../utility/redisConnection');
 const Report = require('../models/Report');
 
+const myQueueScheduler = new QueueScheduler('mail');
+
 exports.reportQueue = new Queue('reports', { connection });
+exports.mailQueue = new Queue('mail', {connection});
+
+exports.addMailToQueue = async (req, res, next) => {
+    const uid = uuid.v4();
+
+    const options = {
+        from: req.body.sales_rep.email,
+        sales_rep: {
+            name: req.body.sales_rep.name,
+            phone: req.body.sales_rep.phone,
+            email: req.body.sales_rep.email,
+            picture: req.body.sales_rep.picture
+        },
+        user: {
+            email: req.body.user.email,
+            name: req.body.user.name
+        },
+        filename: 'thank-you',
+        subject: 'Thank you for visiting our stand at Uniti'
+    }
+
+    await this.mailQueue.add(uid, options, {delay: 1800000 });
+
+}
 
 exports.taskQueue = async (req, res, next) => {
     

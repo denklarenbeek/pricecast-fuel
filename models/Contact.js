@@ -9,6 +9,15 @@ const ContactSchema = new Schema({
         type: String,
         unique: "This must be a unique field"
     },
+    picture: {
+        type: String
+    },
+    mtype: {
+        type: String
+    },
+    job_title: {
+        type: String
+    },
     phone: {
         type: String
     },
