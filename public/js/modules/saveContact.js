@@ -135,9 +135,11 @@ export function saveContact (form) {
 export function toggleFormInputs (formgroup) {
     if(!formgroup) return;
 
-    for(const group of formgroup) {
+    const containers = document.querySelectorAll('.togglecontainer');
 
-        group.addEventListener('click', (e) => {
+        const clickme = document.getElementById('clickme')
+
+        clickme.addEventListener('click', (e) => {
             const parent = e.target.parentElement.parentElement
             if(parent.classList.contains('hidden')){
                 parent.classList.remove('hidden')
@@ -145,6 +147,4 @@ export function toggleFormInputs (formgroup) {
                 parent.classList.add('hidden')
             }
         });
-
-    }
 }

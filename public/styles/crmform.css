@@ -6,6 +6,10 @@
   display: none;
 }
 
+.togglecontainer {
+  max-width: 600px;
+}
+
 .toggler {
     position: relative;
 }
