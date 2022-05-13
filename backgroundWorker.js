@@ -3,22 +3,30 @@ const { requestData } = require('./controller/DataController');
 const connection = require('./utility/redisConnection');
 const socketApi = require('./utility/socket-io');
 const Report = require('./models/Report');
+const {send} = require('./utility/email');
 
 const MailWorker = new Worker('mail', async (job) => {
     const info = job.data;
 
-    const emailInformation = await mail.send({
-        from: info.from,
-        user: {
-            email: info.user.email,
-            name: info.user.name
-        },
-        filename: info.filename,
-        subject: info.subject,
-        sales_rep
-    });
+    console.log('insdie the mail worker')
+
+    try {
+        const emailInformation = await send({
+            from: info.from,
+            user: {
+                email: info.user.email,
+                name: info.user.name
+            },
+            filename: info.filename,
+            subject: info.subject,
+            sales_rep: info.sales_rep
+        });
+        console.log('mail succesfully send')
+    } catch (error) {
+        console.log('errror', error.message)
+    }
    
-});
+}, { connection });
 
 // Worker initialization
 const ReportWorker = new Worker('reports', async(job) => {

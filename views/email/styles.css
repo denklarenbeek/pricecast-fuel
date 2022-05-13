@@ -38,7 +38,7 @@ img {
   /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
   .container {
     display: block;
-    Margin: 0 auto !important;
+    /* margin: 0 auto 0 0 !important; */
     /* makes it centered */
     max-width: 580px;
     padding: 10px;
@@ -57,7 +57,7 @@ img {
   ------------------------------------- */
   .main {
     background: #fff;
-    border-top:20px solid #002F49;
+    /* border-top:20px solid #002F49; */
     width: 100%; }
   
   .wrapper {
@@ -104,7 +104,7 @@ img {
     font-size: 14px;
     font-weight: normal;
     margin: 0;
-    Margin-bottom: 15px; }
+    Margin-bottom: 3px; }
     p li,
     ul li,
     ol li {
@@ -199,6 +199,34 @@ img {
     border-bottom: 1px solid #303030;
     Margin: 20px 0; }
   
+  .sales {
+    color: #002F49; 
+  }
+
+  .customer {
+    font-size: 16px;
+
+  }
+
+  .picture {
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 20px
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .mail {
+    margin-top: 10px
+  }
+
+  .phone {
+    margin-top: 10px
+  }
+
   /* -------------------------------------
       RESPONSIVE AND MOBILE FRIENDLY STYLES
   ------------------------------------- */

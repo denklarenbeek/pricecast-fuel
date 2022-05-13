@@ -89,9 +89,6 @@ export function saveContact (form) {
         } else {
             inputData.picture = undefined
         }
-        
-        console.log(uploadedImage.dataset.url)
-        console.log(inputData)
 
         let errors = [];
 

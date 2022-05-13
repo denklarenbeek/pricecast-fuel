@@ -27,7 +27,7 @@ exports.send = async (options) => {
   const mailOptions = {
     from: options.from,
     to: options.user.email,
-    bcc: 'dk@bigbrother.nl',
+    bcc: options.from,
     subject: options.subject,
     html,
     text

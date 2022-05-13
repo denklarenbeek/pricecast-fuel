@@ -1,16 +1,15 @@
 extends email-layout
 
 block content
-    h2 Thank you!
-    p Dear #{name},
+    p(class='customer') Dear #{user.name},
     br
     p Thank you very much for visiting our stand at the Uniti Expo in Stuttgart.
     p We hope by showing our innovating solutions the fair was eye-opening for you.
-    p For more information please visite our brand new website: https://mobility.bigbrother.nl.
+    p For more information please visit our brand new website: https://mobility.bigbrother.nl/en.
     br
-    p f you have any furter questions please don’t hesitate to contact me.
+    p If you have any furter questions please do not hesitate to contact me.
     br
-    img #{sales_rep.image}
-    p #{sales_rep.name}
-    p #{sales_rep.email} 
-    p #{sales_rep.phone}
+    img(class='sales picture' src=sales_rep.picture)
+    p(class='sales name') #{sales_rep.name}
+    p(class='sales mail') #[strong P:]    #{sales_rep.email} 
+    p(class='sales phone') #[strong E:]    #{sales_rep.phone}

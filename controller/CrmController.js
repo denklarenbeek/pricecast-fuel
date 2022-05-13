@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Contact = require('../models/Contact');
+const {addMailToQueue} = require('./QueueController');
 
 exports.CrmForm = async (req, res, next) => {
 
@@ -15,10 +16,7 @@ exports.CrmForm = async (req, res, next) => {
 
 exports.createNewContact = async (req, res) => {
 
-    console.log('hit the route');
-
     const formInput = req.body;
-    console.log(req.body)
 
     const newContact = {
         name: formInput.name,
@@ -40,21 +38,25 @@ exports.createNewContact = async (req, res) => {
     try {
         const savedOne = await Contact.create(newContact);
         const populatedInfo = await Contact.find(savedOne).populate({path: 'sales_rep', select: 'name email phone picture'});
-        console.log(populatedInfo);
         // When send_confirmation is true, send mail
-        
-        // from: req.body.sales_rep.email,
-        // sales_rep: {
-        //     name: req.body.sales_rep.name,
-        //     phone: req.body.sales_rep.phone,
-        //     email: req.body.sales_rep.email,
-        //     picture: req.body.sales_rep.picture
-        // },
-        // user: {
-        //     email: req.body.user.email,
-        //     name: req.body.user.name
-        // },
-        // await addMailToQueue()
+
+
+        if(req.body.send_confirmation === 'on') {
+            const mailOptions = {
+                from: populatedInfo[0].sales_rep.email,
+                sales_rep: populatedInfo[0].sales_rep,
+                user: {
+                    email: populatedInfo[0].email,
+                    name: populatedInfo[0].name
+                },
+                delay: 60000
+            }
+
+            // 1800000 = 30 minuten
+            console.log(`Mail is added to the queue with option ${mailOptions.user.name}`)
+            await addMailToQueue(mailOptions);
+
+        }
 
 
         req.flash('notification',{status: 'success', message: `The contact ${newContact.name} is saved`})
@@ -69,8 +71,4 @@ exports.createNewContact = async (req, res) => {
         req.flash('notification',{status: 'error', message: `${error.message}`})
 
     }
-
-    res.send({msg: "Save a new contact to the DB"})
-    // // CREATE A NEW CRM CONTACT
-
 }
