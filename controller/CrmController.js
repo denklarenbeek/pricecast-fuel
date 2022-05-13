@@ -57,7 +57,7 @@ exports.createNewContact = async (req, res) => {
         // await addMailToQueue()
 
 
-        req.flash('notification',{status: 'success', message: `The contact ${newContact.name} is saved in the DB`})
+        req.flash('notification',{status: 'success', message: `The contact ${newContact.name} is saved`})
         
         res.status(200).send({
             status: 200,

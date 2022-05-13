@@ -125,7 +125,7 @@ export function saveContact (form) {
                     url: `${window.location.protocol}//${window.location.host}/uniti-crm`, 
                     data: inputData
                 });
-                // window.location.href = '/uniti-crm'
+                window.location.href = '/uniti-crm'
             
             } catch (error) {
                 submitButton.innerHTML = 'Error'
