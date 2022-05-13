@@ -6,7 +6,7 @@ export function uploadFile (fileInput) {
 
     fileInput.addEventListener('change', async (e) => {
 
-        console.log('change', fileInput.files[0]);
+        // console.log('change', fileInput.files[0]);
 
         let formData = new FormData();
         formData.append('picture', fileInput.files[0]);
@@ -40,6 +40,8 @@ export function uploadFile (fileInput) {
                     const image = document.createElement('img');
                     image.src = url;
                     image.style.width = '100%';
+                    image.id = 'uploaded-image';
+                    image.dataset.url = url
                     label.innerHTML = 'Uploaded picture'
                     div.dataset.loading = false
                     div.appendChild(image);
@@ -87,6 +89,9 @@ export function saveContact (form) {
         } else {
             inputData.picture = undefined
         }
+        
+        console.log(uploadedImage.dataset.url)
+        console.log(inputData)
 
         let errors = [];
 
@@ -120,7 +125,7 @@ export function saveContact (form) {
                     url: `${window.location.protocol}//${window.location.host}/uniti-crm`, 
                     data: inputData
                 });
-                window.location.href = '/uniti-crm'
+                // window.location.href = '/uniti-crm'
             
             } catch (error) {
                 submitButton.innerHTML = 'Error'

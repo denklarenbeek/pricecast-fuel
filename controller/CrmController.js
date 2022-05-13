@@ -18,7 +18,7 @@ exports.createNewContact = async (req, res) => {
     console.log('hit the route');
 
     const formInput = req.body;
-    console.log(req.body.picture)
+    console.log(req.body)
 
     const newContact = {
         name: formInput.name,
