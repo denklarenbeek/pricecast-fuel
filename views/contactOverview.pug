@@ -1,13 +1,21 @@
 extends layout.pug
 
-include mixins/_inpageMenu
-
 block content
     .container.full-page
         .centered-content(style="width: 100%")
-            h2 Settings
+            h2(style='margin-bottom: 40px') Contacts
+                a.btn(href='/uniti-crm/new' style='text-decoration: none; margin-left: 20px') Create new
 
-            +inpageMenu()
+            .filters 
+                h3(style="margin-bottom: 24px") Filters
+                .filter 
+                    p M Type
+                    .button-group
+                        button.tag.filter-button M1
+                        button.tag.filter-button M2 
+                        button.tag.filter-button M3 
+                        button.tag.filter-button M4 
+
             if contacts.length <= 0 
                 p There are no contacts found 
                 
@@ -18,13 +26,17 @@ block content
                             th.table-header Name
                             th.table-header Company
                             th.table-header Email
-                            th.table-header Talked to
+                            th.table-header Function
+                            th.tabele-header M Type
+                            th.table-header Sales
 
                         each contact in contacts
                             tr(data-databaseid=contact._id)
                                 td(data-name) #{contact.name}
                                 td(data-company) #{contact.company}
+                                td(data-job_title) #{contact.job_title}
                                 td(data-email) #{contact.email}
+                                td(data-mtype) #{contact.mtype}
                                 td(data-sales_rep) #{contact.sales_rep.name}
 
                                 //- td

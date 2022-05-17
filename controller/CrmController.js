@@ -10,8 +10,16 @@ exports.CrmForm = async (req, res, next) => {
         languages: [{name: 'Dutch'}, {name: 'German'}, {name: 'English',default: true}, {name: 'French'}, {name: 'Romanian'}, {name: 'Italian'}], 
         sales_reps: activeUsers,
         mtype: ["M1", "M2", "M3", "M4"],
-        job_title: ["Owner", "Director", "Retail Manager", "Engineering Manager", "HSSE Manager", "Marketing Manager"]
+        job_title: ["Owner", "Director", "Retail Manager", "Engineering Manager", "HSSE Manager", "Marketing Manager", "Partner"]
     });
+}
+
+exports.getAllContacts = async (req, res, next) => {
+
+    const contacts = await Contact.find().populate('sales_rep').sort({'createdAt': '-1'});
+
+    res.render('contactOverview', {contacts, filters: []})
+
 }
 
 exports.createNewContact = async (req, res) => {

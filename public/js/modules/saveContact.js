@@ -136,18 +136,49 @@ export function saveContact (form) {
 
 
 export function toggleFormInputs (formgroup) {
+    console.log(formgroup);
     if(!formgroup) return;
 
     const containers = document.querySelectorAll('.togglecontainer');
 
         const clickme = document.getElementById('clickme')
 
-        clickme.addEventListener('click', (e) => {
-            const parent = e.target.parentElement.parentElement
-            if(parent.classList.contains('hidden')){
-                parent.classList.remove('hidden')
-            } else {
-                parent.classList.add('hidden')
-            }
-        });
+        if(clickme) {
+            clickme.addEventListener('click', (e) => {
+                const parent = e.target.parentElement.parentElement
+                if(parent.classList.contains('hidden')){
+                    parent.classList.remove('hidden')
+                } else {
+                    parent.classList.add('hidden')
+                }
+            });
+        }
+}
+
+export function handleFilters (filters) {
+    if(!filters) return
+
+    const filterButtons = document.querySelectorAll('.filter-button');
+
+    for(const button of filterButtons) {
+        button.addEventListener('click', (e) => {
+
+            const targetValue = e.target.value.toLowerCase();
+
+            console.log(targetValue);
+
+            // Check if the category of the filter is already used
+            const category = e.target.dataset.category;
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+            console.log(queryString);
+
+            // If not add filter to the param
+
+            // If yes, check if filter is already selected then deselect
+            // Otherwise, add the filter
+        })
+    }
+
 }

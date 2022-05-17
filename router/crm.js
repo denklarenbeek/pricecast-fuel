@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router()
 
-const {CrmForm, createNewContact} = require('../controller/CrmController');
+const {getAllContacts, CrmForm, createNewContact} = require('../controller/CrmController');
 const {upload, resize} = require('../controller/UploadController')
 
-router.get('/', CrmForm);
+router.get('/', getAllContacts);
+router.get('/new', CrmForm);
 router.post('/', createNewContact)
 
 

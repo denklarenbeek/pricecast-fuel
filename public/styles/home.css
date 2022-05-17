@@ -53,3 +53,39 @@ h2.home {
 .tool.under-development p {
     color: var(--grey)
 }
+
+.filters {
+    margin-bottom: 32px;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+}
+
+.filter p {
+    display: inline-block;
+    margin: 0;
+
+}
+
+.button-group {
+    display: flex;
+    margin-left: 20px;
+}
+
+button.tag {
+    border: 1px solid grey;
+    background: transparent;
+    border-radius: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+button.tag.selected {
+    background-color: var(--light-blue);
+    color: white;
+    border: none;
+}
