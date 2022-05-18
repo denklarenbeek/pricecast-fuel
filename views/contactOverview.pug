@@ -7,14 +7,9 @@ block content
                 a.btn(href='/uniti-crm/new' style='text-decoration: none; margin-left: 20px') Create new
 
             .filters 
-                h3(style="margin-bottom: 24px") Filters
+                //- h3(style="margin-bottom: 24px") Filters
                 .filter 
-                    p M Type
-                    .button-group
-                        button.tag.filter-button M1
-                        button.tag.filter-button M2 
-                        button.tag.filter-button M3 
-                        button.tag.filter-button M4 
+                    p Total Contacts: #{contacts.length}
 
             if contacts.length <= 0 
                 p There are no contacts found 
