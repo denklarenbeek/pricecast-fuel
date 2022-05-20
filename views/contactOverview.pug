@@ -24,6 +24,8 @@ block content
                             th.table-header Email
                             th.tabele-header M type
                             th.table-header Sales
+                            th.table-header Phone
+                            th.table-header Description
 
                         each contact in contacts
                             tr(data-databaseid=contact._id)
@@ -33,6 +35,8 @@ block content
                                 td(data-email) #{contact.email}
                                 td(data-mtype) #{contact.mtype}
                                 td(data-sales_rep) #{contact.sales_rep.name}
+                                td(data-phone) #{contact.phone}
+                                td(data-descirption) #{contact.description}
 
                                 //- td
                                 //-     i(class="fas fa-edit product-edit" data-databaseid=product._id)
