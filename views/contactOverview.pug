@@ -37,6 +37,7 @@ block content
                                 td(data-sales_rep) #{contact.sales_rep.name}
                                 td(data-phone) #{contact.phone}
                                 td(data-descirption) #{contact.description}
-
-                                //- td
-                                //-     i(class="fas fa-edit product-edit" data-databaseid=product._id)
+                                td 
+                                    if contact.picture
+                                        button(class='open-picture' data-url=contact.picture style='cursor: pointer') Open Afbeelding
+                                    

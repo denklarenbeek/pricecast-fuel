@@ -155,6 +155,22 @@ export function toggleFormInputs (formgroup) {
         }
 }
 
+export function openPicture (button) {
+    if(!button) return
+
+    const buttons = document.querySelectorAll('.open-picture');
+
+    buttons.map(btn => {
+        btn.addEventListener('click', (e) => {
+
+            const url = btn.dataset.url;
+            window.open(url, '_blank').focus();
+        })
+    });
+
+}
+
+
 export function handleFilters (filters) {
     if(!filters) return
 

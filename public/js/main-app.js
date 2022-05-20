@@ -16,7 +16,7 @@ import {createNewCustomer, taskStatus} from './modules/settings';
 import {createNewProduct, editProduct} from './modules/settings';
 import {pagination} from './modules/tableClick';
 import {shareReport} from './modules/tableClick'
-import {saveContact, toggleFormInputs, uploadFile, handleFilters} from './modules/saveContact';
+import {saveContact, toggleFormInputs, uploadFile, handleFilters, openPicture} from './modules/saveContact';
 
 initialize();
 socket();
@@ -46,3 +46,4 @@ saveContact($('#crmForm'))
 toggleFormInputs($$('.togglecontainer'))
 uploadFile($('#picture'))
 handleFilters($('.filter'))
+openPicture($('.open-picture'))
