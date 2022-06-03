@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const Contact = require('../models/Contact');
 const {addMailToQueue} = require('./QueueController');
+const {ExportToCsv} = require('export-to-csv');
+const {Blob} = require('buffer');
 
 exports.CrmForm = async (req, res, next) => {
 
@@ -79,4 +81,31 @@ exports.createNewContact = async (req, res) => {
         req.flash('notification',{status: 'error', message: `${error.message}`})
 
     }
+}
+
+exports.exportcontacts = async (req, res, next) => {
+    console.log('REQUEST FOR EXPORT', req.session.user.email)
+    const emailTo = req.session.user.email;
+
+    const queryParams = ''
+
+    const result = await Contact.find();
+
+    let csvData = [];
+    const options = {
+        showLabels: true,
+        title: `${Date.now()}-allcontacts`,
+        // headers: ['_id', 'name', 'email', 'mtype', 'job_title', 'phone', 'company', 'street', 'postal', 'city', 'country', 'description', 'language', 'saels_rep', 'picture']
+    }
+    for(const contact of result) {
+        csvData.push(contact);
+    };
+    
+    console.log(csvData);
+    const csvExporter = new ExportToCsv(options);
+
+    const doc = await csvExporter.generateCsv(csvData, true);
+    // console.log(doc);
+    res.download(doc);
+
 }

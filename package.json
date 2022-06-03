@@ -28,6 +28,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "es6-promisify": "^7.0.0",
+    "export-to-csv": "^0.2.1",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "file-saver": "^2.0.5",

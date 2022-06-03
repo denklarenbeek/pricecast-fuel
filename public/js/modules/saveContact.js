@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ExportToCsv } from 'export-to-csv';
 
 export function uploadFile (fileInput) {
     if(!fileInput) return
@@ -170,6 +171,20 @@ export function openPicture (button) {
 
 }
 
+export function exportContacts (button) {
+    if(!button) return
+
+    button.addEventListener('click', async (e) => {
+
+        // Set button to loading spinner
+        // Request to DB for send excel document
+        const result = await axios.get(`${window.location.protocol}//${window.location.host}/api/exportcontacts`);
+
+        // if succesfull give positive customer feedback
+        console.log(result);
+    });
+
+}
 
 export function handleFilters (filters) {
     if(!filters) return
