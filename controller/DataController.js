@@ -232,7 +232,7 @@ exports.requestData = async (req, jobId, user) => {
         ownStationData: {
             products,
             stations: locationids,
-            thisYear: stationData,
+            // thisYear: stationData,
             previousPeriod: []
         },
         pricesuggestions
