@@ -232,7 +232,7 @@ exports.requestData = async (req, jobId, user) => {
         ownStationData: {
             products,
             stations: locationids,
-            // thisYear: stationData,
+            thisYear: stationData,
             previousPeriod: []
         },
         pricesuggestions
@@ -473,7 +473,7 @@ exports.formatReportData = async (data, reportID) => {
                     countTransactionsDifference: formatNumber(countTransactionsDifference.number.value, 'number'),
                     strategy,
                     pricesuggestions: stationsPricesuggestions,
-                    dailyVolumes: dailyVolumes,
+                    // dailyVolumes: dailyVolumes,
                     benchmark: [],
                     previousPeriod: []
                 };
