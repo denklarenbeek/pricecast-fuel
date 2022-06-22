@@ -94,8 +94,32 @@ exports.autoCompleteCustomer = async (req, res) => {
     try {
         const result = await getRequest(`/station`);
         const stations = result.data;
-        const x = stations.filter(x => x.cid.toLowerCase().includes(searchKey.toLowerCase()))
-        res.send({msg: x});
+        const filteredStations = stations.filter(x => x.cid.toLowerCase().includes(searchKey.toLowerCase()))
+        const length = filteredStations.length
+        // res.send({length, stations: filteredStations});
+
+        let jsonOutput = [];
+
+        for(const station of filteredStations) {
+            
+            const result = await getRequest(`/station/${station.id}/product`);
+        
+            for(const product of result.data) {
+                const productObj = {}
+                productObj.productId = product.id;
+                productObj.name = product.name;
+                productObj.stationId = station.id;
+                productObj.stationName = station.name
+                productObj.plu = 0,
+                productObj.benchmark = 0
+
+                jsonOutput.push(productObj)
+            }
+
+        }
+
+        res.send(jsonOutput);
+
     } catch (error) {
         
     }

@@ -50,7 +50,7 @@ router.get('/settings/productmatrix', authRoute, adminRoute, getBenchmarkProduct
 router.get('/api/station/:stationId/products', authRoute, getProductsByCid)
 router.get('/api/station',authRoute, getAllStations)
 router.get('/api/connection', authRoute, checkConnection)
-router.post('/api/products',authRoute, createNewProduct);
+router.post('/api/products', createNewProduct);
 router.post('/api/customers',authRoute, createCustomer);
 router.get('/api/products',authRoute, getAllProducts);
 router.get('/api/getqueue',authRoute, checkQueue);

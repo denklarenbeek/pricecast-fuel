@@ -480,9 +480,11 @@ exports.formatReportData = async (data, reportID) => {
 
                 if(benchamarkStationData) {
                     const benchMarkData = benchamarkStationData.find(record => record.benchmark === product.benchmark);
-                    newProductObj.benchmark = {
-                        value: benchMarkData.volumeDifference,
-                        state: benchMarkData.volumeDifference > 0 ? 'positive' : 'negative'
+                    if(benchMarkData !== NaN)  {
+                        newProductObj.benchmark = {
+                            value: benchMarkData.volumeDifference,
+                            state: benchMarkData.volumeDifference > 0 ? 'positive' : 'negative'
+                        }
                     }
                 }
 

@@ -92,10 +92,7 @@ const Products = {
         state: String
     },
     strategy: {},
-    benchmark: {
-        value: Number,
-        state: String
-    },
+    benchmark: {},
     pricesuggestions: [],
     dailyVolumes: [],
     previousPeriod: []
