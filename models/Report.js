@@ -94,8 +94,6 @@ const Products = {
     strategy: {},
     benchmark: {},
     pricesuggestions: [],
-    dailyVolumes: [],
-    previousPeriod: []
 }
 
 const ReportSchema = new Schema({
@@ -130,11 +128,13 @@ const ReportSchema = new Schema({
             name: String,
             products: [Products]
         }
-    ]
+    ],
+    fileSize: String
 });
 
 ReportSchema.index({sharedWith: 1 });
 ReportSchema.index({reportId: 1 });
+ReportSchema.index({createdAt: 1 });
 
 const Report = mongoose.model('Report', ReportSchema);
 

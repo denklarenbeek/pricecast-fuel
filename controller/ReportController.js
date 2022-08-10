@@ -34,10 +34,10 @@ exports.getAllReports = async (req, res, next) => {
     let count_of_documents;
 
     if(!administrator) {
-        reports = await Report.find({sharedWith: id}).limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').setOptions({ allowDiskUse: true }).populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find({sharedWith: id}).limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').allowDiskUse(true).populate({path: 'createdBy', select: '-password -secret -temp_secret'})
         count_of_documents = await Report.countDocuments({sharedWith: id});
     } else {
-        reports = await Report.find().limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').setOptions({ allowDiskUse: true }).populate({path: 'createdBy', select: '-password -secret -temp_secret'})
+        reports = await Report.find().limit(items_per_page).skip(actual_page * items_per_page).sort('-createdAt').allowDiskUse(true).populate({path: 'createdBy', select: '-password -secret -temp_secret'})
         count_of_documents = await Report.countDocuments();
     }
     
