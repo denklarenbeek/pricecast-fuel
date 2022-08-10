@@ -240,7 +240,7 @@ exports.requestData = async (req, jobId, user) => {
 
     if(previousPeriod) {
         console.log('# of objects', stationDataPrevious.length)
-        returnObj.ownStationData.previousPeriod = stationDataPrevious
+        returnObj.ownStationData.previousPeriod = [...stationDataPrevious]
     }
 
     if(benchmark) {
@@ -475,7 +475,7 @@ exports.formatReportData = async (data, reportID) => {
                     pricesuggestions: stationsPricesuggestions,
                     // dailyVolumes: dailyVolumes,
                     benchmark: [],
-                    previousPeriod: []
+                    // previousPeriod: []
                 };
 
                 if(benchamarkStationData) {
